@@ -4,7 +4,7 @@
 
 @color: #FFF;
 @basefont-size: 12px;
-@baseline: 1.75 * @basefont-size;
+@baseline: 1.5 * @basefont-size;
 
 /*
  * Global
@@ -15,7 +15,7 @@
 }
 
 body {
-	font-family: 'Droid Sans', Helvetica, 'Helvetica Neue', Arial, sans-serif;
+	font-family: 'Mako', Helvetica, 'Helvetica Neue', sans-serif;
 	font-size: @basefont-size;
 	line-height: @baseline;
 }
@@ -24,13 +24,12 @@ body {
  * Spacing
 */
 
-h1, h2, h3, h4, h5, h6, p, ul, ol, hr, pre {
+h1, h2, h3, h4, h5, h6, p, ul, ol, hr, pre, li {
 	line-height: @baseline;
 	margin-bottom: @baseline;
 }
 
 li {
-	margin-bottom: @basefont-size;
 	margin-left: 2 * @baseline;
 }
 
@@ -39,6 +38,7 @@ li {
 */
 
 h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
 	letter-spacing: 1px;
 }
 
