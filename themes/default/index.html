@@ -4,18 +4,16 @@
 	<head>
 		<title>Stanislas UI Design</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Mako">
+		<link rel="stylesheet" type="text/css" href="style/uniform.css" />
 		<link rel="stylesheet/less" type="text/css" href="style/reset.less" />
 		<link rel="stylesheet/less" type="text/css" href="style/typography.less" />
 		<link rel="stylesheet/less" type="text/css" href="style/style.less" />
+		<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
 		<script type="text/javascript" src="js/less-1.1.3.min.js"></script>
+		<script type="text/javascript" src="js/jquery.uniform.min.js" ></script>
 		<!-- DEBUG -->
-		<style>
-			html {
-				width: 700px;
-				margin: 0 auto;
-			}
-		</style>
+		<style>html{width: 700px;margin: 0 auto;}</style>
 	</head>
 	<body>
 		<form action="">
@@ -24,25 +22,27 @@
 				<input type="text" value="Username" />
 				<input type="checkbox" id="one" /><label for="one">One</label>
 				<input type="checkbox" id="two" /><label for="two">Two</label>
+				<select>
+					<option>Hello</option>
+					<option>Hello</option>
+					<option>Hello</option>
+				</select>
 				<input type="radio" name="" value="1" />
 				<input type="radio" name="" value="2" />
-				<textarea cols="" rows=""></textarea>
+				<textarea cols="80" rows="10"></textarea>
 			</fieldset>
 		</form>
 		<h1>Header Level 1</h1>
-		<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed.</p>
+		<p>The sudden exclamations of the crew must have alarmed the whale; and ere the boats were down, majestically turning, he swam away to the leeward, but with such a steady tranquillity, and making so few ripples as he swam, that thinking after all he might not as yet be alarmed, Ahab gave orders that not an oar should be used, and no man must speak but in whispers.</p>
+		<ul>
+			<li>The sudden exclamations of the crew must have alarmed the whale; and ere the boats were down, majestically turning, he swam away to the leeward, but with such a steady tranquillity, and making so few ripples as he swam [...]</li>
+			<li>So seated like Ontario Indians on the gunwales of the boats, we swiftly but silently paddled along; the calm not admitting of the noiseless sails being set</li>
+			<li>Presently, as we thus glided in chase, the monster perpendicularly flitted his tail forty feet into the air, and then sank out of sight like a tower swallowed up</li>
+		</ul>
+		<p>"There go flukes!" was the cry, an announcement immediately followed by Stubb's producing his match and igniting his pipe, for now a respite was granted</p>
 		<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
 		<p><code>Commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-		<h2>Header Level 2</h2>
-		<ul>
-			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-			<li>Aliquam tincidunt mauris eu risus.</li>
-			<li>Vestibulum auctor dapibus neque.</li>
-		</ul>
-		<h3>Header Level 3</h3>
-		<ol>
-			<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-			<li>Aliquam tincidunt mauris eu risus.</li>
-		</ol>
+		
+		<script type="text/javascript">$("select, input:checkbox, input:radio, input:file").uniform();</script>
 	</body>
 </html>
