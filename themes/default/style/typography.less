@@ -1,0 +1,79 @@
+/*
+ * Variables
+*/
+
+@color: #FFF;
+@basefont-size: 12px;
+@baseline: 1.75 * @basefont-size;
+
+/*
+ * Global
+*/
+
+* {
+	color: @color;
+}
+
+body {
+	font-family: 'Droid Sans', Helvetica, 'Helvetica Neue', Arial, sans-serif;
+	font-size: @basefont-size;
+	line-height: @baseline;
+}
+
+/*
+ * Spacing
+*/
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, hr, pre {
+	line-height: @baseline;
+	margin-bottom: @baseline;
+}
+
+li {
+	margin-bottom: @basefont-size;
+	margin-left: 2 * @baseline;
+}
+
+/*
+ * Titles
+*/
+
+h1, h2, h3, h4, h5, h6 {
+	letter-spacing: 1px;
+}
+
+h1, h2 {
+	line-height: 2 * @baseline;
+}
+
+h3, h4, h5, h6 {
+	line-height: @baseline;
+}
+
+/*
+ * Titles Sizes
+*/
+
+h1 {
+	font-size: 2.5 * @basefont-size;
+}
+
+h2 {
+	font-size: 2 * @basefont-size;
+}
+
+h3 {
+	font-size: 1.75 * @basefont-size;
+}
+
+h4 {
+	font-size: 1.5 * @basefont-size;
+}
+
+h5 {
+	font-size: (4/3) * @basefont-size;
+}
+
+h6 {
+	font-size: (7/6) * @basefont-size;
+}
