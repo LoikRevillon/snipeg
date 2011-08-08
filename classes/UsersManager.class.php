@@ -26,7 +26,7 @@ class SearchUser {
 	public function updateUserInformations($user) {
 
 		$request= $this->_dbLink;
-		$request->prepare('UPDATE '.$this->_tableName.' SET :admin, :name, :email, :password, :ui-style, :font, :color_scheme, :language WHERE rowid = :id');
+		$request->prepare('UPDATE users SET :admin, :name, :email, :password, :ui-style, :font, :color_scheme, :language WHERE rowid = :id');
 		$changes= $request->execute(array(
 					'id' => $user->id,
 					'admin' => $user->admin,

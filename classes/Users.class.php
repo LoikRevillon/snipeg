@@ -44,7 +44,7 @@ class Users {
 	public function addNewUser($user) {
 
 		$db= PDOSQLite::getDbLink();
-		$request= $db->prepare('INSERT INTO '.$this->_tableName.' VALUES (
+		$request= $db->prepare('INSERT INTO users VALUES (
 														:admin,
 														:name,
 														:email,
