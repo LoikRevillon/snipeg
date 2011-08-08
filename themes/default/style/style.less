@@ -1,40 +1,77 @@
-* {
-	color: white;
-	font-family: Helvetica, 'Helvetica Neue', Arial;
+/*
+ * Variables
+*/
+
+@basefont-size: 12px;
+@baseline: 1.75 * @basefont-size;
+@inputtext-height: 30px;
+@inputtext-width: 210px;
+
+/*
+ * Functions
+*/
+
+.dark-box() {
+	background-color: #282D34;
+	border-radius: 3px;
+	box-shadow:
+		0 1px rgba(255, 255, 255, .25),
+		inset 0 8px 8px #22272D;
+	display: block;
+	margin: @basefont-size 0;
+	padding: @basefont-size;
 }
+
+/*
+ * Global
+*/
 
 body {
 	background: url('images/background.png');
 }
 
 /*
+ * Lists
+*/
+
+ul li {
+	list-style-type: circle;
+}
+
+ol li {
+	list-style-type: decimal;
+}
+
+/*
  * Forms
 */
 
-@input-text-height: 30px;
-@input-text-width: 210px;
-@input-horizontal-padding: 11px;
-
 input[type=text], textarea {
-	padding: 0 (@input-horizontal-padding);
-	width: @input-text-width - (@input-horizontal-padding * 2);
-}
-
-input[type=text], checkbox, textarea {
-	background-color: #282D34;
-	border: 1px solid #282D34;
-	border-radius: 3px;
-	box-shadow:
-		0 1px rgba(255, 255, 255, .25),
-		inset 0 8px 8px #22272D;
+	.dark-box;
+	/*width: @inputtext-width - (@basefont-size * 2);*/
 }
 
 input[type=text] {
 	font-weight: bold;
-	height: @input-text-height;
+	height: @inputtext-height;
+	padding: 0 @basefont-size;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
 }
 
 textarea {
-	padding: @input-horizontal-padding;
+	padding: @basefont-size;
+}
+
+/*
+ * Quotes
+*/
+
+blockquote {
+	.dark-box;
+	margin-left: @baseline;
+	margin-right: @baseline;
+}
+
+blockquote p {
+	margin: 0;
 }
