@@ -1,0 +1,40 @@
+* {
+	color: white;
+	font-family: Helvetica, 'Helvetica Neue', Arial;
+}
+
+body {
+	background: url('img/background.png');
+}
+
+/*
+ * Forms
+*/
+
+@input-text-height: 30px;
+@input-text-width: 210px;
+@input-horizontal-padding: 11px;
+
+input[type=text], textarea {
+	padding: 0 (@input-horizontal-padding);
+	width: @input-text-width - (@input-horizontal-padding * 2);
+}
+
+input[type=text], checkbox, textarea {
+	background-color: #282D34;
+	border: 1px solid #282D34;
+	border-radius: 3px;
+	box-shadow:
+		0 1px rgba(255, 255, 255, .25),
+		inset 0 8px 8px #22272D;
+}
+
+input[type=text] {
+	font-weight: bold;
+	height: @input-text-height;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+}
+
+textarea {
+	padding: @input-horizontal-padding;
+}
