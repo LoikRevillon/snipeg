@@ -17,8 +17,22 @@ class PDOSQLite {
 			die (' Erreur :'.$e->getMessage());
 		}
 
-		self::$_dbLink->query('CREATE TABLE IF NOT EXISTS snippets (name VARCHAR(255), owner VARCHAR(30), content TEXT, last_update BIGINT(32), comment VARCHAR(100), category INT, policy INT(1))');
-		self::$_dbLink->query('CREATE TABLE IF NOT EXISTS users (admin INT(1), name VARCHAR(30), email VARCHAR(80), password VARCHAR(64), theme VARCHAR(50), font VARCHAR(50), color_scheme VARCHAR(10), language VARCHAR(5))');
+		self::$_dbLink->query('CREATE TABLE IF NOT EXISTS snippets (name VARCHAR(255),
+																	owner VARCHAR(30),
+																	content TEXT,
+																	last_update BIGINT(32),
+																	comment VARCHAR(100),
+																	category INT,
+																	policy INT(1))');
+		
+		self::$_dbLink->query('CREATE TABLE IF NOT EXISTS users (admin INT(1),
+																name VARCHAR(30),
+																email VARCHAR(80),
+																password VARCHAR(64),
+																theme VARCHAR(50),
+																font VARCHAR(50),
+																color_scheme VARCHAR(10),
+																language VARCHAR(5))');
 
 	}
 

@@ -1,32 +1,53 @@
 <?php
 
-class SearchUser {
+class UsersManager {
 
-	private $_user= false;
+	private $_userName= false;
 
-	public function __construct($userName= false) {
-
-		if (isset($userName))
-			return findMatchesSnippetsNames($userName);
+	public function __construct($userName) {
+		
+			$this->_userName= $userName;
 			
 	}
 
-	public function getAllUserInformations($userName) {
+	public function getAllUserInformations($userName= false) {
+
+		if (!empty($userName))
+			$this->_userName= $userName;
 		
 		$db= PDOSQLite::getDbLink();
-		$request= $db->prepare('SELECT * FROM users WHERE name = :name');
-		$request->prepare(array( 'name' => $userName));
+		$request= $db->prepare('SELECT rowid as id, * FROM users
+										WHERE name = :name');
+										
+		$request->bindParam(':name', $this->_userName, PDO::PARAM_STR, 30);
+		$request->execute();
 
-		$this->_user= new Users($request(PDO::FETCH_ASSOC));		
+		$arrayOfMatchedUsers= array();
 
-		return $this->_user;
+		while ($oneOfMatchedUser= $request->fetch(PDO::FETCH_ASSOC)) {
+			$user= new Users($oneOfMatchedUser);
+			$arrayOfMatchedUsers[]=$user;
+		}
+		unset($matchedUser);
+
+		return $arrayOfMatchedUsers;
 
 	}
 
 	public function updateUserInformations($user) {
 
 		$request= $this->_dbLink;
-		$request->prepare('UPDATE users SET :admin, :name, :email, :password, :ui-style, :font, :color_scheme, :language WHERE rowid = :id');
+		$request->prepare('UPDATE users SET
+								admin = :admin,
+								name = :name,
+								email = :email,
+								password = :password,
+								theme = :theme,
+								font = :font,
+								color_scheme = :color_scheme,
+								language = :language
+								WHERE rowid = :id');
+								
 		$changes= $request->execute(array(
 					'id' => $user->id,
 					'admin' => $user->admin,
