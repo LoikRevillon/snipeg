@@ -11,15 +11,19 @@
  * Functions
 */
 
-.dark-box() {
-	background-color: #282D34;
-	border-radius: 3px;
-	box-shadow:
-		0 1px rgba(255, 255, 255, .25),
-		inset 0 8px 8px #22272D;
+.box() {
+	border-radius: 5px;
 	display: block;
 	margin: @baseline 0;
 	padding: @basefont-size;
+}
+
+.dark-box() {
+	.box;
+	background-color: #282D34;
+	box-shadow:
+		0 1px rgba(255, 255, 255, .25),
+		inset 0 8px 16px #22272D;
 }
 
 /*
@@ -28,6 +32,11 @@
 
 body {
 	background: url('images/background.png');
+}
+
+img {
+	.dark-box;
+	padding: 5px;
 }
 
 /*
@@ -48,6 +57,7 @@ ol li {
 
 fieldset {
 	text-align: left;
+	margin-bottom: @baseline;
 }
 
 label {
@@ -57,13 +67,12 @@ label {
 input[type=text], textarea {
 	.dark-box;
 	min-width: @inputtext-width - (@basefont-size * 2);
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
 }
 
 input[type=text] {
-	font-weight: bold;
 	height: @inputtext-height;
 	padding: 0 @basefont-size;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
 }
 
 /*
@@ -72,10 +81,75 @@ input[type=text] {
 
 blockquote {
 	.dark-box;
-	margin-left: @baseline;
-	margin-right: @baseline;
 }
 
 blockquote p {
 	margin: 0;
+}
+
+/*
+ * Special classes
+*/
+
+.success {
+	background-color: rgba(155, 208, 99, .97);
+}
+
+.info {
+	background-color: rgba(104, 179, 227, .92);
+}
+
+.error {
+	background-color: rgba(208, 99, 99, .96);
+}
+
+.success, .info, .error {
+	.box;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+	text-shadow: 0 1px 1px rgba(25, 25, 25, .15);
+	color: #FCFCFC;
+}
+
+/*
+ * Tags
+*/
+
+.tags {
+	text-align: left;
+}
+
+.tags a, .tags a:after {
+	background: url("images/sprites/tag.png") left top no-repeat;
+}
+
+.tags a {
+	display: inline-block;
+	line-height: 27px;
+	color: white;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .6);
+	text-decoration: none;
+	position: relative;
+	padding-left: @baseline + 2px;
+	margin-right: @baseline;
+	margin-bottom: @baseline;
+	height: 29px;
+}
+
+.tags a:after {
+	top: 0;
+	right: -10px;
+	position: absolute;
+	height: 29px;
+	background-position: right 0;
+	display: block;
+	width: 10px;
+	content: '';
+}
+
+.tags a:hover {
+	font-style: normal;
+}
+
+.tags:first-child {
+	margin-left: 0;
 }
