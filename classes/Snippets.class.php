@@ -13,21 +13,22 @@ class Snippets {
 
 	public function __construct($snippetInformations) {
 
-		if (!empty($snippetInformations)) {
-			$this->_init= true;
-			$this->_id= $snippetInformations['id'];
+			if (isset($snippetInformations['id']))
+				$this->_id= $snippetInformations['id'];
+			else
+				$this->_id= false;
+				
 			$this->_name= $snippetInformations['name'];
 			$this->_owner= $snippetInformations['owner'];
 			$this->_content= $snippetInformations['content'];
-			$this->_lastUpdate= $snippetInformations['lastUpdate'];
+			$this->_lastUpdate= $snippetInformations['last_update'];
 			$this->_comment= $snippetInformations['comment'];
 			$this->_category= $snippetInformations['category'];
 			$this->_policy= $snippetInformations['policy'];
-		}
 		
 	}
 
-	public function storeThisNewSnippetInDB () {
+	public function pushItInDB () {
 		
 		$db= PDOSQLite::getDbLink();
 		$request= $db->prepare('INSERT INTO snippets VALUES (
@@ -38,7 +39,18 @@ class Snippets {
 															:comment,
 															:category,
 															:policy)');
-		$request->execute(array(
+															
+		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 255);
+		$request->bindParam(':owner', $this->_owner, PDO::PARAM_STR, 30);
+		$request->bindParam(':content', $this->_content, PDO::PARAM_STR);
+		$request->bindParam(':last_update', $this->_lastUpdate, PDO::PARAM_INT, 32);
+		$request->bindParam(':comment', $this->_comment, PDO::PARAM_STR, 30);
+		$request->bindParam(':category', $this->_category, PDO::PARAM_INT);
+		$request->bindParam(':policy', $this->_policy, PDO::PARAM_INT, 1);
+		$request->execute();
+		
+/*
+				$request->execute(array(
 					'name' => $this->_name,
 					'owner' => $this->_owner,
 					'content' => $this->_content,
@@ -47,50 +59,42 @@ class Snippets {
 					'category' => $this->_category,
 					'policy' => $this->_policy
 					));
-/*
-					'owner' => $snippetInformations['owner'],
-					'content' => $snippetInformations['content'],
-					'last_update' => $snippetInformations['lastUpdate'],
-					'comment' => $snippetInformations['comment'],
-					'category' => $snippetInformations['category'],
-					'policy' => $snippetInformations['policy']
-					));
 */
 
 		return true;
 		
 	}
-
-/*
-	public function updateSnippet ($idOfUpdatableSnippet) {
-		
-		$request= PDOSQLite::getDbLink()->prepare('UPDATE '.$this->_tableName.' SET :name, :owner, :content, :last_update, :comment, :category, :policy WHERE rowid = :id');
-		$changes= $request->execute(array(
-					'id' => $snippetInformations['id'],
-					'name' => $snippetInformations['name'],
-					'owner' => $snippetInformations['owner'],
-					'content' => $snippetInformations['content'],
-					'last_update' => $snippetInformations['lastUpdate'],
-					'comment' => $snippetInformations['comment'],
-					'category' => $snippetInformations['category'],
-					'policy' => $snippetInformations['policy']
-					));
-
-		if ($changes == 1)
-			return true;
-		else
-			return false;
-			
-	}
-*/
 
 	public function deleteThisSnippetFromDB () {
+		
+		if (!empty($this->_id)) {
+			$db= PDOSQLite::getDbLink();
+			$request= $db->prepare('DELETE FROM snippets WHERE rowid = :id');
+			$request->bindParam(':id', $this->_id, PDO::PARAM_STR);
+			$request->execute();
 
-		$db= PDOSQLite::getDbLink();
-		$request= $db->prepare('DELETE FROM '.$this->_tableName.' WHERE rowid = :id');
-		$request->bindParam(':id', $this->_id, PDO::PARAM_INT);
+			return true;
+		}
+		
+		return false;
 
-		return true;
+	}
+
+	public function getId() {
+		
+		return $this->_id;
+		
+	}
+
+	public function giveMeArray () {
+
+		return array('id' => $this->_id,
+					'name' => $this->_name,
+					'owner' => $this->_owner,
+					'content' => $this->_content,
+					'last_update' => $this->_lastUpdate,
+					'comment' => $this->_comment,
+					'category' => $this->_category);
 
 	}
 
