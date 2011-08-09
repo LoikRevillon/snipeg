@@ -6,7 +6,7 @@ div.checker span, div.radio span {
 	background-image: url('images/sprites/checkbox.png');
 }
 
-div.selector, div.selector span, div.uploader, div.uploader span.action, div.button, div.button span {
+div.uploader, div.uploader span.action, div.button, div.button span {
 	background-image: url('images/sprites/sprite.png');
 }
 
@@ -19,56 +19,62 @@ div.selector, div.selector span, div.checker span, div.radio span, div.uploader,
  * Select
 */
 
+div.selector, div.selector span {
+	background-image: url('images/sprites/select.png');
+}
+
 div.selector {
-	background-position: -483px -130px;
-	line-height: 26px;
-	height: 26px;
+	background-position: 0 0;
+	height: 32px;
+	line-height: 32px;
+	width: 16px;
+	
 }
 
 div.selector span {
-	background-position: right 0px;
-	height: 26px;
-	line-height: 26px;
+	cursor: pointer;
+	background-position: right 0;
+	height: 32px;
+	line-height: 30px;
+	padding: 0 46px 0 3px;
+	cursor: pointer;
+	margin-left: 16px;
+	float: left;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
+	z-index: 0;
 }
 
 div.selector select {
-	/*
-	 * Change these to adjust positioning of select element.
-	*/
-	top: 0px;
-	left: 0px;
+	cursor: pointer;
+	padding-top: 12px;
+	top: 0;
+	left: 12px;
 }
 
-div.selector:active, div.selector.active {
-	background-position: -483px -156px;
+div.selector option {
+	background-color: #282D34;
 }
 
-div.selector:active span, div.selector.active span {
-	background-position: right -26px;
+div.selector:active, 
+div.selector.active,
+div.selector:focus,
+div.selector.focus {
+    background-position: 0 -32px;
 }
 
-div.selector.focus, div.selector.hover, div.selector:hover {
-	background-position: -483px -182px;
+div.selector:active span, 
+div.selector.active span
+div.selector:focus span,
+div.selector.focus span {
+    background-position: right -32px;
 }
 
-div.selector.focus span, div.selector.hover span, div.selector:hover span {
-	background-position: right -52px;
-}
+/*
+ * Checker & Radio
+*/
 
-div.selector.focus:active, div.selector.focus.active, div.selector:hover:active, div.selector.active:hover {
-	background-position: -483px -208px;
-}
-
-div.selector.focus:active span, div.selector:hover:active span, div.selector.active:hover span, div.selector.focus.active span {
-	background-position: right -78px;
-}
-
-div.selector.disabled {
-	background-position: -483px -234px;
-}
-
-div.selector.disabled span {
-	background-position: right -104px;
+div.checker, div.radio {
+	margin-bottom: 2px;
 }
 
 /*
@@ -103,46 +109,6 @@ div.radio span {
 
 div.radio span.checked {
 	background-position: -85px 0;
-}
-
-/*
- * Select
-*/
-
-div.selector {
-	width: 190px;
-	font-size: 12px;
-	margin-top: 16px;
-}
-
-div.selector select {
-	min-width: 190px;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 12px;
-	border: solid 1px #FFF;
-}
-
-div.selector span {
-	padding: 0px 25px 0px 2px;
-	cursor: pointer;
-}
-
-div.selector span {
-	color: #666;
-	width: 158px;
-	text-shadow: 0 1px 0 #fff;
-}
-
-div.selector.disabled span {
-	color: #bbb;
-}
-
-/*
- * Checker & Radio
-*/
-
-div.checker, div.radio {
-	margin-bottom: 2px;
 }
 
 /*
@@ -226,8 +192,8 @@ div.button span {
 
 div.selector {
 	position: relative;
-	padding-left: 10px;
-	overflow: hidden;
+	/*padding-left: 10px;*/
+	/*overflow: hidden;*/
 }
 
 div.selector span {
@@ -241,7 +207,7 @@ div.selector select {
 	position: absolute;
 	opacity: 0;
 	filter: alpha(opacity:0);
-	height: 25px;
+	height: 32px;
 	border: none;
 	background: none;
 }
