@@ -47,20 +47,23 @@ p, li, blockquote, .success, .info, .error {
 	text-align: justify;
 }
 
+::-webkit-input-placeholder {
+    color:    #EAEAEA;
+}
+:-moz-placeholder {
+    color:    #EAEAEA;
+}
+
 /*
  * Spacing
 */
 
 a {
+	color: #FAFAFA;
+}
+
+a:hover, a:visited {
 	color: #7CAFDA;
-}
-
-a:hover {
-	font-style: italic;
-}
-
-a:visited {
-	color: #5B9BD1;
 }
 
 p, ul, ol, hr, pre, li {
@@ -80,6 +83,7 @@ li {
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 	letter-spacing: 1px;
+	margin-bottom: @baseline;
 }
 
 h1, h2 {
