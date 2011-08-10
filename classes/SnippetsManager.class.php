@@ -150,7 +150,7 @@ class SnippetsManager {
 		
 	}
 	
-	public function updateOldSnippetInfosByNew ($oldSnippetId, $newSnippet) {
+	public function updateSnippetInfos ($oldSnippetId, $newSnippet) {
 		
 		$db= PDOSQLite::getDBLink();
 		$request= $db->prepare('UPDATE snippets SET name = :name, id_user = :id_user, last_update = :last_update, content = :content, language = :language, comment = :comment, category = :category, tags = :tags, privacy = :privacy WHERE rowid = :id');

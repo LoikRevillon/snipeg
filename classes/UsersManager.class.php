@@ -85,7 +85,7 @@ class UsersManager {
 
 	}
 
-	public function updateUserInfo($userId, $newInfos) {
+	public function updateUserInfos($userId, $newInfos) {
 
 		if ($this->userExistInDB($newInfos->_name))
 			return false;
