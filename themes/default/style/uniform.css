@@ -2,11 +2,11 @@
  * Sprites
 */
 
-div.checker span, div.radio span, div.selector, div.selector span {
+div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
 	background-image: url('images/sprite.png');
 }
 
-div.selector, div.selector span, div.checker span, div.radio span, div.uploader, div.uploader span.action, div.button, div.button span {
+div.selector, div.selector span, div.checker span, div.radio span, div.button, div.button span {
 	background-repeat: no-repeat;
 	-webkit-font-smoothing: antialiased;
 }
@@ -16,49 +16,104 @@ div.selector, div.selector span, div.checker span, div.radio span, div.uploader,
 */
 
 div.selector {
-	background-position: 0 -29px;
-	height: 32px;
-	line-height: 32px;
-	width: 16px;
-	
+	height: 34px;
+	background-position: 0 -32px;
+	line-height: 34px;
+	width: 15px;
 }
 
 div.selector span {
-	cursor: pointer;
-	background-position: right -29px;
-	height: 32px;
-	line-height: 30px;
-	padding: 0 46px 0 3px;
-	cursor: pointer;
-	margin-left: 16px;
+	height: 34px;
+	line-height: 34px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
 	float: left;
-	text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
-	z-index: 0;
+	margin-left: 15px;
+	padding-right: 15px;
+	background-position: right -32px;
+}
+
+div.selector:hover,
+div.selector.hover {
+	background-position: 0px -66px;
+	cursor: pointer;
+}
+
+div.selector:hover span,
+div.selector.hover span {
+	background-position: right -66px;
+}
+
+div.selector.focus,
+div.selector:focus,
+div.selector.active,
+div.selector:active {
+	background-position: 0px -100px;
+}
+
+div.selector.focus span,
+div.selector:focus span,
+div.selector.focus span,
+div.selector:focus span {
+	background-position: right -100px;
 }
 
 div.selector select {
 	cursor: pointer;
 	padding-top: 12px;
 	top: 0;
-	left: 12px;
+	left: 0;
 }
 
 div.selector option {
 	background-color: #282D34;
 }
 
-div.selector:active, 
-div.selector.active,
-div.selector:focus,
-div.selector.focus {
-    background-position: 0 -61px;
+/*
+ * Buttons
+*/
+
+div.button {
+	height: 34px;
+	background-position: 0 -32px;
+	line-height: 34px;
+	width: 15px;
+	margin-bottom: 18px;
 }
 
-div.selector:active span, 
-div.selector.active span
-div.selector:focus span,
-div.selector.focus span {
-    background-position: right -61px;
+div.button span {
+	height: 34px;
+	line-height: 34px;
+	display: block;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+	float: left;
+	margin-left: 15px;
+	padding-right: 15px;
+	background-position: right -32px;
+}
+
+div.button.focus,
+div.button:focus,
+div.button:hover,
+div.button.hover {
+	background-position: 0px -66px;
+	cursor: pointer;
+}
+
+div.button.focus span,
+div.button:focus span,
+div.button:hover span,
+div.button.hover span {
+	background-position: right -66px;
+}
+
+div.button.active,
+div.button:active {
+	background-position: 0px -100px;
+}
+
+div.button.active span,
+div.button:active span {
+	background-position: right -100px;
 }
 
 /*
