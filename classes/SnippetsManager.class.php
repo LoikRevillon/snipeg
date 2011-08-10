@@ -133,14 +133,20 @@ class SnippetsManager {
 		return $snippetsMatchedByTag;
 	}
 
-	public function getAllCateogies ($userId) {
+	public function getAllCategories ($userId) {
 
-		$db= PDOSQLite::getReference();
-		$request= $db-prepare('SELECT DICTINCT category FROM snippets WHERE id_user = :id_user');
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT DISTINCT category FROM snippets WHERE id_user = :id_user');
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
 		$request->execute();
 
-		return $request->fetchAll();
+		$categoryArray= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$categoryArray[]= $result['category'];
+		}
+
+		return $categoryArray;
 		
 	}
 	
