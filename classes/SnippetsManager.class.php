@@ -2,133 +2,167 @@
 
 class SnippetsManager {
 
-	private $_snippetName;
+	private static $_instance;
 
-	public function __construct ($snippetName= false) {
+	private function __construct() {}
 
-		$this->_snippetName= $snippetName;
-	}
+	final private function __clone() {}
 
-	public function findMatchesSnippetsNames ($snippetName= false) {
+	public static function getReference() {
 
-		if (!empty($snippetName))
-			$this->_snippetName= $snippetName;
+		if (!isset(self::$_instance))
+			self::$_instance= new self();
 
-		$db= PDOSQLite::getDbLink();
-		$request= $db->prepare('SELECT rowid as id,
-												name,
-												owner,
-												last_update,
-												content,
-												comment,
-												category,
-												policy
-											FROM snippets
-											WHERE name=:name
-											ORDER BY last_update DESC');
+		return self::$_instance;
 
-		$request->bindParam(':name', $this->_snippetName, PDO::PARAM_STR, 255);
-		$request->execute();
-											
-/*
-		$request->execute( array('name' => $this->_snippetName));
-*/
-
-		while ($arrayOfResults= $request->fetch(PDO::FETCH_ASSOC)) {
-			$snippet= new Snippets($arrayOfResults);
-			$arrayOfSnippets[]= $snippet;
-		}
-		$request->closeCursor();
-
-		if (empty($arrayOfSnippets))
-			return false;
-		else
-			return $arrayOfSnippets;
-			
 	}
 
 	public function getSnippetById ($id) {
 
-		$db= PDOSQLite::getDbLink();
-		$request= $db->prepare('SELECT rowid as id,
-											name,
-											owner,
-											last_update,
-											content,
-											comment,
-											category,
-											policy
-											FROM snippets
-											WHERE rowid = :id');
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE rowid = :id');
 											
-		$request->bindParam(':id', $id, PDO::PARAM_INT);
+		$request->bindParam(':id', $id, PDO::PARAM_INT, 1);
 		$request->execute();
 
-/*
-		$request->execute(array('id' => $id));
-*/
-
-		$snippet= new Snippets($request->fetch(PDO::FETCH_ASSOC));
+		$result= $request->fetch(PDO::FETCH_ASSOC);
+		$snippet= new Snippet($result);
+		
 		return $snippet;
 
 	}
+	
+	public function getPublicSnippets($idUser) {
 
-	public function updateOldSnippetByNewOne ($oldSnippet, $newSnippet) {
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND privacy = 0 ORDER BY last_update DESC');
+		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+
+		$publicSnippets= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$oneOfMatchedSnippet= new Snippet($result);
+			$publicSnippets[]= $oneOfMatchedSnippet;
+			unset($oneOfMatchedSnippet);
+		}
+
+		return $publicSnippets;
+
+	}
+
+	public function getSnippetsMatchedByName($idUser, $snippetName) {
+
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND name = :name ORDER BY last_update DESC');
+		$request->bindParam(':id_user', $idUser, PDO::PARAM_INT, 1);
+		$request->bindParam(':name', $snippetName, PDO::PARAM_STR, 255);
+
+		$snippetsMatchedByName= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$oneOfMatchedSnippet= new Snippet($result);
+			$snippetsMatchedByName[]= $oneOfMatchedSnippet;
+			unset($oneOfMatchedSnippet);
+		}
+
+		return $snippetsMatchedByName;
+
+	} 
+
+	public function getYoungerSnippets($userId, $timestamp) {
+
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND last_update >= :timestamp  ORDER BY last_update');
+		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+		$request->bindParam(':timestamp', $timestamp, PDO::PARAM_INT, 32);
+		$request->execute();
+
+		$youngerSnippet= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$oneOfMatchedSnippet= new Snippet($result);
+			$youngerSnippet[]= $oneOfMatchedSnippet;
+			unset($oneOfMatchedSnippet);
+		}
+
+		return $youngerSnippet;
+			
+	}
+
+	public function getSnippetByCategory($userId, $cateoryName) {
+
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND category = :category ORDER BY last_update DESC');
+		$request->bindParam(':category', $categoryName, PDO::PARAM_STR, 80);
+		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+		$request->execute();
+
+		$snippetsMatchedByCategory= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$oneOfMatchedSnippet= new Snippet($result);
+			$snippetsMatchedByCategory[]= $oneOfMatchedSnippet;
+			unset($oneOfMatchedSnippet);
+		}
+
+		return $snippetsMatchedByCategory;
+
+	}
+
+	public function getSnippetsByTag ($userId, $tag) {
+
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user tags LIKE %:tag% ORDER BY last_update DESC');
+		$request->bindParam(':tag', $tag, PDO::PARAM_STR);
+		$request->execute();
+
+		$snippetsMatchedByTag= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$oneOfMatchedSnippet= new Snippet($result);
+			$snippetsMatchedByTag[]= $oneOfMatchedSnippet;
+			unset($oneOfMatchedSnippet);
+		}
+
+		return $snippetsMatchedByTag;
+	}
+	
+	public function updateOldSnippetInfoByNew ($oldSnippet, $newSnippet) {
 		
-		$db= PDOSQLite::getDbLink();
-		$request= $db->prepare('UPDATE snippets SET
-												name = :name,
-												owner = :owner,
-												content = :content,
-												last_update = :last_update,
-												comment = :comment,
-												category = :category,
-												policy = :policy
-												WHERE rowid = :id');
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('UPDATE snippets SET name = :name, id_user = :id_user, last_uodate = :last_update, content = :content, language = :language, comment = :comment, category = :category, tags = :tags, privacy = :privacy WHERE rowid = :id');
 
-		$arrayForOldSnippet= $newSnippet->giveMeArray();
+		$request->bindParam(':id', $oldSnippet->_id, PDO::PARAM_INT, 1);
+		$request->bindParam(':name', $newSnippet->_name, PDO::PARAM_STR, 255);
+		$request->bindParam(':id_user', $newSnippet->_idUser, PDO::PARAM_INT, 1);
+		$request->bindParam(':last_update', $newSnippet->_lastUpdate, PDO::PARAM_INT, 32);
+		$request->bindParam(':content', $newSnippet->_content, PDO::PARAM_STR);
+		$request->bindParam(':language', $newSnippet->_language, PDO::PARAM_INT, 1);
+		$request->bindParam(':comment', $newSnippet->_comment, PDO::PARAM_STR);
+		$request->bindParam(':category', $newSnippet->_category, PDO::PARAM_STR, 80);
+		$request->bindParam(':tags', $newSnippet->_tags, PDO::PARAM_STR);
+		$request->bindParam(':privacy', $newSnippet->_privacy, PDO::PARAM_INT, 1);
+		$updatedRow= $request->execute();
 
-		$request->bindParam(':id', $oldSnippet->getId(), PDO::PARAM_INT);
-		$request->bindParam(':name', $arrayForOldSnippet['name'], PDO::PARAM_STR, 255);
-		$request->bindParam(':owner', $arrayForOldSnippet['owner'], PDO::PARAM_STR, 30);
-		$request->bindParam(':content', $arrayForOldSnippet['content'], PDO::PARAM_STR);
-		$request->bindParam(':last_update', $arrayForOldSnippet['ladt_update'], PDO::PARAM_INT, 32);
-		$request->bindParam(':comment', $arrayForOldSnippet['comment'], PDO::PARAM_STR, 30);
-		$request->bindParam(':category', $arrayForOldSnippet['category'], PDO::PARAM_INT);
-		$request->bindParam(':policy', $arrayForOldSnippet['policy'], PDO::PARAM_INT, 1);
-
-		$changes= $request->execute();
-		
-/*
-		$changes= $request->execute(array(
-					'id' => $oldSnippet->_id,
-					'name' => $newSnippet->_name,
-					'owner' => $newSnippet->_owner,
-					'content' => $newSnippet->_content,
-					'last_update' => $newSnippet->_lastUpdate,
-					'comment' => $newSnippet->_comment,
-					'category' => $newSnippet->_category,
-					'policy' => $newSnippet->policy
-					));
-*/
-
-		if ($changes == 1)
+		if ($updatedRow == 1)
 			return true;
 		else
 			return false;
 			
 	}
 
-	public function deleteSnippetFromDB ($id) {
+	public function deleteSnippetFromDB ($idSnippet) {
 		
-		if (!empty($id)) {
-			$db= PDOSQLite::getDbLink();
-			$request= $db->prepare('DELETE FROM snippets
-											WHERE rowid = :id');
-			$request->bindParam(':id', $id, PDO::PARAM_INT);
-			$request->execute();
+		if (!empty($idSnippet)) {
+			$db= PDOSQLite::getDBLink();
+			$request= $db->prepare('DELETE FROM snippets WHERE rowid = :id');
+			$request->bindParam(':id', $idSnippet, PDO::PARAM_INT, 1);
+			$deletedRow= $request->execute();
 
-			return true;
+			if ($deletedRow == 1)
+				return true;
+			else
+				return false;
 		}
 		
 		return false;
