@@ -91,12 +91,12 @@ class SnippetsManager {
 			
 	}
 
-	public function getSnippetByCategory($userId, $cateoryName) {
+	public function getSnippetByCategory($userId, $categoryName) {
 
 		$db= PDOSQLite::getDBLink();
 		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND category = :category ORDER BY last_update DESC');
-		$request->bindParam(':category', $categoryName, PDO::PARAM_STR, 80);
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+		$request->bindParam(':category', $categoryName, PDO::PARAM_STR, 80);
 		$request->execute();
 
 		$snippetsMatchedByCategory= array();
@@ -113,9 +113,13 @@ class SnippetsManager {
 
 	public function getSnippetsByTag ($userId, $tag) {
 
+		var_dump($userId);
+		var_dump($tag);
+
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user tags LIKE %:tag% ORDER BY last_update DESC');
-		$request->bindParam(':tag', $tag, PDO::PARAM_STR);
+		$request= $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND tags LIKE :tag ORDER BY last_update DESC');
+		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+		$request->bindValue(':tag', '%'.$tag.'%', PDO::PARAM_STR);
 		$request->execute();
 
 		$snippetsMatchedByTag= array();

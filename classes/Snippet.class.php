@@ -27,7 +27,7 @@ class Snippet {
 			$this->_language= $snippetInformations['language'];			
 			$this->_comment= $snippetInformations['comment'];			
 			$this->_category= $snippetInformations['category'];
-			$this->_tags= $snippetInformations['tags'];
+			$this->_tags= mb_strtolower($snippetInformations['tags'], 'utf-8');
 			$this->_privacy= $snippetInformations['privacy'];
 		
 	}
