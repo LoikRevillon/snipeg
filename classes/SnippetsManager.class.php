@@ -150,24 +150,23 @@ class SnippetsManager {
 		
 	}
 	
-	public function updateOldSnippetInfoByNew ($oldSnippet, $newSnippet) {
+	public function updateOldSnippetInfosByNew ($oldSnippetId, $newSnippet) {
 		
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('UPDATE snippets SET name = :name, id_user = :id_user, last_uodate = :last_update, content = :content, language = :language, comment = :comment, category = :category, tags = :tags, privacy = :privacy WHERE rowid = :id');
+		$request= $db->prepare('UPDATE snippets SET name = :name, id_user = :id_user, last_update = :last_update, content = :content, language = :language, comment = :comment, category = :category, tags = :tags, privacy = :privacy WHERE rowid = :id');
 
-		$request->bindValue(':id', $oldSnippet->_id, PDO::PARAM_INT);#, 1);
-		$request->bindValue(':name', $newSnippet->_name, PDO::PARAM_STR);#, 255);
-		$request->bindValue(':id_user', $newSnippet->_idUser, PDO::PARAM_INT);#, 1);
-		$request->bindValue(':last_update', $newSnippet->_lastUpdate, PDO::PARAM_INT);#, 32);
+		$request->bindValue(':id', $oldSnippetId, PDO::PARAM_INT);
+		$request->bindValue(':name', $newSnippet->_name, PDO::PARAM_STR);
+		$request->bindValue(':id_user', $newSnippet->_idUser, PDO::PARAM_INT);
+		$request->bindValue(':last_update', $newSnippet->_lastUpdate, PDO::PARAM_INT);
 		$request->bindValue(':content', $newSnippet->_content, PDO::PARAM_STR);
-		$request->bindValue(':language', $newSnippet->_language, PDO::PARAM_INT);#, 1);
-		$request->bindValue(':comment', $newSnippet->_comment, PDO::PARAM_STR);#);
-		$request->bindValue(':category', $newSnippet->_category, PDO::PARAM_STR);#, 80);
+		$request->bindValue(':language', $newSnippet->_language, PDO::PARAM_INT);
+		$request->bindValue(':comment', $newSnippet->_comment, PDO::PARAM_STR);
+		$request->bindValue(':category', $newSnippet->_category, PDO::PARAM_STR);
 		$request->bindValue(':tags', $newSnippet->_tags, PDO::PARAM_STR);
-		$request->bindValue(':privacy', $newSnippet->_privacy, PDO::PARAM_INT);#, 1);
-		$updatedRow= $request->execute();
+		$request->bindValue(':privacy', $newSnippet->_privacy, PDO::PARAM_INT);
 
-		if ($updatedRow == 1)
+		if ($request->execute();)
 			return true;
 		else
 			return false;
@@ -180,9 +179,8 @@ class SnippetsManager {
 			$db= PDOSQLite::getDBLink();
 			$request= $db->prepare('DELETE FROM snippets WHERE rowid = :id');
 			$request->bindParam(':id', $idSnippet, PDO::PARAM_INT, 1);
-			$deletedRow= $request->execute();
 
-			if ($deletedRow == 1)
+			if ($request->execute())
 				return true;
 			else
 				return false;

@@ -74,9 +74,8 @@ class User {
 			$db= PDOSQLite::getDBLink();
 			$request= $db->prepare('DELETE FROM users WHERE rowid = :id');
 			$request->bindParam(':id', $this->_id, PDO::PARAM_INT, 1);
-			$deletedRow= $request->execute();
 
-			if ($deletedRow == 1)
+			if ($request->execute();)
 				return true;
 			else
 				return false;

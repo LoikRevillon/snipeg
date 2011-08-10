@@ -69,7 +69,7 @@ class Snippet {
 			$request->bindParam(':id', $this->_id, PDO::PARAM_STR, 1);
 			$deletedRow= $request->execute();
 
-			if (empty($deletedRow))
+			if ($deletedRow)
 				return false;
 			else
 				return true;

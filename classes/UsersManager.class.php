@@ -93,20 +93,19 @@ class UsersManager {
 		$db= PDOSQLite::getDBLink();
 		$request= $db->prepare('UPDATE users SET admin = :admin, name = :name, email = :email, password = :password, locked = :locked, theme = :theme, font = :font, color_scheme = :color_scheme, language = :language, favorite_lang = :favorite_lang WHERE rowid = :id');
 
-		$request->bindValue(':id', $userId, PDO::PARAM_INT);#, 1);
-		$request->bindValue(':admin', $newInfos->_admin, PDO::PARAM_INT);#, 1);
-		$request->bindValue(':name', $newInfos->_name, PDO::PARAM_STR);#, 30);
-		$request->bindValue(':email', $newInfos->_email, PDO::PARAM_STR);#, 80);
-		$request->bindValue(':password', $newInfos->_password, PDO::PARAM_STR);#, 64);
-		$request->bindValue(':locked', $newInfos->_locked, PDO::PARAM_INT);#, 1);
-		$request->bindValue(':theme', $newInfos->_theme, PDO::PARAM_STR);#, 50);
-		$request->bindValue(':font', $newInfos->_font, PDO::PARAM_STR);#, 30);
-		$request->bindValue(':color_scheme', $newInfos->_colorScheme, PDO::PARAM_STR);#, 20);
-		$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);#, 5);
+		$request->bindValue(':id', $userId, PDO::PARAM_INT);
+		$request->bindValue(':admin', $newInfos->_admin, PDO::PARAM_INT);
+		$request->bindValue(':name', $newInfos->_name, PDO::PARAM_STR);
+		$request->bindValue(':email', $newInfos->_email, PDO::PARAM_STR);
+		$request->bindValue(':password', $newInfos->_password, PDO::PARAM_STR);
+		$request->bindValue(':locked', $newInfos->_locked, PDO::PARAM_INT);
+		$request->bindValue(':theme', $newInfos->_theme, PDO::PARAM_STR);
+		$request->bindValue(':font', $newInfos->_font, PDO::PARAM_STR);
+		$request->bindValue(':color_scheme', $newInfos->_colorScheme, PDO::PARAM_STR);
+		$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);
 		$request->bindValue(':favorite_lang', $newInfos->_favoriteLang, PDO::PARAM_STR);
-		$updatedRow= $request->execute();
 		
-		if ($updatedRow == 1)
+		if ($request->execute();)
 			return true;
 		else
 			return false;
