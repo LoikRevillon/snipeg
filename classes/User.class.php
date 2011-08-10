@@ -29,12 +29,13 @@ class User {
 		$this->_colorScheme= $userInformations['color_scheme'];
 		$this->_language= $userInformations['language'];
 		$this->_favoriteLang= $userInformations['favorite_lang'];
-
+		
 	}
 
 	public function __get($varName) {
 
-		return $this->{$varName};
+		if (isset($this->$varName))
+			return $this->{$varName};
 
 	}
 

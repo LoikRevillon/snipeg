@@ -21,7 +21,7 @@ class Snippet {
 				$this->_id= false;
 				
 			$this->_name= $snippetInformations['name'];
-			$this->_owner= $snippetInformations['owner'];
+			$this->_idUser= $snippetInformations['id_user'];
 			$this->_lastUpdate= $snippetInformations['last_update'];
 			$this->_content= $snippetInformations['content'];
 			$this->_language= $snippetInformations['language'];			
@@ -69,10 +69,10 @@ class Snippet {
 			$request->bindParam(':id', $this->_id, PDO::PARAM_STR, 1);
 			$deletedRow= $request->execute();
 
-			if ($deletedRow)
-				return true;
-			else
+			if (empty($deletedRow))
 				return false;
+			else
+				return true;
 				
 		}
 		

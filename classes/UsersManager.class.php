@@ -20,7 +20,7 @@ class UsersManager {
 	public function userExistInDB($name) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as is, * FROM users WHERE name = :name');
+		$request= $db->prepare('SELECT rowid as id, * FROM users WHERE name = :name');
 		$request->bindParam(':name', $name, PDO::PARAM_STR, 30);
 		$request->execute();
 
@@ -79,28 +79,31 @@ class UsersManager {
 		$request->execute();
 
 		$result= $request->fetch(PDO::FETCH_ASSOC);
-		$matchedUser= new Users($result);
+		$matchedUser= new User($result);
 
 		return $matchedUser;
 
 	}
 
-	public function updateOldUserInfoByNew($oldUser, $newUser) {
+	public function updateUserInfo($userId, $newInfos) {
 
-		$request= $this->_dbLink;
-		$request->prepare('UPDATE users SET admin = :admin, name = :name, email = :email, password = :password, locked = :locked, theme = :theme, font = :font, color_scheme = :color_scheme, language = :language, favorite_lang = :favorite_lang WHERE rowid = :id');
+		if ($this->userExistInDB($newInfos->_name))
+			return false;
 
-		$request->bindParam(':id', $oldUser->_id, PDO::PARAM_INT, 1);
-		$request->bindParam(':admin', $newUser->_admin, PDO::PARAM_INT, 1);
-		$request->bindParam(':name', $newUser->_name, PDO::PARAM_STR, 30);
-		$request->bindParam(':email', $newUser->_email, PDO::PARAM_STR, 80);
-		$request->bindParam(':password', $newUser->_password, PDO::PARAM_STR, 64);
-		$request->bindParam(':locked', $newUser->_locked, PDO::PARAM_INT, 1);
-		$request->bindParam(':theme', $newUser->_theme, PDO::PARAM_STR, 50);
-		$request->bindParam(':font', $newUser->_font, PDO::PARAM_STR, 30);
-		$request->bindParam(':color_scheme', $this->_colorScheme, PDO::PARAM_STR, 20);
-		$request->bindParam(':language', $newUser->_language, PDO::PARAM_STR, 5);
-		$request->bindParam(':favorite_lang', $newUser->_favoriteLang, PDO::PARAM_STR);
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('UPDATE users SET admin = :admin, name = :name, email = :email, password = :password, locked = :locked, theme = :theme, font = :font, color_scheme = :color_scheme, language = :language, favorite_lang = :favorite_lang WHERE rowid = :id');
+
+		$request->bindValue(':id', $userId, PDO::PARAM_INT);#, 1);
+		$request->bindValue(':admin', $newInfos->_admin, PDO::PARAM_INT);#, 1);
+		$request->bindValue(':name', $newInfos->_name, PDO::PARAM_STR);#, 30);
+		$request->bindValue(':email', $newInfos->_email, PDO::PARAM_STR);#, 80);
+		$request->bindValue(':password', $newInfos->_password, PDO::PARAM_STR);#, 64);
+		$request->bindValue(':locked', $newInfos->_locked, PDO::PARAM_INT);#, 1);
+		$request->bindValue(':theme', $newInfos->_theme, PDO::PARAM_STR);#, 50);
+		$request->bindValue(':font', $newInfos->_font, PDO::PARAM_STR);#, 30);
+		$request->bindValue(':color_scheme', $newInfos->_colorScheme, PDO::PARAM_STR);#, 20);
+		$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);#, 5);
+		$request->bindValue(':favorite_lang', $newInfos->_favoriteLang, PDO::PARAM_STR);
 		$updatedRow= $request->execute();
 		
 		if ($updatedRow == 1)

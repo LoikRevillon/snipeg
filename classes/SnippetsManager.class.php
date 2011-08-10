@@ -32,11 +32,12 @@ class SnippetsManager {
 
 	}
 	
-	public function getPublicSnippets($idUser) {
+	public function getPublicSnippets($userId) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND privacy = 0 ORDER BY last_update DESC');
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND privacy != 0 ORDER BY last_update DESC');
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+		$request->execute();
 
 		$publicSnippets= array();
 
@@ -56,6 +57,7 @@ class SnippetsManager {
 		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND name = :name ORDER BY last_update DESC');
 		$request->bindParam(':id_user', $idUser, PDO::PARAM_INT, 1);
 		$request->bindParam(':name', $snippetName, PDO::PARAM_STR, 255);
+		$request->execute();
 
 		$snippetsMatchedByName= array();
 
@@ -126,22 +128,33 @@ class SnippetsManager {
 
 		return $snippetsMatchedByTag;
 	}
+
+	public function getAllCateogies ($userId) {
+
+		$db= PDOSQLite::getReference();
+		$request= $db-prepare('SELECT DICTINCT category FROM snippets WHERE id_user = :id_user');
+		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+		$request->execute();
+
+		return $request->fetchAll();
+		
+	}
 	
 	public function updateOldSnippetInfoByNew ($oldSnippet, $newSnippet) {
 		
 		$db= PDOSQLite::getDBLink();
 		$request= $db->prepare('UPDATE snippets SET name = :name, id_user = :id_user, last_uodate = :last_update, content = :content, language = :language, comment = :comment, category = :category, tags = :tags, privacy = :privacy WHERE rowid = :id');
 
-		$request->bindParam(':id', $oldSnippet->_id, PDO::PARAM_INT, 1);
-		$request->bindParam(':name', $newSnippet->_name, PDO::PARAM_STR, 255);
-		$request->bindParam(':id_user', $newSnippet->_idUser, PDO::PARAM_INT, 1);
-		$request->bindParam(':last_update', $newSnippet->_lastUpdate, PDO::PARAM_INT, 32);
-		$request->bindParam(':content', $newSnippet->_content, PDO::PARAM_STR);
-		$request->bindParam(':language', $newSnippet->_language, PDO::PARAM_INT, 1);
-		$request->bindParam(':comment', $newSnippet->_comment, PDO::PARAM_STR);
-		$request->bindParam(':category', $newSnippet->_category, PDO::PARAM_STR, 80);
-		$request->bindParam(':tags', $newSnippet->_tags, PDO::PARAM_STR);
-		$request->bindParam(':privacy', $newSnippet->_privacy, PDO::PARAM_INT, 1);
+		$request->bindValue(':id', $oldSnippet->_id, PDO::PARAM_INT);#, 1);
+		$request->bindValue(':name', $newSnippet->_name, PDO::PARAM_STR);#, 255);
+		$request->bindValue(':id_user', $newSnippet->_idUser, PDO::PARAM_INT);#, 1);
+		$request->bindValue(':last_update', $newSnippet->_lastUpdate, PDO::PARAM_INT);#, 32);
+		$request->bindValue(':content', $newSnippet->_content, PDO::PARAM_STR);
+		$request->bindValue(':language', $newSnippet->_language, PDO::PARAM_INT);#, 1);
+		$request->bindValue(':comment', $newSnippet->_comment, PDO::PARAM_STR);#);
+		$request->bindValue(':category', $newSnippet->_category, PDO::PARAM_STR);#, 80);
+		$request->bindValue(':tags', $newSnippet->_tags, PDO::PARAM_STR);
+		$request->bindValue(':privacy', $newSnippet->_privacy, PDO::PARAM_INT);#, 1);
 		$updatedRow= $request->execute();
 
 		if ($updatedRow == 1)
