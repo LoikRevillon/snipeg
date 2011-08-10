@@ -1,9 +1,9 @@
 <?php
 
 $css = array(
-	'reset.less',
-	'typography.less',
-	'style.less'
+	'less/reset.less',
+	'less/typography.less',
+	'less/style.less'
 );
 
 $output = '';
