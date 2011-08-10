@@ -23,7 +23,7 @@
 	background-color: #282D34;
 	box-shadow:
 		0 1px rgba(255, 255, 255, .25),
-		inset 0 8px 16px #22272D;
+		inset 0 4px 8px #22272D;
 }
 
 /*
@@ -90,23 +90,70 @@ blockquote p {
  * Special classes
 */
 
+.success, .info, .warning, .error {
+	.box;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
 .success {
-	background-color: rgba(155, 208, 99, .97);
+	background-color: lighten(#72A15A, 8%);
+	border: 1px solid rgba(44, 59, 43, .75);
+	box-shadow:
+		0 1px rgba(255, 255, 255, .25),
+		inset 0 4px 8px rgba(44, 59, 43, .2);
 }
 
 .info {
-	background-color: rgba(104, 179, 227, .92);
+	background-color: lighten(#4677BD, 10%);
+	border: 1px solid #2F4F7E;
+	box-shadow:
+		0 1px rgba(255, 255, 255, .25),
+		inset 0 4px 8px rgba(47, 79, 126, .2);
+}
+
+.warning {
+	background-color: lighten(#D39B30, 10%);
+	border: 1px solid #74551a;
+	box-shadow:
+		0 1px rgba(255, 255, 255, .25),
+		inset 0 4px 8px rgba(97, 39, 39, .2);
 }
 
 .error {
-	background-color: rgba(208, 99, 99, .96);
+	background-color: lighten(#AE4646, 10%);
+	border: 1px solid rgba(97, 39, 39, .75);
+	box-shadow:
+		0 1px rgba(255, 255, 255, .25),
+		inset 0 4px 8px rgba(97, 39, 39, .2);
 }
 
-.success, .info, .error {
-	.box;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
-	text-shadow: 0 1px 1px rgba(25, 25, 25, .15);
-	color: #FCFCFC;
+.success:before, .info:before, .warning:before, .error:before {
+	background: url('images/sprite.png') left top no-repeat;
+	content: '';
+	float: left;
+	height: 15px;
+	margin-right: 6px;
+	margin-top: 1px;
+}
+
+.success:before {
+	background-position: -48px -17px;
+	width: 18px;
+}
+
+.info:before {
+	background-position: -34px -17px;
+	width: 14px;
+}
+
+.warning:before {
+	background-position: 0 -17px;
+	width: 18px;
+}
+
+.error:before {
+	background-position: -18px -17px;
+	width: 16px;
 }
 
 /*
