@@ -425,7 +425,7 @@ input[type=text], input[type=password] {
 
 div.button, div.button span, div.selector, div.selector span {
 	height: 34px;
-	line-height: 34px;
+	line-height: 33px;
 }
 
 div.button, div.button:active, div.button.active, div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.checker span, div.selector, div.selector:active, div.selector.active, div.selector:focus, div.selector.focus, div.selector:hover, div.selector.hover {
@@ -469,7 +469,7 @@ div.selector:active, div.selector.active, div.selector:focus, div.selector.focus
  * -------------------------------------------------------------------------------------
 */
 
-div.checker, div.radio, div.selector {
+div.button, div.checker, div.radio, div.selector {
 	position: relative;
 }
 
@@ -477,11 +477,7 @@ div.button span, div.selector span {
 	float: left;
 }
 
-div.button {
-	width: 15px;
-}
-
-div.selector {
+div.button, div.selector {
 	width: 15px
 }
 
@@ -498,7 +494,15 @@ div.selector select {
 	top: 0;
 }
 
-div.selector span {
+div.button input {
+	height: 32px;
+	border: none;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+div.selector span, div.button span {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -541,7 +545,7 @@ div.checker, div.checker input, div.checker span, div.radio, div.radio input, di
 	outline: 0;
 }
 
-div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.selector select, div.selector:hover, div.selector.hover {
+div.button, div.button input, div.selector, div.selector select {
 	cursor: pointer;
 }
 
@@ -553,7 +557,7 @@ div.checker span, div.radio input, div.radio span {
 	text-align: center;
 }
 
-div.checker input, div.radio input, div.selector select {
+div.button input, div.checker input, div.radio input, div.selector select {
 	opacity: 0;
 	filter: alpha(opacity:0);
 }
