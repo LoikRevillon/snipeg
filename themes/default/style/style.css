@@ -44,8 +44,7 @@ body {
 	background: url('images/background.png');
 }
 
-.tags a, .tags a:after, .success:before, .info:before, .warning:before, .error:before,
-div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
+.tags a, .tags a:after, .success:before, .info:before, .warning:before, .error:before, div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
 	background-image: url('images/sprite.png');
 	background-repeat: no-repeat;
 }
@@ -159,7 +158,6 @@ input[type=text], input[type=password] textarea {
 
 input[type=text], input[type=password], textarea, .success, .info, .warning, .error, img, blockquote {
 	border-radius: 5px;
-	display: block;
 	margin: 18px 0;
 	padding: 12px;
 }
@@ -346,14 +344,35 @@ input[type=text], input[type=password] {
 	box-shadow:
 		0 1px rgba(255, 255, 255, 0.25),
 		inset 0 4px 8px #22272D;
+	background-color: #282D34;
 }
 
 #topbar > * {
 	line-height: 30px;
 }
 
-#topbar {
-	background-color: #282D34;
+#topbar ul {
+	float: right;
+}
+
+#topbar li, #topbar img, #topbar a {
+	float: left;
+}
+
+#topbar ul, #topbar li, #topbar img, #topbar a {
+	display: inline;
+	margin: 0 6px;
+	padding: 0;
+	border: 0;
+	line-height: 30px;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+#topbar ul li {
+	padding-left: 12px;
+	border-left: 1px solid #4d5561;
+	height: 30px;
 }
 
 /*
@@ -388,6 +407,15 @@ input[type=text], input[type=password] {
 
 #login input[type=text], #login input[type=password], #login .error, #login .success, #login .warning, #login .info {
 	width: 256px;
+}
+
+/*
+ * Search
+ * -------------------------------------------------------------------------------------
+*/
+
+#search input[type=text]{
+	width: 368px;
 }
 
 /*
@@ -500,12 +528,8 @@ div.checker, div.checker input, div.checker span, div.radio, div.radio input, di
 	height: 17px;
 }
 
-.button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span {
+.button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span, div.button, div.button span, div.selector, div.selector span, input[type=text], input[type=password], textarea, .success, .info, .warning, .error, img, blockquote {
 	display: inline-block;
-}
-
-div.button, div.button span, div.selector, div.selector span {
-	display: block;
 }
 
 /*

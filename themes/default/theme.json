@@ -1,3 +1,4 @@
 {
-	"login": "login.php"
+	"login": "login.php",
+	"search": "search.php"
 }

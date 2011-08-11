@@ -6,5 +6,6 @@
 		<link rel="stylesheet" href="style/style.css" />
 		<script src="js/jquery-1.6.2.min.js"></script>
 		<script src="js/jquery.uniform.min.js"></script>
+		<script src="js/scripts.js"></script>
 	</head>
 	<body>
