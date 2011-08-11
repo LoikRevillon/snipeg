@@ -64,11 +64,11 @@ div.checker span, div.radio span, div.selector, div.selector span, div.button, d
 }
 
 a {
-	color: #FAFAFA;
+	color: #7CAFDA;
 }
 
 a:hover, a:visited {
-	color: #7CAFDA;
+	color: #FAFAFA;
 }
 
 ::-webkit-input-placeholder {
@@ -374,12 +374,20 @@ input[type=text], input[type=password] {
 	margin-top: 72px;
 }
 
+#login a, #login a:visited {
+	color: #7CAFDA;
+}
+
+#login > div {
+	padding-left: 10px;
+}
+
 #login label {
 	padding-left: 0;
 }
 
 #login input[type=text], #login input[type=password], #login .error, #login .success, #login .warning, #login .info {
-	width: 196px;
+	width: 256px;
 }
 
 /*
@@ -442,7 +450,6 @@ div.button span, div.selector span {
 }
 
 div.button {
-	margin-bottom: 18px;
 	width: 15px;
 }
 
