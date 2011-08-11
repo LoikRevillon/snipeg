@@ -26,11 +26,12 @@ class UsersManager {
 
 		$result= $request->fetch(PDO::FETCH_ASSOC);
 		
-		if (!empty($result))
+		if (!empty($result)) {
+			$result['favorite_lang']= unserialize($result['favorite_lang']);
 			$userMatched= new User ($result);
-		else
+		} else {
 			$userMatched= false;
-
+		}
 
 		return $userMatched;
 
@@ -44,6 +45,7 @@ class UsersManager {
 		$usersList= array();
 
 		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$result['favorite_lang']= unserialize($result['favorite_lang']);
 			$oneUserOfDB= new User($result);
 			$usersList[]= $oneUserOfDB;
 			unset($oneUserOfDB);
@@ -61,6 +63,7 @@ class UsersManager {
 		$adminsList= array();
 
 		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$result['favorite_lang']= unserialize($result['favorite_lang']);
 			$oneAdminOfDB= new User($result);
 			$adminsList[]= $oneAdminOfDB;
 			unset($oneAdminOfDB);
@@ -79,6 +82,7 @@ class UsersManager {
 		$request->execute();
 
 		$result= $request->fetch(PDO::FETCH_ASSOC);
+		$result['favorite_lang']= unserialize($result['favorite_lang']);
 		$matchedUser= new User($result);
 
 		return $matchedUser;

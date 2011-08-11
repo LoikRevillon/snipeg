@@ -57,7 +57,7 @@ class User {
 		$request->bindParam(':font', $this->_font, PDO::PARAM_STR, 30);
 		$request->bindParam(':color_scheme', $this->_colorScheme, PDO::PARAM_STR, 20);
 		$request->bindParam(':language', $this->_language, PDO::PARAM_STR, 5);
-		$request->bindParam(':favorite_lang', $this->_favoriteLang, PDO::PARAM_STR);
+		$request->bindParam(':favorite_lang', serialize($this->_favoriteLang), PDO::PARAM_STR);
 
 		if ($request->execute())
 			return true;
