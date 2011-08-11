@@ -1,0 +1,482 @@
+/*
+ * Reset
+ * -------------------------------------------------------------------------------------
+*/
+
+html, body, div, span, blockquote, pre, code, p, a, h1, h2, h3, h4, h5, h6, img, ul, ol, li, form, fieldset, legend, label, input, select, textarea {
+    border: 0 none;
+    font: inherit;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    outline: 0 none;
+    vertical-align: baseline;
+}
+
+/*
+ * Fonts
+ * -------------------------------------------------------------------------------------
+*/
+
+@font-face {
+    font-family: 'PT Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: local('PT Sans'), local('PTSans-Regular'), url('fonts/PTSans-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'PT Sans';
+    font-style: normal;
+    font-weight: bold;
+    src: local('PT Sans Bold'), local('PTSans-Bold'), url('fonts/PTSans-Bold.woff') format('woff');
+}
+
+/*
+ * Backgrounds
+ * -------------------------------------------------------------------------------------
+*/
+
+body {
+    background: url('images/background.png');
+}
+
+.tags a, .tags a:after, .success:before, .info:before, .warning:before, .error:before,
+div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
+    background-image: url('images/sprite.png');
+    background-repeat: no-repeat;
+}
+
+.tags a, .tags a:after {
+    background-position: -102px top;
+}
+
+/*
+ * Colors
+ * -------------------------------------------------------------------------------------
+*/
+
+*, .tags a {
+    color: #FFF;
+}
+
+a {
+    color: #FAFAFA;
+}
+
+a:hover, a:visited {
+    color: #7CAFDA;
+}
+
+::-webkit-input-placeholder {
+    color: #EAEAEA;
+}
+
+:-moz-placeholder {
+    color: #EAEAEA;
+}
+
+/*
+ * Typo
+ * -------------------------------------------------------------------------------------
+*/
+
+body {
+    font-family: 'PT Sans', "Helvetica Neue", Helvetica, sans;
+    font-size: 12px;
+}
+
+body, p, ul, ol, hr, pre, li, h3, h4, h5, h6 {
+    line-height: 18px;
+}
+
+p, li, blockquote, .success, .info, .error {
+    text-align: justify;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+h1, h2 {
+    line-height: 36px;
+}
+
+/*
+ * Typo size
+ * -------------------------------------------------------------------------------------
+*/
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 21px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+h6 {
+    font-size: 14px;
+}
+
+/*
+ * Shadows
+ * -------------------------------------------------------------------------------------
+*/
+
+h1, h2, h3, h4, h5, h6, .success, .info, .warning, .error {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+input[type=text], textarea {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.tags a {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+/*
+ * Blocks
+ * -------------------------------------------------------------------------------------
+*/
+
+input[type=text], textarea, .success, .info, .warning, .error, img, blockquote {
+    border-radius: 5px;
+    display: block;
+    margin: 18px 0;
+    padding: 12px;
+}
+
+input[type=text], textarea, img, blockquote {
+    background-color: #282D34;
+    box-shadow:
+        0 1px rgba(255, 255, 255, 0.25),
+        inset 0 4px 8px #22272D;
+}
+
+/*
+ * Lists
+ * -------------------------------------------------------------------------------------
+*/
+
+ul li {
+    list-style-type: circle;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+/*
+ * Messages
+ * -------------------------------------------------------------------------------------
+*/
+
+.success, .info, .warning, .error {
+    box-shadow: 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.success {
+    background-color: #88B173;
+    border: 1px solid rgba(44, 59, 43, 0.75);
+    box-shadow:
+        0 1px rgba(255, 255, 255, 0.25),
+        inset 0 4px 8px rgba(44, 59, 43, 0.2);
+}
+
+.info {
+    background-color: #6C93CA;
+    border: 1px solid #2F4F7E;
+    box-shadow:
+        0 1px rgba(255, 255, 255, 0.25),
+        inset 0 4px 8px rgba(47, 79, 126, 0.2);
+}
+
+.warning {
+    background-color: #DCAF5A;
+    border: 1px solid #74551A;
+    box-shadow:
+        0 1px rgba(255, 255, 255, 0.25),
+        inset 0 4px 8px rgba(97, 39, 39, 0.2);
+}
+
+.error {
+    background-color: #C16666;
+    border: 1px solid rgba(97, 39, 39, 0.75);
+    box-shadow:
+        0 1px rgba(255, 255, 255, 0.25),
+        inset 0 4px 8px rgba(97, 39, 39, 0.2);
+}
+
+.success:before, .info:before, .warning:before, .error:before {
+    content: '';
+    float: left;
+    height: 15px;
+}
+
+.success:before {
+    background-position: -48px -17px;
+    width: 18px;
+}
+
+.info:before {
+    background-position: -34px -17px;
+    width: 14px;
+}
+
+.warning:before {
+    background-position: 0 -17px;
+    width: 18px;
+}
+
+.error:before {
+    background-position: -18px -17px;
+    width: 16px;
+}
+
+/*
+ * Misc
+ * -------------------------------------------------------------------------------------
+*/
+
+.tags a {
+    display: inline-block;
+    height: 29px;
+    line-height: 27px;
+    position: relative;
+    text-decoration: none;
+}
+
+.tags a:after {
+    background-position: right 0;
+    content: '';
+    display: block;
+    height: 29px;
+    position: absolute;
+    right: -10px;
+    top: 0;
+    width: 10px;
+}
+
+input[type=text] {
+    height: 30px;
+}
+
+/*
+ * Margins
+ * -------------------------------------------------------------------------------------
+*/
+
+p, ul, ol, hr, pre, li, h1, h2, h3, h4, h5, h6, fieldset, .tags a {
+    margin-bottom: 18px;
+}
+
+li {
+    margin-left: 36px;
+    margin-right: 36px;
+}
+
+label {
+    margin: 12px;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+.success:before, .info:before, .warning:before, .error:before {
+    margin-right: 6px;
+    margin-top: 1px;
+}
+
+.tags a {
+    margin-right: 18px;
+    height: 29px;
+}
+
+.tags:first-child {
+    margin-left: 0;
+}
+
+/*
+ * Paddings
+ * -------------------------------------------------------------------------------------
+*/
+
+img {
+    padding: 5px;
+}
+
+input[type=text] {
+    padding: 0 12px;
+}
+
+.tags a {
+    padding-left: 20px;
+}
+
+/*
+ * Uniform
+ * -------------------------------------------------------------------------------------
+*/
+
+div.button, div.button span, div.selector, div.selector span {
+    height: 34px;
+    line-height: 34px;
+}
+
+div.button, div.button:active, div.button.active, div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.checker span, div.selector, div.selector:active, div.selector.active, div.selector:focus, div.selector.focus, div.selector:hover, div.selector.hover {
+    background-position-x: 0;
+}
+
+div.checker span.checked {
+    background-position-x: -17px;
+}
+
+div.radio span {
+    background-position-x: -68px;
+}
+
+div.radio span.checked {
+    background-position-x: -85px;
+}
+
+div.button span, div.button:active span, div.button.active span, div.button:focus span, div.button.focus span, div.button:hover span, div.button.hover span, div.selector span, div.selector:focus span, div.selector.focus span, div.selector:hover span, div.selector.hover span {
+    background-position-x: right;
+}
+
+div.checker span, div.checker span.checked, div.radio span, div.radio span.checked {
+    background-position-y: 0;
+}
+
+div.button, div.button span, div.selector, div.selector span {
+    background-position-y: -32px;
+}
+
+div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.button:focus span, div.button.focus span, div.button:hover span, div.button.hover span, div.selector:hover, div.selector.hover, div.selector:hover span, div.selector.hover span {
+    background-position-y: -66px;
+}
+
+div.selector:active, div.selector.active, div.selector:focus, div.selector.focus, div.selector:focus span, div.selector.focus span, div.button:active, div.button.active, div.button:active span, div.button.active span {
+    background-position-y: -100px;
+}
+
+/*
+ * Blocks
+ * -------------------------------------------------------------------------------------
+*/
+
+div.checker, div.radio, div.selector {
+    position: relative;
+}
+
+div.button span, div.selector span {
+    float: left;
+}
+
+div.button {
+    margin-bottom: 18px;
+    width: 15px;
+}
+
+div.selector {
+    width: 15px
+}
+
+div.selector option {
+    background-color: #282D34
+}
+
+div.selector select {
+    height: 32px;
+    border: none;
+    left: 0;
+    padding-top: 12px;
+    position: absolute;
+    top: 0;
+}
+
+div.selector span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.button, .checker, .radio, .selector {
+    display: inline;
+    vertical-align: middle;
+    zoom: 1;
+}
+
+.button, .checker, .radio, .selector, div.checker span, div.radio span {
+    display: -moz-inline-box;
+}
+
+div.button span, div.selector span {
+    margin-left: 15px;
+    padding-right: 15px;
+}
+
+div.checker, div.radio {
+    margin-bottom: 2px;
+}
+
+div.checker, div.checker input, div.checker span, div.radio, div.radio input, div.radio span {
+    width: 17px;
+    height: 17px;
+}
+
+.button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span {
+    display: inline-block;
+}
+
+div.button, div.button span, div.selector, div.selector span {
+    display: block;
+}
+
+/*
+ * Misc
+ * -------------------------------------------------------------------------------------
+*/
+
+.checker input:focus, .radio input:focus, .selector select:focus {
+    outline: 0;
+}
+
+div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.selector select, div.selector:hover, div.selector.hover {
+    cursor: pointer;
+}
+
+div.checker input, div.radio input, div.selector select {
+    background: none;
+}
+
+div.checker span, div.radio input, div.radio span {
+    text-align: center;
+}
+
+div.checker input, div.radio input, div.selector select {
+    opacity: 0;
+    filter: alpha(opacity:0);
+}
+
+div.button span, div.selector span {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
