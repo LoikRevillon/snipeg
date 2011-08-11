@@ -35,7 +35,7 @@ class SnippetsManager {
 	public function getPublicSnippets($userId) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND privacy != 0 ORDER BY last_update DESC');
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND private = 0 ORDER BY last_update DESC');
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
 		$request->execute();
 
@@ -153,7 +153,7 @@ class SnippetsManager {
 	public function updateSnippetInfos ($oldSnippetId, $newSnippet) {
 		
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('UPDATE snippets SET name = :name, id_user = :id_user, last_update = :last_update, content = :content, language = :language, comment = :comment, category = :category, tags = :tags, privacy = :privacy WHERE rowid = :id');
+		$request= $db->prepare('UPDATE snippets SET name = :name, id_user = :id_user, last_update = :last_update, content = :content, language = :language, comment = :comment, category = :category, tags = :tags, private = :private WHERE rowid = :id');
 
 		$request->bindValue(':id', $oldSnippetId, PDO::PARAM_INT);
 		$request->bindValue(':name', $newSnippet->_name, PDO::PARAM_STR);
@@ -164,7 +164,7 @@ class SnippetsManager {
 		$request->bindValue(':comment', $newSnippet->_comment, PDO::PARAM_STR);
 		$request->bindValue(':category', $newSnippet->_category, PDO::PARAM_STR);
 		$request->bindValue(':tags', $newSnippet->_tags, PDO::PARAM_STR);
-		$request->bindValue(':privacy', $newSnippet->_privacy, PDO::PARAM_INT);
+		$request->bindValue(':private', $newSnippet->_private, PDO::PARAM_INT);
 
 		if ($request->execute())
 			return true;

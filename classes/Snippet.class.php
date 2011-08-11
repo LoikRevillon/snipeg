@@ -11,7 +11,7 @@ class Snippet {
 	private $_comment;
 	private $_category;
 	private $_tags;
-	private $_privacy;
+	private $_private;
 
 	public function __construct($snippetInformations) {
 
@@ -28,7 +28,7 @@ class Snippet {
 			$this->_comment= $snippetInformations['comment'];			
 			$this->_category= $snippetInformations['category'];
 			$this->_tags= mb_strtolower($snippetInformations['tags'], 'utf-8');
-			$this->_privacy= $snippetInformations['privacy'];
+			$this->_private= $snippetInformations['private'];
 		
 	}
 
@@ -41,7 +41,7 @@ class Snippet {
 	public function addNewSnippet () {
 		
 		$db= PDOSQLite::getDBLink();		
-		$request= $db->prepare('INSERT INTO snippets VALUES (:name, :id_user, :last_update, :content, :language, :comment, :category, :tags, :privacy)');
+		$request= $db->prepare('INSERT INTO snippets VALUES (:name, :id_user, :last_update, :content, :language, :comment, :category, :tags, :private)');
 															
 		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 255);
 		$request->bindParam(':id_user', $this->_idUser, PDO::PARAM_INT, 1);
@@ -51,7 +51,7 @@ class Snippet {
 		$request->bindParam(':comment', $this->_comment, PDO::PARAM_STR);
 		$request->bindParam(':category', $this->_category, PDO::PARAM_STR, 80);
 		$request->bindParam(':tags', $this->_tags, PDO::PARAM_STR);
-		$request->bindParam(':privacy', $this->_privacy, PDO::PARAM_INT, 1);
+		$request->bindParam(':private', $this->_private, PDO::PARAM_INT, 1);
 
 		if ($request->execute())
 			return true;
