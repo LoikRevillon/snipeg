@@ -82,3 +82,24 @@ $(document).ready(function() {
 	$('select, input:checkbox, input:radio, input:submit, input:button').uniform();
 
 });
+
+/*
+ * Browser detection (Firefox / Opera Fix stylesheet)
+*/
+
+$(document).ready(function() {
+
+	if($.browser.mozilla || $.browser.opera) {
+
+		var lnk = $('<link>');
+
+		lnk.attr({
+			href: 'style/style-fix.css',
+			rel: 'stylesheet'
+		});
+
+		$('head').append(lnk);
+
+	}
+
+});
