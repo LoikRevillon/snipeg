@@ -144,7 +144,7 @@ h1, h2, h3, h4, h5, h6, .success, .info, .warning, .error {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-input[type=text], textarea {
+input[type=text], input[type=password] textarea {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -157,14 +157,14 @@ input[type=text], textarea {
  * -------------------------------------------------------------------------------------
 */
 
-input[type=text], textarea, .success, .info, .warning, .error, img, blockquote {
+input[type=text], input[type=password], textarea, .success, .info, .warning, .error, img, blockquote {
 	border-radius: 5px;
 	display: block;
 	margin: 18px 0;
 	padding: 12px;
 }
 
-input[type=text], textarea, img, blockquote {
+input[type=text], input[type=password], textarea, img, blockquote {
 	background-color: #282D34;
 	box-shadow:
 		0 1px rgba(255, 255, 255, 0.25),
@@ -275,7 +275,7 @@ ol li {
 	width: 10px;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
 	height: 30px;
 }
 
@@ -324,12 +324,62 @@ img {
 	padding: 5px;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
 	padding: 0 12px;
 }
 
 .tags a {
 	padding-left: 20px;
+}
+
+/*
+ * Topbar
+ * -------------------------------------------------------------------------------------
+*/
+
+#topbar {
+	height: 30px;
+	line-height: 30px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	box-shadow:
+		0 1px rgba(255, 255, 255, 0.25),
+		inset 0 4px 8px #22272D;
+}
+
+#topbar > * {
+	line-height: 30px;
+}
+
+#topbar {
+	background-color: #282D34;
+}
+
+/*
+ * Main
+ * -------------------------------------------------------------------------------------
+*/
+
+#main {
+	margin-top: 36px;
+}
+
+/*
+ * Login
+ * -------------------------------------------------------------------------------------
+*/
+
+#login {
+	margin-top: 72px;
+}
+
+#login label {
+	padding-left: 0;
+}
+
+#login input[type=text], #login input[type=password], #login .error, #login .success, #login .warning, #login .info {
+	width: 196px;
 }
 
 /*
