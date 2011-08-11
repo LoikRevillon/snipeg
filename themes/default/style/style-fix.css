@@ -1,0 +1,36 @@
+/**
+ * Bug Fix : Firefox
+ */
+
+div.button, div.selector {
+	background-position: 0 -32px;
+}
+
+div.button span, div.selector span {
+	background-position: right -32px;
+}
+
+/*div.button.hover, div.button:hover span, div.selector:hover, div.selector:hover span {*/
+div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.selector:hover, div.selector.hover {
+	background-position: 0 -66px;
+}
+
+div.button:focus span, div.button.focus span, div.button:hover span, div.button.hover span, div.selector:hover span, div.selector.hover span, div {
+	background-position: right -66px;
+}
+
+div.button:active, div.button.active, div.selector:active, div.selector.active {
+	background-position: 0 -100px;
+}
+
+div.button:active span, div.button.active span, div.selector:active span, div.selector.active span {
+	background-position: right -100px;
+}
+
+div.radio span {
+	background-position: -68px 0;
+}
+
+div.radio span.checked {
+	background-position: -85px 0;
+}
