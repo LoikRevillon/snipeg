@@ -169,6 +169,10 @@ input[type=text], input[type=password], textarea, img, blockquote {
 		inset 0 4px 8px #22272D;
 }
 
+textarea {
+	display: block;
+}
+
 /*
  * Lists
  * -------------------------------------------------------------------------------------
@@ -532,7 +536,7 @@ div.checker, div.checker input, div.checker span, div.radio, div.radio input, di
 	height: 17px;
 }
 
-.button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span, div.button, div.button span, div.selector, div.selector span, input[type=text], input[type=password], textarea, .success, .info, .warning, .error, img, blockquote {
+.button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span, div.button, div.button span, div.selector, div.selector span, input[type=text], input[type=password], .success, .info, .warning, .error, img, blockquote {
 	display: inline-block;
 }
 
