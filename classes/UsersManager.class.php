@@ -101,6 +101,7 @@ class UsersManager {
 		$request->bindValue(':admin', $newInfos->_admin, PDO::PARAM_INT);
 		$request->bindValue(':name', $newInfos->_name, PDO::PARAM_STR);
 		$request->bindValue(':email', $newInfos->_email, PDO::PARAM_STR);
+		$request->bindValue(':avatar', $newInfos->_avatar, PDO::PARAM_INT);
 		$request->bindValue(':password', $newInfos->_password, PDO::PARAM_STR);
 		$request->bindValue(':locked', $newInfos->_locked, PDO::PARAM_INT);
 		$request->bindValue(':theme', $newInfos->_theme, PDO::PARAM_STR);

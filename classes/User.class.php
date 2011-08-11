@@ -6,6 +6,7 @@ class User {
 	private $_admin;
 	private $_name;
 	private $_email;
+	private $_avatar;
 	private $_password;
 	private $_locked;
 	private $_theme;
@@ -22,6 +23,7 @@ class User {
 		$this->_admin= $userInformations['admin'];
 		$this->_name= $userInformations['name'];
 		$this->_email= $userInformations['email'];
+		$this->_avatar= $userInformations['avatar'];
 		$this->_password= $userInformations['password'];
 		$this->_locked= $userInformations['locked'];		
 		$this->_theme= $userInformations['theme'];
@@ -51,6 +53,7 @@ class User {
 		$request->bindParam(':admin', $this->_admin, PDO::PARAM_INT, 1);
 		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 30);
 		$request->bindParam(':email', $this->_email, PDO::PARAM_STR, 80);
+		$request->bindParam(':avatar', $this->_avatar, PDO::PARAM_INT, 1);
 		$request->bindParam(':password', $this->_password, PDO::PARAM_STR, 64);
 		$request->bindParam(':locked', $this->_locked, PDO::PARAM_INT, 1);
 		$request->bindParam(':theme', $this->_theme, PDO::PARAM_STR, 50);
