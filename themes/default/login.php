@@ -62,22 +62,4 @@
 
 </div>
 
-<script type="text/javascript">
-	$('#signup').hide();
-	$('#reset').hide();
-	$('#show-signup').click(function(){
-		$('#signin').hide();
-		$('#signup').show(210);
-	});
-	$('#show-reset').click(function(){
-		$('#signin').hide();
-		$('#reset').show(210);
-	});
-	$('.show-signin').click(function(){
-		$('#signup').hide();
-		$('#reset').hide();
-		$('#signin').show(210);
-	});
-</script>
-
 <?php include('footer.php'); ?>
