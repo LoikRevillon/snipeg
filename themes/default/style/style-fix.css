@@ -10,7 +10,6 @@ div.button span, div.selector span {
 	background-position: right -32px;
 }
 
-/*div.button.hover, div.button:hover span, div.selector:hover, div.selector:hover span {*/
 div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.selector:hover, div.selector.hover {
 	background-position: 0 -66px;
 }
