@@ -105,7 +105,7 @@ class UsersManager {
 		$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);
 		$request->bindValue(':favorite_lang', $newInfos->_favoriteLang, PDO::PARAM_STR);
 		
-		if ($request->execute();)
+		if ($request->execute())
 			return true;
 		else
 			return false;

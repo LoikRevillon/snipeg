@@ -52,9 +52,8 @@ class Snippet {
 		$request->bindParam(':category', $this->_category, PDO::PARAM_STR, 80);
 		$request->bindParam(':tags', $this->_tags, PDO::PARAM_STR);
 		$request->bindParam(':privacy', $this->_privacy, PDO::PARAM_INT, 1);
-		$addedRow= $request->execute();
 
-		if ($addedRow == 1)
+		if ($request->execute())
 			return true;
 		else
 			return false;
@@ -67,9 +66,8 @@ class Snippet {
 			$db= PDOSQLite::getDBLink();
 			$request= $db->prepare('DELETE FROM snippets WHERE rowid = :id');
 			$request->bindParam(':id', $this->_id, PDO::PARAM_STR, 1);
-			$deletedRow= $request->execute();
 
-			if ($deletedRow)
+			if ($request->execute())
 				return false;
 			else
 				return true;

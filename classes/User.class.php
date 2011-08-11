@@ -58,9 +58,8 @@ class User {
 		$request->bindParam(':color_scheme', $this->_colorScheme, PDO::PARAM_STR, 20);
 		$request->bindParam(':language', $this->_language, PDO::PARAM_STR, 5);
 		$request->bindParam(':favorite_lang', $this->_favoriteLang, PDO::PARAM_STR);
-		$updatedRow= $request->execute();
 
-		if ($updatedRow == 1)
+		if ($request->execute())
 			return true;
 		else
 			return false;
@@ -75,7 +74,7 @@ class User {
 			$request= $db->prepare('DELETE FROM users WHERE rowid = :id');
 			$request->bindParam(':id', $this->_id, PDO::PARAM_INT, 1);
 
-			if ($request->execute();)
+			if ($request->execute())
 				return true;
 			else
 				return false;

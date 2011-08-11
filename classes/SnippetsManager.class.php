@@ -166,7 +166,7 @@ class SnippetsManager {
 		$request->bindValue(':tags', $newSnippet->_tags, PDO::PARAM_STR);
 		$request->bindValue(':privacy', $newSnippet->_privacy, PDO::PARAM_INT);
 
-		if ($request->execute();)
+		if ($request->execute())
 			return true;
 		else
 			return false;
