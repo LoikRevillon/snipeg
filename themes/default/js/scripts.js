@@ -38,6 +38,7 @@ $(document).ready(function() {
 
 		if($q.val() == ''){
 			$('div#results').html('');
+			$('#search-head').html('');
 			return false;
 		}
 
@@ -82,9 +83,9 @@ $(document).ready(function() {
 
 			$('div#results').html(result);
 
-		}
+			$('#search-head').html('<h1>Results for : ' + protect($('#query').val()) + '</h1>');
 
-		$('#search-head').html('<h1>Results for : ' + protect($('#query').val()) + '</h1>');
+		}
 
 		$('form').submit(function(e){
 			e.preventDefault();
