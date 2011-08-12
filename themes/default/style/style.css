@@ -42,6 +42,7 @@ html, body, div, span, blockquote, pre, code, p, a, h1, h2, h3, h4, h5, h6, img,
 
 body {
 	background: url('images/background.png');
+	padding-bottom: 18px;
 }
 
 #paging a, #paging a:after, .tags a, .tags a:after, .success:before, .info:before, .warning:before, .error:before, div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
@@ -428,7 +429,7 @@ input[type=text], input[type=password] {
  * -------------------------------------------------------------------------------------
 */
 
-#results, #browse {
+#results, #browse, #new {
 	margin-top: 18px;
 }
 
@@ -485,6 +486,53 @@ input[type=text], input[type=password] {
 }
 
 /*
+ * New Snippet
+ * -------------------------------------------------------------------------------------
+*/
+
+#add-snippet {
+	overflow: hidden;
+}
+
+#add-snippet label {
+	padding: 0;
+}
+
+#add-snippet-side input {
+	width: 276px;
+}
+
+#add-snippet-side .selector {
+	margin-top: 15px;
+	margin-bottom: 18px;
+}
+
+#add-snippet-side .radio {
+	margin-top: 6px;
+	margin-bottom: 12px;
+}
+
+#add-snippet-side #radio-fieldset {
+	margin-top: 10px;
+}
+
+#add-snippet-side #radio-fieldset label {
+	margin-left: 6px;
+}
+
+#add-snippet-main input[type=text], #add-snippet-main textarea {
+	width: 516px;
+}
+
+#add-snippet-main textarea {
+	min-height: 220px;
+}
+
+#snippet-category {
+	margin-bottom: 12px;
+}
+
+/*
  * Search
  * -------------------------------------------------------------------------------------
 */
@@ -531,11 +579,11 @@ div.button, div.button span, div.selector, div.selector span {
 	background-position-y: -32px;
 }
 
-div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.button:focus span, div.button.focus span, div.button:hover span, div.button.hover span, div.selector:hover, div.selector.hover, div.selector:hover span, div.selector.hover span {
+div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.button:focus span, div.button.focus span, div.button:hover span, div.button.hover span, div.selector:hover, div.selector.hover, div.selector:hover span, div.selector.hover span, div.selector:focus, div.selector.focus, div.selector:focus span, div.selector.focus span {
 	background-position-y: -66px;
 }
 
-div.selector:active, div.selector.active, div.selector:focus, div.selector.focus, div.selector:focus span, div.selector.focus span, div.button:active, div.button.active, div.button:active span, div.button.active span {
+div.selector:active, div.selector.active, div.selector:active span , div.button:active, div.button.active, div.button:active span, div.button.active span {
 	background-position-y: -100px;
 }
 
