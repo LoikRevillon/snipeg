@@ -380,8 +380,22 @@ input[type=text], input[type=password] {
 }
 
 #single-about img {
-	margin: 0 0 18px 0;
 	float: left;
+	margin: 0 12px 18px 0;
+	width: 80px;
+}
+
+#single-about #action {
+	float: left;
+	margin-top: 5px;
+}
+
+#single-about #action div.button {
+	margin-bottom: 12px;
+}
+
+#single-snippet {
+	overflow-x: scroll;
 }
 
 /*
