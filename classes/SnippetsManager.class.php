@@ -32,11 +32,13 @@ class SnippetsManager {
 
 	}
 	
-	public function getPublicSnippets($userId) {
-
+	public function getPublicSnippets($userId, $pageNumber) {
+		
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND private = 0 ORDER BY last_update DESC');
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND private = 0 ORDER BY last_update DESC LIMIT :limit_down , :limit_up');
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
+		$request->bindParam(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
+		$request->bindParam(':limit_up', $pageNumber * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
 		$request->execute();
 
 		$publicSnippets= array();
@@ -51,12 +53,14 @@ class SnippetsManager {
 
 	}
 
-	public function getSnippetsMatchedByName($idUser, $snippetName) {
+	public function getSnippetsMatchedByName($idUser, $snippetName, $pageNumber) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND name = :name ORDER BY last_update DESC');
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND name = :name ORDER BY last_update DESC LIMIT :limit_down , :limit_up');
 		$request->bindParam(':id_user', $idUser, PDO::PARAM_INT, 1);
 		$request->bindParam(':name', $snippetName, PDO::PARAM_STR, 255);
+		$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
+		$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
 		$request->execute();
 
 		$snippetsMatchedByName= array();
@@ -71,12 +75,14 @@ class SnippetsManager {
 
 	} 
 
-	public function getYoungerSnippets($userId, $timestamp) {
+	public function getYoungerSnippets($userId, $timestamp, $pageNumber) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND last_update >= :timestamp  ORDER BY last_update');
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND last_update >= :timestamp  ORDER BY last_update LIMIT :limit_down , :limit_up');
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
 		$request->bindParam(':timestamp', $timestamp, PDO::PARAM_INT, 32);
+		$request->bindParam(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT, 32);
+		$request->bindParam(':limit_up', $pageNumber * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT, 32);
 		$request->execute();
 
 		$youngerSnippet= array();
@@ -91,12 +97,14 @@ class SnippetsManager {
 			
 	}
 
-	public function getSnippetByCategory($userId, $categoryName) {
+	public function getSnippetByCategory($userId, $categoryName, $pageNumber) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND category = :category ORDER BY last_update DESC');
+		$request= $db->prepare('SELECT rowid as id, * FROM snippets WHERE id_user = :id_user AND category = :category ORDER BY last_update DESC LIMIT :limit_down , :limit_up');
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
 		$request->bindParam(':category', $categoryName, PDO::PARAM_STR, 80);
+		$request->bindParam(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_ON_PAGE, PDO::PARAM_STR, 80);
+		$request->bindParam(':limit_up', $pageNumber * NUM_SNIPPET_ON_PAGE, PDO::PARAM_STR, 80);
 		$request->execute();
 
 		$snippetsMatchedByCategory= array();
@@ -111,15 +119,14 @@ class SnippetsManager {
 
 	}
 
-	public function getSnippetsByTag ($userId, $tag) {
-
-		var_dump($userId);
-		var_dump($tag);
+	public function getSnippetsByTag ($userId, $tag, $pageNumber) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND tags LIKE :tag ORDER BY last_update DESC');
+		$request= $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND tags LIKE :tag ORDER BY last_update DESC LIMIT :limit_down , :limit_down');
 		$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
 		$request->bindValue(':tag', '%'.$tag.'%', PDO::PARAM_STR);
+		$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_ON_PAGE, PDO::PARAM_STR);
+		$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_ON_PAGE, PDO::PARAM_STR);
 		$request->execute();
 
 		$snippetsMatchedByTag= array();
@@ -148,6 +155,45 @@ class SnippetsManager {
 
 		return $categoryArray;
 		
+	}
+
+	public function instantSearch_GetSnippetsByCategory ($userId, $keyWord, $pageNumber) {
+
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND category LIKE :category ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
+		$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
+		$request->bindValue(':category', '%' . $keyWord . '%', PDO::PARAM_STR);
+		$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
+		$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
+		$request->execute();
+
+		$arrayOfSnippetsByCategory= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$arrayOfSnippetsByCategory[]= json_encode($result);
+		}
+		return $arrayOfSnippetsByCategory;
+
+	}
+
+	public function instantSearch_GetSnippets($userId, $keyWord, $pageNumber) {
+
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND name LIKE :key_word ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
+		$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
+		$request->bindValue(':key_word', '%' . $keyWord . '%', PDO::PARAM_STR);
+		$request->bindValue(':limit_down', ($pageNumber -1) * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
+		$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_ON_PAGE, PDO::PARAM_INT);
+		$request->execute();
+
+		$arrayOfSnippets= array();
+
+		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+			$arrayOfSnippets[]= $result;
+		}
+
+		return json_encode($arrayOfSnippets);
+
 	}
 	
 	public function updateSnippetInfos ($oldSnippetId, $newSnippet) {

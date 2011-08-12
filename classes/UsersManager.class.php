@@ -37,10 +37,13 @@ class UsersManager {
 
 	}
 
-	public function getAllUSers() {
+	public function getAllUSers($pageNumber) {
 
 		$db= PDOSQLite::getDBLink();
-		$request= $db->query('SELECT rowid as id, * FROM users ORDER BY name ASC');
+		$request= $db->prepare('SELECT rowid as id, * FROM users ORDER BY name ASC LIMIT :limit_down , :limit_up');
+		$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_ON_PAGE, PDO::PARAM_INT);
+		$request->bindValue(':limit_up', $pageNumber * NUM_USER_ON_PAGE, PDO::PARAM_INT);
+		$request->execute();
 
 		$usersList= array();
 
@@ -55,24 +58,6 @@ class UsersManager {
 
 	}
 
-	public function getAllAdmins() {
-
-		$db= PDOSQLite::getDBLink();
-		$request= $db->query('SELECT rowid as id, * FROM users WHERE admin != 0 ORDER BY name ASC');
-
-		$adminsList= array();
-
-		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
-			$result['favorite_lang']= unserialize($result['favorite_lang']);
-			$oneAdminOfDB= new User($result);
-			$adminsList[]= $oneAdminOfDB;
-			unset($oneAdminOfDB);
-		}
-
-		return $adminsList;
-
-	}
-	
 	public function getAllUserInformations($userId) {
 		
 		$db= PDOSQLite::getDBLink();
