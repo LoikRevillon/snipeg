@@ -44,7 +44,7 @@ body {
 	background: url('images/background.png');
 }
 
-.tags a, .tags a:after, .success:before, .info:before, .warning:before, .error:before, div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
+#paging a, #paging a:after, .tags a, .tags a:after, .success:before, .info:before, .warning:before, .error:before, div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
 	background-image: url('images/sprite.png');
 	background-repeat: no-repeat;
 }
@@ -53,20 +53,44 @@ body {
 	background-position: -102px top;
 }
 
+#paging a, #paging a:after {
+	background-position: 0 -32px;
+}
+
+#paging a:hover, #paging a:focus {
+	background-position: 0 -66px;
+}
+
+#paging a:hover:after, #paging a:focus:after {
+	background-position: right -66px;
+}
+
+#paging a:active {
+	background-position: 0 -100px;
+}
+
+#paging a:active:after {
+	background-position: right -100px;
+}
+
 /*
  * Colors
  * -------------------------------------------------------------------------------------
 */
 
-*, .tags a {
+* {
 	color: #FFF;
 }
 
-a {
+a, a:visited {
 	color: #7CAFDA;
 }
 
-a:hover, a:visited {
+.tags a, #paging a, .tags a:visited, #paging a:visited {
+	color: #EAEAEA;
+}
+
+a:hover {
 	color: #FAFAFA;
 }
 
@@ -147,7 +171,7 @@ input[type=text], input[type=password] textarea {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-.tags a {
+.tags a, #paging a {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
 
@@ -264,6 +288,7 @@ ol li {
 	line-height: 27px;
 	position: relative;
 	text-decoration: none;
+	text-transform: capitalize;
 }
 
 .tags a:after {
@@ -277,16 +302,27 @@ ol li {
 	width: 10px;
 }
 
+#paging a {
+	display: inline-block;
+	position: relative;
+	text-decoration: none;
+}
+
+#paging a:after {
+	background-position: right -32px;
+	content: '';
+	display: block;
+	position: absolute;
+	right: -10px;
+	top: 0;
+	width: 10px;
+}
+
 input[type=text], input[type=password] {
 	height: 30px;
 }
 
-/*
- * Margins
- * -------------------------------------------------------------------------------------
-*/
-
-p, ul, ol, hr, pre, li, h1, h2, h3, h4, h5, h6, fieldset, .tags a {
+p, ul, ol, hr, pre, li, h1, h2, h3, h4, h5, h6, fieldset, .tags a, #paging a {
 	margin-bottom: 18px;
 }
 
@@ -313,14 +349,14 @@ blockquote p {
 	height: 29px;
 }
 
-.tags:first-child {
-	margin-left: 0;
+#paging a {
+	padding-left: 12px;
+	margin-right: 12px;
 }
 
-/*
- * Paddings
- * -------------------------------------------------------------------------------------
-*/
+.tags:first-child, #paging:first-child {
+	margin-left: 0;
+}
 
 img {
 	padding: 5px;
@@ -332,6 +368,10 @@ input[type=text], input[type=password] {
 
 .tags a {
 	padding-left: 20px;
+}
+
+#paging {
+	margin-top: 36px;
 }
 
 /*
@@ -349,6 +389,10 @@ input[type=text], input[type=password] {
 		0 1px rgba(255, 255, 255, 0.25),
 		inset 0 4px 8px #22272D;
 	background-color: #282D34;
+}
+
+#topbar a {
+	text-decoration: none;
 }
 
 #topbar > * {
@@ -380,11 +424,11 @@ input[type=text], input[type=password] {
 }
 
 /*
- * Search
+ * Search, Browse
  * -------------------------------------------------------------------------------------
 */
 
-#results {
+#results, #browse {
 	margin-top: 18px;
 }
 
@@ -392,21 +436,21 @@ input[type=text], input[type=password] {
 	margin-top: 18px;
 }
 
-.result-line {
+.result-line, .browse-line {
 	border-bottom: 1px dashed #EAEAEA;
 	padding-top: 18px;
 	overflow: hidden;
 }
 
-.result-line:hover {
+.result-line:hover, .browse-line:hover {
 	background-color: rgba(255, 255, 255, .05);
 }
 
-.result-line a {
+.result-line a, .browse-line a {
 	text-decoration: none;
 }
 
-.result-line a:focus {
+.result-line a:focus, .browse-line a:focus {
 	color: #EAEAEA;
 }
 
@@ -426,10 +470,6 @@ input[type=text], input[type=password] {
 
 #login {
 	margin-top: 72px;
-}
-
-#login a, #login a:visited {
-	color: #7CAFDA;
 }
 
 #login > div {
@@ -458,7 +498,7 @@ input[type=text], input[type=password] {
  * -------------------------------------------------------------------------------------
 */
 
-div.button, div.button span, div.selector, div.selector span {
+div.button, div.button span, div.selector, div.selector span, #paging a, #paging a:after {
 	height: 34px;
 	line-height: 33px;
 }
