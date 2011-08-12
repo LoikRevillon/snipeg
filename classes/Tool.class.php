@@ -148,6 +148,32 @@ class Tool {
 		}				
 	}
 
+	public static function getAllThemes() {
+
+		$themeDir= 'themes/';
+		$listOfThemes= array();
+
+		if (is_dir($themeDir)) {			
+			if ($pointerThemeDir= opendir($themeDir)) {
+				
+				while ($fileName= readdir($pointerThemeDir)) {
+					
+					if (is_file($themeDir.$fileName) AND strncmp($fileName, '.json', -5)){						
+						$listOfThemes[]= $fileName;
+					}
+				}
+				closedir($pointerThemeDir);
+			}
+		}
+
+		foreach ($listOfThemes as $value) {
+			$listOfThemes[$key]= json_decode($key);
+		}
+
+		return $listOfThemes;
+
+	}
+
 	public static function searchInSnippets($name) {
 
 		if (isset($_SESSION['user'])) {
