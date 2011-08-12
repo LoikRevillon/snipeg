@@ -1,4 +1,5 @@
 {
+	"name": "Default theme",
 	"browse": "browse.php",
 	"login": "login.php",
 	"search": "search.php"
