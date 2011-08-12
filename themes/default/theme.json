@@ -2,5 +2,7 @@
 	"name": "Default theme",
 	"browse": "browse.php",
 	"login": "login.php",
-	"search": "search.php"
+	"new": "new.php",
+	"search": "search.php",
+	"single": "single.php"
 }

@@ -87,12 +87,12 @@ a, a:visited {
 	color: #7CAFDA;
 }
 
-.tags a, #paging a, .tags a:visited, #paging a:visited {
-	color: #EAEAEA;
-}
-
 a:hover {
 	color: #FAFAFA;
+}
+
+.tags a, #paging a, .tags a:visited, #paging a:visited {
+	color: #EAEAEA;
 }
 
 ::-webkit-input-placeholder {
@@ -101,6 +101,10 @@ a:hover {
 
 :-moz-placeholder {
 	color: #EAEAEA;
+}
+
+.tags a:hover {
+	color: #7CAFDA;
 }
 
 /*
@@ -168,7 +172,7 @@ h1, h2, h3, h4, h5, h6, .success, .info, .warning, .error {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-input[type=text], input[type=password] textarea {
+input[type=text], input[type=password] textarea, #single-snippet {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -181,13 +185,13 @@ input[type=text], input[type=password] textarea {
  * -------------------------------------------------------------------------------------
 */
 
-input[type=text], input[type=password], textarea, .success, .info, .warning, .error, img, blockquote {
+input[type=text], input[type=password], textarea, .success, .info, .warning, .error, img, blockquote, #single-snippet {
 	border-radius: 5px;
 	margin: 18px 0;
 	padding: 12px;
 }
 
-input[type=text], input[type=password], textarea, img, blockquote {
+input[type=text], input[type=password], textarea, img, blockquote, #single-snippet {
 	background-color: #282D34;
 	box-shadow:
 		0 1px rgba(255, 255, 255, 0.25),
@@ -375,6 +379,11 @@ input[type=text], input[type=password] {
 	margin-top: 36px;
 }
 
+#single-about img {
+	margin: 0 0 18px 0;
+	float: left;
+}
+
 /*
  * Topbar
  * -------------------------------------------------------------------------------------
@@ -429,11 +438,11 @@ input[type=text], input[type=password] {
  * -------------------------------------------------------------------------------------
 */
 
-#results, #browse, #new {
+#results, #browse, #new, #single {
 	margin-top: 18px;
 }
 
-#search-head {
+#search-head, #single-box {
 	margin-top: 18px;
 }
 
@@ -530,6 +539,15 @@ input[type=text], input[type=password] {
 
 #snippet-category {
 	margin-bottom: 12px;
+}
+
+/*
+ * View Snippet
+ * -------------------------------------------------------------------------------------
+*/
+
+#single h4 a {
+	text-decoration: none;
 }
 
 /*
