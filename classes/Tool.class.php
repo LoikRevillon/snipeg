@@ -178,7 +178,7 @@ class Tool {
 
 		if (isset($_SESSION['user'])) {
 			$user= $_SESSION['user'];
-			$manager= new UserManager::getReference();
+			$manager= UsersManager::getReference();
 
 			return $manager->getSnippetsMatchedByName($user->_id, $name);
 		}
