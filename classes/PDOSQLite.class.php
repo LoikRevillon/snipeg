@@ -19,7 +19,7 @@ class PDOSQLite {
 
 		self::$_dbLink->query('CREATE TABLE IF NOT EXISTS snippets (name VARCHAR(255), id_user INT(1), last_update BIGINT(32), content TEXT, language INT(1), comment TEXT, category VARCHAR(80), tags TEXT, private INT(1))');
 		
-		self::$_dbLink->query('CREATE TABLE IF NOT EXISTS users (admin INT(1), name VARCHAR(30), email VARCHAR(80), avatar INT(1) password VARCHAR(64), locked INT(1), theme VARCHAR(50), font VARCHAR(30), color_scheme VARCHAR(20), language VARCHAR(5), favorite_lang TEXT)');
+		self::$_dbLink->query('CREATE TABLE IF NOT EXISTS users (admin INT(1), name VARCHAR(30), email VARCHAR(80), avatar INT(1) password VARCHAR(64), locked INT(1), theme VARCHAR(50), font VARCHAR(30), color_scheme VARCHAR(20), language VARCHAR(10), favorite_lang TEXT)');
 
 	}
 

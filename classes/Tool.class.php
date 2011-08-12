@@ -78,4 +78,86 @@ class Tool {
 		}
 	}
 
+	public static function loadLanguage() {
+
+		$actualLang= 'en_US';
+		$haveToChangeLang= false;
+			
+		if (isset($_SESSION['lang'])) {
+			$actualLang= $_SESSION['lang'];
+		}
+
+		if(isset($_SESSION['user'])) {
+			$user= $_SESSION['user'];
+
+			if ($actualLang->name !== $user->_language) {
+				$actualLang= $user->_language;
+				$haveToChangeLang= true;
+			}
+		}
+
+		if ($haveToChangeLang) {
+			$langFileJSON= file_get_contents('lang/'.$actualLang->name.'.json');
+			$_SESSION['lang']= json_decode($langFileJSON);
+		}
+	}
+
+	public static function loadTheme() {
+
+		$actualTheme= 'default';
+		$haveToChangeTheme= false;
+			
+		if (isset($_SESSION['theme'])) {
+			$actualTheme= $_SESSION['theme'];
+		}
+
+		if(isset($_SESSION['user'])) {
+			$user= $_SESSION['user'];
+
+			if ($actualTheme->name !== $user->_theme) {
+				$actualLang= $user->_theme;
+				$haveToChangeTheme= true;
+			}
+		}
+
+		if ($haveToChangeTheme) {
+			$themeFileJSON= file_get_contents('theme/'.$actualTheme->name.'.json');
+			$_SESSION['theme']= json_decode($themeFileJSON, true);
+		}
+
+		foreach ($_SESSION['theme'] as $key => $value) {
+			
+			switch($key) {
+				
+				case 'css':
+				case 'CSS':
+				case 'style sheet':
+				case 'Style Sheet':
+				case 'style':
+				case 'Style':
+					echo '<link rel="stylesheet" type="text/css" href="' . 'theme/' . $actualTheme->name . '/style/' . $value . '.css" />';
+				break;
+				
+				case 'js':
+				case 'JS':
+				case 'javascript':
+				case 'Javascript':
+					echo '<script type="application/javascript" src="' . 'theme/' . $actualTheme->name . '/js/' . $value . '.js"></script>';
+				break;
+			}
+		}				
+	}
+
+	public static function searchInSnippets($name) {
+
+		if (isset($_SESSION['user'])) {
+			$user= $_SESSION['user'];
+			$manager= new UserManager::getReference();
+
+			return $manager->getSnippetsMatchedByName($user->_id, $name);
+		}
+
+		return false;
+	}
+
 }

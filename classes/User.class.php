@@ -59,7 +59,7 @@ class User {
 		$request->bindParam(':theme', $this->_theme, PDO::PARAM_STR, 50);
 		$request->bindParam(':font', $this->_font, PDO::PARAM_STR, 30);
 		$request->bindParam(':color_scheme', $this->_colorScheme, PDO::PARAM_STR, 20);
-		$request->bindParam(':language', $this->_language, PDO::PARAM_STR, 5);
+		$request->bindParam(':language', $this->_language, PDO::PARAM_STR, 10);
 		$request->bindParam(':favorite_lang', serialize($this->_favoriteLang), PDO::PARAM_STR);
 
 		if ($request->execute())
