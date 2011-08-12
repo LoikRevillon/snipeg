@@ -2,96 +2,56 @@
 
 class Tool {
 
-	public static function appendSuccess($message) {
+	const ERROR_M = 'error';
+	const WARNING_M = 'warning';
+	const INFO_M = 'info';
+	const SUCCESS_M = 'success';
 
-		if (!isset($_SESSION['success']))
-			$_SESSION['success']= array();
+	public static function appendMessage ($message, $type) {
 
-		$_SESSION['success'][]= $message;
+		if (!isset($_SESSION['messages']))
+			$_SESSION['messages']= array();
 
+		if (!isset($_SESSION['messages'][$type]))
+			$_SESSION['messages'][$type]= array();
+
+		$_SESSION['messages'][$type][]= $message;
+		
 	}
 
-	public static function appendInfo($message) {
+	public static function readMessages () {
 
-		if (!isset($_SESSION['info']))
-			$_SESSION['info']= array();
+		if (!empty($_SESSION['messages'])) {
 
-		$_SESSION['info'][]= $message;
+			foreach($_SESSION['messages'] as $type => &$arrayMessagesByTypes) {
+				echo "\n";
 
-	}
+				var_dump($arrayMessagesByTypes);
 
-	public static function appendWarning($message) {
-
-		if (!isset($_SESSION['warning']))
-			$_SESSION['warning']= array();
-
-		$_SESSION['warning'][]= $message;
-
-	}
-
-	public static function appendError($message) {
-
-		if (!isset($_SESSION['error']))
-			$_SESSION['error']= array();
-
-		$_SESSION['error'][]= $message;
-
-	}
-
-	public static function readSuccess() {
-
-		if (isset($_SESSION['success'])) {
-			foreach($_SESSION['success'] as $message) {
-				echo '<p class="success">'.$message.'</p>'."\n";
-				unset($message);
-			}
-		}
-	}
-
-	public static function readInfo() {
-
-		if (isset($_SESSION['info'])) {
-			foreach($_SESSION['info'] as $message) {
-				echo '<p class="info">'.$message.'</p>'."\n";
-				unset($message);
-			}
-		}
-	}
-
-	public static function readWarning() {
-
-		if(isset($_SESSION['warning'])) {
-			foreach($_SESSION['warning'] as $message) {
-				echo '<p class="warning">'.$message.'</p>'."\n";
-				unset($message);
-			}
-		}
-	}
-
-	public static function readError() {
-
-		if (isset($_SESSION['error'])) {
-			foreach($_SESSION['error'] as $message) {
-				echo '<p class="error">'.$message.'</p>'."\n";
-				unset($message);
+				foreach($arrayMessagesByTypes as $key => $message) {
+					echo '<p class="' . $type . '">'.$message.'</p>'."\n";
+					unset($arrayMessagesByTypes[$key]);
+				}
 			}
 		}
 	}
 
 	public static function loadLanguage() {
-
-		$actualLang= 'en_US';
-		$haveToChangeLang= false;
+		
+		$actualTheme= new stdClass();
+		$actualLang->name= DEFAULT_LANG;
+		$haveToChangeLang= true;
 			
 		if (isset($_SESSION['lang'])) {
-			$actualLang= $_SESSION['lang'];
+			$actualLang->name= $_SESSION['lang'];
+			$haveToChangeLang= false;
 		}
 
 		if(isset($_SESSION['user'])) {
 			$user= $_SESSION['user'];
 
 			if ($actualLang->name !== $user->_language) {
-				$actualLang= $user->_language;
+				$actualLang->name= $user->_language;
 				$haveToChangeLang= true;
 			}
 		}
@@ -104,86 +64,45 @@ class Tool {
 
 	public static function loadTheme() {
 
-		$actualTheme= 'default';
-		$haveToChangeTheme= false;
+		$actualTheme= new stdClass();
+		$actualTheme->name= DEFAULT_THEME;
+		$haveToChangeTheme= true;
 			
 		if (isset($_SESSION['theme'])) {
 			$actualTheme= $_SESSION['theme'];
+			$haveToChangeTheme= false;
 		}
 
 		if(isset($_SESSION['user'])) {
 			$user= $_SESSION['user'];
 
 			if ($actualTheme->name !== $user->_theme) {
-				$actualLang= $user->_theme;
+				$actualTheme->name= $user->_theme;
 				$haveToChangeTheme= true;
 			}
 		}
 
 		if ($haveToChangeTheme) {
-			$themeFileJSON= file_get_contents('theme/'.$actualTheme->name.'.json');
-			$_SESSION['theme']= json_decode($themeFileJSON, true);
+			$themeFileJSON= file_get_contents('themes/' . $actualTheme->name . '/theme.json');
+			$_SESSION['theme']= json_decode($themeFileJSON);
 		}
-
-		foreach ($_SESSION['theme'] as $key => $value) {
-			
-			switch($key) {
-				
-				case 'css':
-				case 'CSS':
-				case 'style sheet':
-				case 'Style Sheet':
-				case 'style':
-				case 'Style':
-					echo '<link rel="stylesheet" type="text/css" href="' . 'theme/' . $actualTheme->name . '/style/' . $value . '.css" />';
-				break;
-				
-				case 'js':
-				case 'JS':
-				case 'javascript':
-				case 'Javascript':
-					echo '<script type="application/javascript" src="' . 'theme/' . $actualTheme->name . '/js/' . $value . '.js"></script>';
-				break;
-			}
-		}				
 	}
 
 	public static function getAllThemes() {
 
-		$themeDir= 'themes/';
+		$themesPlace= 'themes/';
 		$listOfThemes= array();
-
-		if (is_dir($themeDir)) {			
-			if ($pointerThemeDir= opendir($themeDir)) {
-				
-				while ($fileName= readdir($pointerThemeDir)) {
-					
-					if (is_file($themeDir.$fileName) AND strncmp($fileName, '.json', -5)){						
-						$listOfThemes[]= $fileName;
-					}
-				}
-				closedir($pointerThemeDir);
+		
+		foreach (glob($themesPlace.'*', GLOB_ONLYDIR | GLOB_MARK) as $themeDir) {
+			var_dump($themeDir . '*.json');
+			foreach (glob($themeDir . '*.json') as $themeFileJSON) {
+				$content= file_get_contents($themeFileJSON);
+				$listOfThemes[]= json_decode($content);
 			}
-		}
-
-		foreach ($listOfThemes as $value) {
-			$listOfThemes[$key]= json_decode($key);
 		}
 
 		return $listOfThemes;
 
-	}
-
-	public static function searchInSnippets($name) {
-
-		if (isset($_SESSION['user'])) {
-			$user= $_SESSION['user'];
-			$manager= UsersManager::getReference();
-
-			return $manager->getSnippetsMatchedByName($user->_id, $name);
-		}
-
-		return false;
 	}
 
 }
