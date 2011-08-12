@@ -16,6 +16,8 @@
 
 <div class="container_12">
 
+	<div id="search-head"></div>
+
 	<div id="results"></div>
 
 </div>

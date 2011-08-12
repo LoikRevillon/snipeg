@@ -380,6 +380,37 @@ input[type=text], input[type=password] {
 }
 
 /*
+ * Search
+ * -------------------------------------------------------------------------------------
+*/
+
+#results {
+	margin-top: 18px;
+}
+
+#search-head {
+	margin-top: 18px;
+}
+
+.result-line {
+	border-bottom: 1px dashed #EAEAEA;
+	padding-top: 18px;
+	overflow: hidden;
+}
+
+.result-line:hover {
+	background-color: rgba(255, 255, 255, .05);
+}
+
+.result-line a {
+	text-decoration: none;
+}
+
+.result-line a:focus {
+	color: #EAEAEA;
+}
+
+/*
  * Main
  * -------------------------------------------------------------------------------------
 */
