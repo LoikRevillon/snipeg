@@ -62,7 +62,7 @@ class Tool {
 		$haveToChangeTheme= true;
 			
 		if (!empty($_SESSION['theme'])) {
-			$actualTheme= $_SESSION['theme'];
+			$actualTheme->name= $_SESSION['theme']['dirName'];
 			$haveToChangeTheme= false;
 		}
 
@@ -76,21 +76,24 @@ class Tool {
 		}
 
 		if ($haveToChangeTheme) {
-			$themeFileJSON= file_get_contents('themes/' . $actualTheme->name . '/theme.json');
+			$themeFileJSON= file_get_contents(THEME_PATH . $actualTheme->name . '/theme.json');
 			$_SESSION['theme']= json_decode($themeFileJSON, true);
+			$_SESSION['theme']['dirName']= $actualTheme->name;
 		}
 	}
 
 	public static function getAllThemes() {
 
-		$themesPlace= 'themes/';
+		$themesPlace= THEME_PATH;
 		$listOfThemes= array();
 		
 		foreach (glob($themesPlace.'*', GLOB_ONLYDIR | GLOB_MARK) as $themeDir) {
 			var_dump($themeDir . '*.json');
 			foreach (glob($themeDir . '*.json') as $themeFileJSON) {
 				$content= file_get_contents($themeFileJSON);
-				$listOfThemes[]= json_decode($content);
+				$decodeContent= json_decode($content);
+				$decodeContent->dirName= $themeDir;
+				$listOfThemes[]= $decodeContent;
 			}
 		}
 
