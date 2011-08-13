@@ -90,8 +90,6 @@ class UsersManager {
 		$request->bindValue(':password', $newInfos->_password, PDO::PARAM_STR);
 		$request->bindValue(':locked', $newInfos->_locked, PDO::PARAM_INT);
 		$request->bindValue(':theme', $newInfos->_theme, PDO::PARAM_STR);
-		$request->bindValue(':font', $newInfos->_font, PDO::PARAM_STR);
-		$request->bindValue(':color_scheme', $newInfos->_colorScheme, PDO::PARAM_STR);
 		$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);
 		$request->bindValue(':favorite_lang', $newInfos->_favoriteLang, PDO::PARAM_STR);
 		
