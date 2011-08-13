@@ -1,6 +1,10 @@
 <?php
 
+if (defined('index')) {
+
 	function __autoload($className) {
 		$classPath= 'classes/'.$className.'.class.php';
-		require ($classPath);
-	}			
+		if (file_exists($classPath))
+			require ($classPath);
+	}
+}

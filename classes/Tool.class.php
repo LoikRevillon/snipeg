@@ -2,11 +2,6 @@
 
 class Tool {
 
-	const ERROR_M = 'error';
-	const WARNING_M = 'warning';
-	const INFO_M = 'info';
-	const SUCCESS_M = 'success';
-
 	public static function appendMessage ($message, $type) {
 
 		if (!isset($_SESSION['messages']))
@@ -25,8 +20,6 @@ class Tool {
 
 			foreach($_SESSION['messages'] as $type => &$arrayMessagesByTypes) {
 				echo "\n";
-
-				var_dump($arrayMessagesByTypes);
 
 				foreach($arrayMessagesByTypes as $key => $message) {
 					echo '<p class="' . $type . '">'.$message.'</p>'."\n";
@@ -58,7 +51,7 @@ class Tool {
 
 		if ($haveToChangeLang) {
 			$langFileJSON= file_get_contents('lang/'.$actualLang->name.'.json');
-			$_SESSION['lang']= json_decode($langFileJSON);
+			$_SESSION['lang']= json_decode($langFileJSON, true);
 		}
 	}
 
@@ -68,7 +61,7 @@ class Tool {
 		$actualTheme->name= DEFAULT_THEME;
 		$haveToChangeTheme= true;
 			
-		if (isset($_SESSION['theme'])) {
+		if (!empty($_SESSION['theme'])) {
 			$actualTheme= $_SESSION['theme'];
 			$haveToChangeTheme= false;
 		}
@@ -84,7 +77,7 @@ class Tool {
 
 		if ($haveToChangeTheme) {
 			$themeFileJSON= file_get_contents('themes/' . $actualTheme->name . '/theme.json');
-			$_SESSION['theme']= json_decode($themeFileJSON);
+			$_SESSION['theme']= json_decode($themeFileJSON, true);
 		}
 	}
 
