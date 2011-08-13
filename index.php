@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-session_destroy();
 
 define('index', 'index.php');
 
@@ -11,20 +10,26 @@ include ("functions.php");
 Tool::loadTheme();
 Tool::loadLanguage();
 
-$theme= $_SESSION['theme'];
+if (isset($_GET['logout'])) {
+	session_destroy();
+}
 
-/*
 if (isset($_SESSION['user'])) {
 	$includeFile= 'home';
 } else {
 	$includeFile= 'login';
 }
-*/
 
 if (isset($_GET['action']) AND !empty($_GET['action'])) {
 	if (array_key_exists($_GET['action'], $_SESSION['theme'])) {
 		$includeFile= $_GET['action'];
 	}
+} else {
+	if (isset($_SESSION['user'])) {
+		$includeFile= 'home';
+	} else {
+		$includeFile= 'login';
+	}
 }
 
-include('themes/' . $_SESSION['theme']['dirName'] . '/' . $_SESSION['theme'][$includeFile]);
+include(THEME_PATH . $_SESSION['theme']['dirName'] . '/' . $_SESSION['theme'][$includeFile]);
