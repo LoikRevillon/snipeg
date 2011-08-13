@@ -457,7 +457,7 @@ blockquote p {
  * -------------------------------------------------------------------------------------
 */
 
-#results, #browse, #new, #single, #admin {
+#results, #browse, #new, #single, #admin, #settings {
 	margin-top: 18px;
 }
 
@@ -573,7 +573,7 @@ blockquote p {
 	margin-bottom: 18px;
 }
 
-.userlist-line label {
+.userlist-line label, #settings-second-line label {
 	margin-bottom: 12px;
 	padding: 4px 12px 0;
 }
@@ -583,8 +583,46 @@ blockquote p {
 	max-width: 100px;
 }
 
-.userlist-line div.checker {
+.userlist-line div.checker, #settings-second-line div.checker {
 	margin-bottom: 6px;
+}
+
+/*
+ * Settings
+ * -------------------------------------------------------------------------------------
+*/
+
+#settings-submit {
+	margin-top: 12px;
+}
+
+#settings img {
+	margin-top: 0;
+}
+
+#settings input[type=file] {
+	padding: 6px;
+}
+
+#settings-first-line, #settings-second-line {
+	overflow: hidden;
+}
+
+#settings div.selector, #settings input[type=file] {
+	margin: 16px 0;
+}
+
+#settings input[type=text], #settings input[type=password] {
+	width: 276px;
+}
+
+#settings-second-line label {
+	margin-bottom: 12px;
+	padding: 4px 12px 0;
+}
+
+#settings-second-line h3, #settings h1 {
+	margin-bottom: 36px;
 }
 
 /*
