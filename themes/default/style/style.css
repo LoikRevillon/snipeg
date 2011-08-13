@@ -307,28 +307,17 @@ ol li {
 	width: 10px;
 }
 
-#paging a {
-	display: inline-block;
-	position: relative;
-	text-decoration: none;
-}
-
-#paging a:after {
-	background-position: right -32px;
-	content: '';
-	display: block;
-	position: absolute;
-	right: -10px;
-	top: 0;
-	width: 10px;
-}
-
 input[type=text], input[type=password] {
 	height: 30px;
+	padding: 0 12px;
 }
 
 p, ul, ol, hr, pre, li, h1, h2, h3, h4, h5, h6, fieldset, .tags a, #paging a {
 	margin-bottom: 18px;
+}
+
+img {
+	padding: 5px;
 }
 
 li {
@@ -344,6 +333,10 @@ blockquote p {
 	margin: 0;
 }
 
+#main {
+	margin-top: 36px;
+}
+
 .success:before, .info:before, .warning:before, .error:before {
 	margin-right: 6px;
 	margin-top: 1px;
@@ -352,32 +345,44 @@ blockquote p {
 .tags a {
 	margin-right: 18px;
 	height: 29px;
-}
-
-#paging a {
-	padding-left: 12px;
-	margin-right: 12px;
+	padding-left: 20px;
 }
 
 .tags:first-child, #paging:first-child {
 	margin-left: 0;
 }
 
-img {
-	padding: 5px;
-}
-
-input[type=text], input[type=password] {
-	padding: 0 12px;
-}
-
-.tags a {
-	padding-left: 20px;
-}
+/*
+ * Paging
+ * -------------------------------------------------------------------------------------
+*/
 
 #paging {
 	margin-top: 36px;
 }
+
+#paging a {
+	display: inline-block;
+	position: relative;
+	text-decoration: none;
+	padding-left: 12px;
+	margin-right: 12px;
+}
+
+#paging a:after {
+	background-position: right -32px;
+	content: '';
+	display: block;
+	position: absolute;
+	right: -10px;
+	top: 0;
+	width: 10px;
+}
+
+/*
+ * Single
+ * -------------------------------------------------------------------------------------
+*/
 
 #single-about img {
 	float: left;
@@ -452,7 +457,7 @@ input[type=text], input[type=password] {
  * -------------------------------------------------------------------------------------
 */
 
-#results, #browse, #new, #single {
+#results, #browse, #new, #single, #admin {
 	margin-top: 18px;
 }
 
@@ -478,13 +483,8 @@ input[type=text], input[type=password] {
 	color: #EAEAEA;
 }
 
-/*
- * Main
- * -------------------------------------------------------------------------------------
-*/
-
-#main {
-	margin-top: 36px;
+#search input[type=text]{
+	width: 368px;
 }
 
 /*
@@ -565,12 +565,26 @@ input[type=text], input[type=password] {
 }
 
 /*
- * Search
+ * Admin
  * -------------------------------------------------------------------------------------
 */
 
-#search input[type=text]{
-	width: 368px;
+.userlist-line {
+	margin-bottom: 18px;
+}
+
+.userlist-line label {
+	margin-bottom: 12px;
+	padding: 4px 12px 0;
+}
+
+.userlist-line img {
+	max-height: 100px;
+	max-width: 100px;
+}
+
+.userlist-line div.checker {
+	margin-bottom: 6px;
 }
 
 /*

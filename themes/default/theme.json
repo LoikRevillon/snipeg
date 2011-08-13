@@ -1,5 +1,6 @@
 {
 	"name": "Default theme",
+	"admin": "admin.php",
 	"browse": "browse.php",
 	"login": "login.php",
 	"new": "new.php",
