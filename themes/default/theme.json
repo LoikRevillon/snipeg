@@ -1,9 +1,11 @@
 {
 	"name": "Default theme",
+	"default": "search.php",
 	"admin": "admin.php",
 	"browse": "browse.php",
 	"login": "login.php",
 	"new": "new.php",
 	"search": "search.php",
+	"settings": "settings.php",
 	"single": "single.php"
 }
