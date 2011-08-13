@@ -2,8 +2,6 @@
 
 class PDOSQLite {
 
-	const DB_NAME='stanislas.sqlite';
-
 	private static $_dbLink;
 	private static $_instance;
 
