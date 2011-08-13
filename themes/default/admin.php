@@ -8,11 +8,11 @@
 
 		<h1>Users list</h1>
 
-		<div class="userlist-line grid_5 alpha">
+		<div class="userlist-line alpha grid_5">
 
 			<form method="post" action="">
 
-				<div class="grid_3 alpha">
+				<div class="alpha grid_3">
 
 					<h3>Username</h3>
 					<p>Last Modification date</p>
@@ -53,7 +53,7 @@
 
 			<form method="post" action="">
 
-				<div class="grid_3 alpha">
+				<div class="alpha grid_3">
 
 					<h3>Username</h3>
 					<p>Last Modification date</p>
