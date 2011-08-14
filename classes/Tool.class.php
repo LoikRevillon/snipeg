@@ -2,98 +2,99 @@
 
 class Tool {
 
-	public static function appendMessage ($message, $type) {
+	const M_ERROR = 'error';
 
-		if (!isset($_SESSION['messages']))
-			$_SESSION['messages']= array();
+	const M_INFO = 'info';
 
-		if (!isset($_SESSION['messages'][$type]))
-			$_SESSION['messages'][$type]= array();
+	const M_SUCCESS = 'success';
 
-		$_SESSION['messages'][$type][]= $message;
-		
+	const M_WARNING = 'warning';
+
+	public static function preload() {
+
+		if(!isset($_SESSION['messages']))
+			$_SESSION['messages'] = array();
+
 	}
 
-	public static function readMessages () {
+	public static function appendMessage($message, $type) {
 
-		if (!empty($_SESSION['messages'])) {
+		if(!isset($_SESSION['messages'][$type]))
+			$_SESSION['messages'][$type] = array();
+		$_SESSION['messages'][$type][] = $message;
 
-			foreach($_SESSION['messages'] as $type => &$arrayMessagesByTypes) {
-				echo "\n";
+	}
 
-				foreach($arrayMessagesByTypes as $key => $message) {
-					echo '<p class="' . $type . '">'.$message.'</p>'."\n";
-					unset($arrayMessagesByTypes[$key]);
+	public static function readMessages() {
+
+		if(!empty($_SESSION['messages'])) {
+			foreach($_SESSION['messages'] as $type => &$messages) {
+				foreach($messages as $index => $message) {
+					echo '<p class="' . $type . '">' . $message . '</p>';
+					unset($messages[$key]);
 				}
 			}
 		}
+
 	}
 
 	public static function loadLanguage() {
-		
-		$actualTheme= new stdClass();
-		$actualLang->name= DEFAULT_LANG;
-		$haveToChangeLang= true;
-			
-		if (isset($_SESSION['lang'])) {
-			$actualLang->name= $_SESSION['lang'];
-			$haveToChangeLang= false;
-		}
 
-		if(isset($_SESSION['user'])) {
-			$user= $_SESSION['user'];
+		$langCode = !empty($_SESSION['user']->_language) ? $_SESSION['user']->_language : DEFAULT_LANG;
 
-			if ($actualLang->name !== $user->_language) {
-				$actualLang->name= $user->_language;
-				$haveToChangeLang= true;
+		if(!empty($_SESSION['lang']->langcode)) {
+			if(!isset($_SESSION['user'])
+				OR (isset($_SESSION['user']->_language) AND $_SESSION['user']->_language == $_SESSION['lang']->langcode)) {
+				return $_SESSION['lang'];
 			}
 		}
 
-		if ($haveToChangeLang) {
-			$langFileJSON= file_get_contents('lang/'.$actualLang->name.'.json');
-			$_SESSION['lang']= json_decode($langFileJSON, true);
+		$_SESSION['lang'] = new stdClass();
+		$langFile = LANGUAGE_PATH . $langCode . '.json';
+
+		if(file_exists($langFile)) {
+			$_SESSION['lang'] = json_decode(file_get_contents($langFile));
+			$_SESSION['lang']->langcode = $langCode;
 		}
+
+		return $_SESSION['lang'];
+
 	}
 
 	public static function loadTheme() {
 
-		$actualTheme= new stdClass();
-		$actualTheme->name= DEFAULT_THEME;
-		$haveToChangeTheme= true;
-			
-		if (!empty($_SESSION['theme'])) {
-			$actualTheme->name= $_SESSION['theme']['dirName'];
-			$haveToChangeTheme= false;
-		}
+		$dirname = !empty($_SESSION['user']->_theme) ? $_SESSION['user']->_theme : DEFAULT_THEME;
 
-		if(isset($_SESSION['user'])) {
-			$user= $_SESSION['user'];
-
-			if ($actualTheme->name !== $user->_theme) {
-				$actualTheme->name= $user->_theme;
-				$haveToChangeTheme= true;
+		if(!empty($_SESSION['theme']->dirname)) {
+			if(!isset($_SESSION['user'])
+				OR (isset($_SESSION['theme']->dirname) AND $_SESSION['user']->dirname == $_SESSION['theme']->dirname)) {
+				return $_SESSION['theme'];
 			}
 		}
 
-		if ($haveToChangeTheme) {
-			$themeFileJSON= file_get_contents(THEME_PATH . $actualTheme->name . '/theme.json');
-			$_SESSION['theme']= json_decode($themeFileJSON, true);
-			$_SESSION['theme']['dirName']= $actualTheme->name;
+		$_SESSION['theme'] = new stdClass();
+		$themeFile = THEME_PATH . $dirname . '/theme.json';
+
+		if(file_exists($themeFile)) {
+			$_SESSION['theme'] = json_decode(file_get_contents($themeFile));
+			$_SESSION['theme']->dirname = $dirname;
 		}
+
+		return $_SESSION['theme'];
+
 	}
 
 	public static function getAllThemes() {
 
-		$themesPlace= THEME_PATH;
-		$listOfThemes= array();
-		
-		foreach (glob($themesPlace.'*', GLOB_ONLYDIR | GLOB_MARK) as $themeDir) {
-			var_dump($themeDir . '*.json');
-			foreach (glob($themeDir . '*.json') as $themeFileJSON) {
-				$content= file_get_contents($themeFileJSON);
-				$decodeContent= json_decode($content);
-				$decodeContent->dirName= $themeDir;
-				$listOfThemes[]= $decodeContent;
+		$themesPlace = THEME_PATH;
+		$listOfThemes = array();
+
+		foreach(glob($themesPlace . '*', GLOB_ONLYDIR | GLOB_MARK) as $themeDir) {
+			foreach(glob($themeDir . '*.json') as $themeFileJSON) {
+				$content = file_get_contents($themeFileJSON);
+				$decodeContent = json_decode($content);
+				$decodeContent->dirname = end(explode('/', substr($themeDir, 0, -1)));
+				$listOfThemes[] = $decodeContent;
 			}
 		}
 

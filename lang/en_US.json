@@ -6,7 +6,7 @@
 	"addsnippetpage": "Add new snippet",
 	"titlesnippet": "title",
 	"descriptionsnippet": "Description",
-	"tagssnippet": "Tags (comma separated)"
+	"tagssnippet": "Tags (comma separated)",
 	"codesnippet": "Code",
 	"newcategorysnippet": "Create category",
 	"setcategorysnippet": "Or choose existing category",
@@ -34,12 +34,12 @@
 
 	"adminpage": "Users List",
 	"becomeadmin": "User is admin",
-	"lockUseradmin": "Lock this user",
+	"lockuseradmin": "Lock this user",
 	"deleteUseradmin": "Delete this user",
 
 	"searchbutton": "Search",
 	"editbutton": "Edit",
 	"removebutton": "Remove",
 	"updatebutton": "Update",
-	"changepasswordbutton": "Change password",	
+	"changepasswordbutton": "Change password"
 }

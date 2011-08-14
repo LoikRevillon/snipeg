@@ -6,12 +6,10 @@ class UsersManager {
 
 	private function __construct() {}
 
-	final private function __clone () {}
-
 	public static function getReference() {
 
-		if (!isset(self::$_instance))
-			self::$_instance= new self();
+		if(!isset(self::$_instance))
+			self::$_instance = new self();
 
 		return self::$_instance;
 
@@ -19,18 +17,18 @@ class UsersManager {
 
 	public function userExistInDB($name) {
 
-		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM users WHERE name = :name');
+		$db = PDOSQLite::getDBLink();
+		$request = $db->prepare('SELECT rowid as id, * FROM users WHERE name = :name');
 		$request->bindParam(':name', $name, PDO::PARAM_STR, 30);
 		$request->execute();
 
-		$result= $request->fetch(PDO::FETCH_ASSOC);
-		
-		if (!empty($result)) {
-			$result['favorite_lang']= unserialize($result['favorite_lang']);
-			$userMatched= new User ($result);
+		$result = $request->fetch(PDO::FETCH_ASSOC);
+
+		if(!empty($result)) {
+			$result['favorite_lang'] = unserialize($result['favorite_lang']);
+			$userMatched = new User($result);
 		} else {
-			$userMatched= false;
+			$userMatched = false;
 		}
 
 		return $userMatched;
@@ -39,19 +37,17 @@ class UsersManager {
 
 	public function getAllUSers($pageNumber) {
 
-		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM users ORDER BY name ASC LIMIT :limit_down , :limit_up');
+		$db = PDOSQLite::getDBLink();
+		$request = $db->prepare('SELECT rowid as id, * FROM users ORDER BY name ASC LIMIT :limit_down , :limit_up');
 		$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_ON_PAGE, PDO::PARAM_INT);
 		$request->bindValue(':limit_up', $pageNumber * NUM_USER_ON_PAGE, PDO::PARAM_INT);
 		$request->execute();
 
-		$usersList= array();
+		$usersList = array();
 
-		while ($result= $request->fetch(PDO::FETCH_ASSOC)) {
+		while($result= $request->fetch(PDO::FETCH_ASSOC)) {
 			$result['favorite_lang']= unserialize($result['favorite_lang']);
-			$oneUserOfDB= new User($result);
-			$usersList[]= $oneUserOfDB;
-			unset($oneUserOfDB);
+			$usersList[] = new User($result);
 		}
 
 		return $usersList;
@@ -59,16 +55,16 @@ class UsersManager {
 	}
 
 	public function getAllUserInformations($userId) {
-		
-		$db= PDOSQLite::getDBLink();
-		$request= $db->prepare('SELECT rowid as id, * FROM users WHERE rowid = :id');
-										
+
+		$db = PDOSQLite::getDBLink();
+		$request = $db->prepare('SELECT rowid as id, * FROM users WHERE rowid = :id');
+
 		$request->bindParam(':id', $userId, PDO::PARAM_INT, 1);
 		$request->execute();
 
-		$result= $request->fetch(PDO::FETCH_ASSOC);
+		$result = $request->fetch(PDO::FETCH_ASSOC);
 		$result['favorite_lang']= unserialize($result['favorite_lang']);
-		$matchedUser= new User($result);
+		$matchedUser = new User($result);
 
 		return $matchedUser;
 
@@ -76,10 +72,10 @@ class UsersManager {
 
 	public function updateUserInfos($userId, $newInfos) {
 
-		if ($this->userExistInDB($newInfos->_name))
+		if($this->userExistInDB($newInfos->_name))
 			return false;
 
-		$db= PDOSQLite::getDBLink();
+		$d b= PDOSQLite::getDBLink();
 		$request= $db->prepare('UPDATE users SET admin = :admin, name = :name, email = :email, password = :password, locked = :locked, theme = :theme, font = :font, color_scheme = :color_scheme, language = :language, favorite_lang = :favorite_lang WHERE rowid = :id');
 
 		$request->bindValue(':id', $userId, PDO::PARAM_INT);
@@ -92,11 +88,8 @@ class UsersManager {
 		$request->bindValue(':theme', $newInfos->_theme, PDO::PARAM_STR);
 		$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);
 		$request->bindValue(':favorite_lang', $newInfos->_favoriteLang, PDO::PARAM_STR);
-		
-		if ($request->execute())
-			return true;
-		else
-			return false;
+
+		return $request->execute();
 
 	}
 

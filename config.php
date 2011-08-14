@@ -31,6 +31,12 @@ define ('THEME_PATH', ROOT . THEME_DIR);
 define ('CLASSES_PATH', ROOT . 'classes/');
 
 /**
+ * Absolute path of languages
+*/
+
+define ('LANGUAGE_PATH', ROOT . 'lang/');
+
+/**
  * Charset (remove it if you don't want to force charset)
 */
 
@@ -49,19 +55,15 @@ define ('DEFAULT_TITLE', '');
 define('HTTP_ROOT', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
 
 /**
- * Messages name
-*/
-
-define('M_ERROR', 'error');
-define('M_WARNING', 'warning');
-define('M_INFO', 'info');
-define('M_SUCCESS', 'success');
-
-/**
- * Default theme and language
+ * Default theme
 */
 
 define('DEFAULT_THEME', 'default');
+
+/**
+ * Default language
+*/
+
 define('DEFAULT_LANG', 'en_US');
 
 /**

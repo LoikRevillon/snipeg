@@ -1,48 +1,57 @@
 <?php
 
 class Snippet {
-	
+
 	private $_id;
+
 	private $_name;
+
 	private $_idUser;
+
 	private $_lastUpdate;
+
 	private $_content;
+
 	private $_language;
+
 	private $_comment;
+
 	private $_category;
+
 	private $_tags;
+
 	private $_private;
 
 	public function __construct($snippetInformations) {
 
-			if (isset($snippetInformations['id']))
-				$this->_id= $snippetInformations['id'];
-			else
-				$this->_id= false;
-				
-			$this->_name= $snippetInformations['name'];
-			$this->_idUser= $snippetInformations['id_user'];
-			$this->_lastUpdate= $snippetInformations['last_update'];
-			$this->_content= $snippetInformations['content'];
-			$this->_language= $snippetInformations['language'];			
-			$this->_comment= $snippetInformations['comment'];			
-			$this->_category= $snippetInformations['category'];
-			$this->_tags= mb_strtolower($snippetInformations['tags'], 'utf-8');
-			$this->_private= $snippetInformations['private'];
-		
+		if(isset($snippetInformations['id']))
+			$this->_id= $snippetInformations['id'];
+		else
+			$this->_id= false;
+
+		$this->_name = $snippetInformations['name'];
+		$this->_idUser = $snippetInformations['id_user'];
+		$this->_lastUpdate = $snippetInformations['last_update'];
+		$this->_content = $snippetInformations['content'];
+		$this->_language = $snippetInformations['language'];
+		$this->_comment = $snippetInformations['comment'];
+		$this->_category = $snippetInformations['category'];
+		$this->_tags = mb_strtolower($snippetInformations['tags'], 'utf-8');
+		$this->_private = $snippetInformations['private'];
+
 	}
 
 	public function __get($varName){
 
-		return $this->{$varName};
-	
+		return $this->$varName;
+
 	}
-	
-	public function addNewSnippet () {
-		
-		$db= PDOSQLite::getDBLink();		
-		$request= $db->prepare('INSERT INTO snippets VALUES (:name, :id_user, :last_update, :content, :language, :comment, :category, :tags, :private)');
-															
+
+	public function addNewSnippet() {
+
+		$db = PDOSQLite::getDBLink();
+		$request = $db->prepare('INSERT INTO `snippets` VALUES (:name, :id_user, :last_update, :content, :language, :comment, :category, :tags, :private)');
+
 		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 255);
 		$request->bindParam(':id_user', $this->_idUser, PDO::PARAM_INT, 1);
 		$request->bindParam(':last_update', $this->_lastUpdate, PDO::PARAM_INT, 32);
@@ -53,27 +62,20 @@ class Snippet {
 		$request->bindParam(':tags', $this->_tags, PDO::PARAM_STR);
 		$request->bindParam(':private', $this->_private, PDO::PARAM_INT, 1);
 
-		if ($request->execute())
-			return true;
-		else
-			return false;
-		
+		return $request->execute();
+
 	}
 
-	public function deleteSnippet () {
-		
-		if (!empty($this->_id)) {
-			$db= PDOSQLite::getDBLink();
-			$request= $db->prepare('DELETE FROM snippets WHERE rowid = :id');
+	public function deleteSnippet() {
+
+		if(!empty($this->_id)) {
+			$db = PDOSQLite::getDBLink();
+			$request = $db->prepare('DELETE FROM `snippets` WHERE rowid = :id');
 			$request->bindParam(':id', $this->_id, PDO::PARAM_STR, 1);
 
-			if ($request->execute())
-				return false;
-			else
-				return true;
-				
+			return $request->execute();
 		}
-		
+
 		return false;
 
 	}
