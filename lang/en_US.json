@@ -1,4 +1,11 @@
 {
+	"menunew": "New Snippet",
+	"menubrowse": "Browse",
+	"menusearch": "Search",
+	"menusettings": "Settings",
+	"menuadmin": "Admin",
+	"menulogout": "Logout",
+
 	"snippetviewpage": "Snippet View",
 	"publishedbyview": "Published by",
 	"publisheddateview": "on",
