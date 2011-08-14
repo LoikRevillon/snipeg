@@ -60,7 +60,7 @@ class SnippetsManager {
 		$snippetsMatchedByName = array();
 
 		while($result = $request->fetch(PDO::FETCH_ASSOC)) {
-			$snippetsMatchedByName[] = Snippet($result);
+			$snippetsMatchedByName[] = new Snippet($result);
 		}
 
 		return $snippetsMatchedByName;
