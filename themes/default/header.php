@@ -9,9 +9,3 @@
 		<script src="js/scripts.js"></script>
 	</head>
 	<body>
-			<?php
-				if(!empty($_POST))
-					var_dump($_POST);
-				if(!empty($_GET))
-					var_dump($_GET);
-			?>
