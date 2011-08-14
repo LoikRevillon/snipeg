@@ -1,4 +1,13 @@
 {
+	"show": "Show",
+	"email": "Email",
+	"password": "Password",
+	"retype": "Again",
+	"forgotten": "Forgotten",
+	"of": "of",
+	"first": "First",
+	"last": "Last",
+
 	"menunew": "New Snippet",
 	"menubrowse": "Browse",
 	"menusearch": "Search",
@@ -6,12 +15,18 @@
 	"menuadmin": "Admin",
 	"menulogout": "Logout",
 
+	"loginsignin": "Sign In",
+	"loginsignup": "Sign Up",
+	"loginresetpassword": "Reset Password",
+
+	"loginnamelabel": "Your Name",
+
 	"snippetviewpage": "Snippet View",
 	"publishedbyview": "Published by",
 	"publisheddateview": "on",
 
 	"addsnippetpage": "Add new snippet",
-	"titlesnippet": "title",
+	"titlesnippet": "Title",
 	"descriptionsnippet": "Description",
 	"tagssnippet": "Tags (comma separated)",
 	"codesnippet": "Code",
@@ -24,7 +39,6 @@
 
 	"browsepage": "Browse",
 	"pagenumberbeginbrowse": "Page ",
-	"pagenumbermiddlebrowse": " of ",
 	"publisheddatebrowse": "Published on",
 	"categorybrowse": "in category",
 
@@ -42,7 +56,7 @@
 	"adminpage": "Users List",
 	"becomeadmin": "User is admin",
 	"lockuseradmin": "Lock this user",
-	"deleteUseradmin": "Delete this user",
+	"deleteuseradmin": "Delete this user",
 
 	"searchbutton": "Search",
 	"editbutton": "Edit",

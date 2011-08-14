@@ -8,3 +8,9 @@ function __autoload($className) {
 		require $classPath;
 
 }
+
+function is_admin() {
+
+	return isset($_SESSION['user']->_admin);
+
+}

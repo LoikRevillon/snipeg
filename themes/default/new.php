@@ -6,7 +6,7 @@
 
 	<div id="new">
 
-		<h1>Add new snippet</h1>
+		<h1><?php echo $Lang->addsnippetpage; ?></h1>
 
 		<form method="post" action="" id="add-snippet">
 

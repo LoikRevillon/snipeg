@@ -1,4 +1,4 @@
-<h3>Programming languages</h3>
+<h3><?php echo $Lang->programminglangaccount; ?></h3>
 
 <div class="grid_3">
 

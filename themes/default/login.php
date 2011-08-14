@@ -8,12 +8,12 @@
 
 		<div id="signin">
 
-			<h1>Sign In</h1>
+			<h1><?php echo $Lang->loginsignin; ?></h1>
 
-			<label for="login-name">Your Name ( <a href="#" id="show-signup" tabindex="40">sign up !</a> )</label>
+			<label for="login-name"><?php echo $Lang->loginnamelabel; ?> ( <a href="#" id="show-signup" tabindex="40"><?php echo $Lang->loginsignup; ?> !</a> )</label>
 			<input type="text" name="signin-login" id="login-name" tabindex="10" autofocus />
 
-			<label for="login-password">Password ( <a id="show-reset" href="#" tabindex="50">forgotten ?</a> )</label>
+			<label for="login-password"><?php echo $Lang->password; ?> ( <a id="show-reset" href="#" tabindex="50"><?php echo $Lang->forgotten; ?> ?</a> )</label>
 			<input type="password" name="signin-password" id="login-password" tabindex="20" />
 
 			<input type="submit" name="dologin" value="Sign In" tabindex="30"/>
@@ -22,20 +22,20 @@
 
 		<div id="signup">
 
-			<h1>Sign Up</h1>
+			<h1><?php echo $Lang->loginsignup; ?></h1>
 
-			<p><a href="#" class="show-signin">Show sign in</a></p>
+			<p><a href="#" class="show-signin"><?php echo $Lang->show; ?> <?php echo $Lang->loginsignin; ?></a></p>
 
-			<label id="signup-name">Your Name</label>
+			<label id="signup-name"><?php echo $Lang->loginnamelabel; ?></label>
 			<input type="text" name="signup-login" id="signup-name" />
 
-			<label id="signup-email">Email</label>
+			<label id="signup-email"><?php echo $Lang->email; ?></label>
 			<input type="text" name="signup-email" id="signup-email" />
 
-			<label id="signup-password-1">Password</label>
+			<label id="signup-password-1"><?php echo $Lang->password; ?></label>
 			<input type="password" name="signup-password-1" id="signup-password-1" />
 
-			<label id="signup-password-2">Password ( Again )</label>
+			<label id="signup-password-2"><?php echo $Lang->password; ?> ( <?php echo $Lang->retype; ?> )</label>
 			<input type="password" name="signup-password-2" id="signup-password-2" />
 			
 			<input type="submit" name="dosignup" value="Sign Up"/>
@@ -44,14 +44,14 @@
 
 		<div id="reset">
 
-			<h1>Reset Password</h1>
+			<h1><?php echo $Lang->loginresetpassword; ?></h1>
 
-			<p><a href="#" class="show-signin">Show sign in</a></p>
+			<p><a href="#" class="show-signin"><?php echo $Lang->show; ?> <?php echo $Lang->loginsignin; ?></a></p>
 
-			<label id="reset-name">Username</label>
+			<label id="reset-name"><?php echo $Lang->loginnamelabel; ?></label>
 			<input type="text" name="reset-login" id="reset-name" />
 
-			<label id="reset-email">Email</label>
+			<label id="reset-email"><?php echo $Lang->email; ?></label>
 			<input type="text" name="reset-email" id="reset-email" />
 
 			<input type="submit" name="doreset" value="Reset Password"/>

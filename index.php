@@ -29,3 +29,7 @@ $Snippet = null;
 // Logout
 if(isset($_GET['logout']))
 	session_destroy();
+
+/* DEBUG */
+include 'themes/default/login.php';
+//var_dump($Lang);

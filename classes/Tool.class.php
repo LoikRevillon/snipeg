@@ -78,6 +78,7 @@ class Tool {
 		if(file_exists($themeFile)) {
 			$_SESSION['theme'] = json_decode(file_get_contents($themeFile));
 			$_SESSION['theme']->dirname = $dirname;
+			$_SESSION['theme']->location = HTTP_ROOT . THEME_DIR . $_SESSION['theme']->dirname . '/';
 		}
 
 		return $_SESSION['theme'];
