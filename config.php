@@ -31,10 +31,16 @@ define ('THEME_PATH', ROOT . THEME_DIR);
 define ('CLASSES_PATH', ROOT . 'classes/');
 
 /**
- * Absolute path of languages
+ * Relative path to languages
 */
 
-define ('LANGUAGE_PATH', ROOT . 'lang/');
+define('LANGUAGE_DIR', 'lang/');
+
+/**
+ * Absolute path to languages
+*/
+
+define ('LANGUAGE_PATH', ROOT . LANGUAGE_DIR);
 
 /**
  * Charset (remove it if you don't want to force charset)

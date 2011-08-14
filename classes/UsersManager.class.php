@@ -35,7 +35,7 @@ class UsersManager {
 
 	}
 
-	public function getAllUSers($pageNumber) {
+	public function getAllUsers($pageNumber) {
 
 		$db = PDOSQLite::getDBLink();
 		$request = $db->prepare('SELECT rowid as id, * FROM users ORDER BY name ASC LIMIT :limit_down , :limit_up');
@@ -54,7 +54,7 @@ class UsersManager {
 
 	}
 
-	public function getAllUserInformations($userId) {
+	public function getUserInformations($userId) {
 
 		$db = PDOSQLite::getDBLink();
 		$request = $db->prepare('SELECT rowid as id, * FROM users WHERE rowid = :id');

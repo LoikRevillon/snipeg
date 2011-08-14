@@ -4,7 +4,9 @@
 
 <div id="main" class="container_12">
 
-	<form method="get" action="?action=search" id="search" class="prefix_3 grid_6" autocomplete="off">
+	<form method="get" action="" id="search" class="prefix_3 grid_6" autocomplete="off">
+
+		<input type="hidden" name="action" value="search" />
 
 		<input type="text" name="query" id="query" autofocus />
 

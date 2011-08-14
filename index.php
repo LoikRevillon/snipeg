@@ -14,6 +14,7 @@ Tool::preload();
 
 /*
  * Global variables
+ * Warn : $Theme must be created before $Lang
  * -------------------------------------------------------------------------------------
 */
 
@@ -30,6 +31,18 @@ $Snippet = null;
 if(isset($_GET['logout']))
 	session_destroy();
 
-/* DEBUG */
-include 'themes/default/login.php';
-//var_dump($Lang);
+/*
+ * Debug
+ * -------------------------------------------------------------------------------------
+*/
+
+$actions = array('admin', 'browse', 'login', 'new', 'search', 'settings', 'single');
+
+if(isset($_GET['action']) AND in_array($_GET['action'], $actions)) {
+	$include = THEME_PATH . $Theme->dirname . '/' . $Theme->$_GET['action'];
+} else {
+	$include = THEME_PATH . $Theme->dirname . '/' . $Theme->default;
+}
+
+if(file_exists($include))
+	include $include;

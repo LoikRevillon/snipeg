@@ -59,6 +59,7 @@ class Tool {
 
 	public static function loadLanguage() {
 
+		global $Theme;
 		$langCode = !empty($_SESSION['user']->_language) ? $_SESSION['user']->_language : DEFAULT_LANG;
 
 		if(!empty($_SESSION['lang']->langcode)) {
@@ -69,10 +70,18 @@ class Tool {
 		}
 
 		$_SESSION['lang'] = new stdClass();
-		$langFile = LANGUAGE_PATH . $langCode . '.json';
+		$themeLangFile = THEME_PATH . $Theme->dirname . '/' . LANGUAGE_DIR .  $langCode . '.json';
+		$globalLangFile = LANGUAGE_PATH . $langCode . '.json';
 
-		if(file_exists($langFile)) {
-			$_SESSION['lang'] = json_decode(file_get_contents($langFile));
+		if(file_exists($globalLangFile)) {
+			$globalLang = json_decode(file_get_contents($globalLangFile));
+			if(file_exists($themeLangFile)) {
+				$themeLang = json_decode(file_get_contents($themeLangFile));
+				$Composer = new Compositor($globalLang, $themeLang);
+				$_SESSION['lang'] = $Composer;
+			} else {
+				$_SESSION['lang'] = $globalLang;
+			}
 			$_SESSION['lang']->langcode = $langCode;
 		}
 
