@@ -14,14 +14,20 @@
 
 				<div class="alpha grid_4">
 
-					<img src="style/images/avatar.png" />
-
+					<img src="<?php echo $Theme->location; ?>style/images/avatar.png" />
 					<div class="clear"></div>
 
+					<label id="theme-label" for="theme">Theme</label>
+					<div class="clear"></div>
+					<select name="theme" id="theme">
+						<option value="default">Default</option>
+					</select>
+
+					<div class="clear"></div>
 					<div id="settings-submit">
-
-						<input type="submit" name="updateaccount" value="Update Account Settings" />
-
+						<label for="updateaccount">Validate</label>
+						<div class="clear"></div>
+						<input type="submit" name="updateaccount" id="updateaccount" value="Update Account Settings" />
 					</div>
 
 				</div>
@@ -63,12 +69,12 @@
 						<div class="clear"></div>
 						<input type="password" name="currentpassword" />
 						<div class="clear"></div>
-						
+
 						<label>New Password</label>
 						<div class="clear"></div>
 						<input type="password" name="oldpassword-1" />
 						<div class="clear"></div>
-						
+
 						<label>New Password (Retype)</label>
 						<div class="clear"></div>
 						<input type="password" name="oldpassword-2" />

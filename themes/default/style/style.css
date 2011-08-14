@@ -596,8 +596,8 @@ blockquote p {
  * -------------------------------------------------------------------------------------
 */
 
-#settings-submit {
-	margin-top: 12px;
+#settings-submit div.button {
+	margin-top: 15px;
 }
 
 #settings img {
@@ -605,7 +605,11 @@ blockquote p {
 }
 
 #settings input[type=file] {
-	padding: 6px;
+	padding: 6px 0;
+}
+
+#settings-first-line h3 {
+	padding-bottom: 18px;
 }
 
 #settings-first-line, #settings-second-line {
@@ -627,6 +631,14 @@ blockquote p {
 
 #settings-second-line h3, #settings h1 {
 	margin-bottom: 36px;
+}
+
+#settings-submit {
+	padding-top: 2px;
+}
+
+#settings-first-line label {
+	padding-left: 0;
 }
 
 /*
