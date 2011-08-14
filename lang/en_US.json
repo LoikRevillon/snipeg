@@ -1,0 +1,45 @@
+{
+	"snippetviewpage": "Snippet View",
+	"publishedbyview": "Published by",
+	"publisheddateview": "on",
+
+	"addsnippetpage": "Add new snippet",
+	"titlesnippet": "title",
+	"descriptionsnippet": "Description",
+	"tagssnippet": "Tags (comma separated)"
+	"codesnippet": "Code",
+	"newcategorysnippet": "Create category",
+	"setcategorysnippet": "Or choose existing category",
+	"programminglangsnippet": "Programming Language",
+	"privacysnippet": "Snippet privacy",
+	"publicsnippet": "Set public",
+	"privatesnippet": "Keep private",
+
+	"browsepage": "Browse",
+	"pagenumberbeginbrowse": "Page ",
+	"pagenumbermiddlebrowse": " of ",
+	"publisheddatebrowse": "Published on",
+	"categorybrowse": "in category",
+
+	"accountpage": "Account Settings",
+	"globalsettingaccount": "Global Settings",
+	"emailaccount": "Email",
+	"langaccount": "Language",
+	"avataraccount": "Change your avatar",
+	"passwordaccount": "Change password",
+	"actualpasswordaccount": "Actual password",
+	"newpasswordaccount": "New password",
+	"newpasswordagainaccount": "New password ( Retype )",
+	"programminglangaccount": "Programming languages",
+
+	"adminpage": "Users List",
+	"becomeadmin": "User is admin",
+	"lockUseradmin": "Lock this user",
+	"deleteUseradmin": "Delete this user",
+
+	"searchbutton": "Search",
+	"editbutton": "Edit",
+	"removebutton": "Remove",
+	"updatebutton": "Update",
+	"changepasswordbutton": "Change password",	
+}

@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * Main configuration file
+ *
+ * @package base
+*/
+
+/**
+ * Absolute install path
+*/
+
+define ('ROOT', __DIR__ . '/');
+
+/**
+ * Directory of themes
+*/ 
+
+define ('THEME_DIR', 'themes/');
+
+/**
+ * Absolute path of themes
+*/
+
+define ('THEME_PATH', ROOT . THEME_DIR);
+
+/**
+ * Absolute path of classes
+*/
+
+define ('CLASSES_PATH', ROOT . 'classes/');
+
+/**
+ * Charset (remove it if you don't want to force charset)
+*/
+
+define ('PHP_CHARSET', 'utf-8');
+
+/**
+ * Default content of HTML <title> tag
+*/
+
+define ('DEFAULT_TITLE', '');
+
+/**
+ * Install directory URL
+*/
+
+define('HTTP_ROOT', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
+
+/**
+ * Messages name
+*/
+
+define('M_ERROR', 'error');
+define('M_WARNING', 'warning');
+define('M_INFO', 'info');
+define('M_SUCCESS', 'success');
+
+/**
+ * Default theme and language
+*/
+
+define('DEFAULT_THEME', 'default');
+define('DEFAULT_LANG', 'en_US');
+
+/**
+ * Default number of snippets show in one page of results (paging)
+*/
+
+define('NUM_SNIPPET_ON_PAGE', 5);
