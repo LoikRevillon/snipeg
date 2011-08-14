@@ -38,6 +38,25 @@ class Tool {
 
 	}
 
+	public static function generatePassword($length) {
+
+		$password = '';
+		$vowels = 'aeuyAEUY';
+		$consonants = 'bdghjmnpqrstvzBDGHJLMNPQRSTVWXZ23456789';
+
+		for($i = 0; $i < $length; $i++) {
+
+			if($i % 2)
+				$password .= $consonants[(rand() % strlen($consonants))];
+			else
+				$password .= $vowels[(rand() % strlen($vowels))];
+
+		}
+
+		return $password;
+
+	}
+
 	public static function loadLanguage() {
 
 		$langCode = !empty($_SESSION['user']->_language) ? $_SESSION['user']->_language : DEFAULT_LANG;
