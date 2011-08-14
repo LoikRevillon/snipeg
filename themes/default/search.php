@@ -10,7 +10,7 @@
 
 		<input type="text" name="query" id="query" autofocus />
 
-		<input type="submit" name="dosearch" value="Search" />
+		<input type="submit" name="dosearch" value="<?php echo $Lang->searchbutton; ?>" />
 
 	</form>
 

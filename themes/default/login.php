@@ -16,7 +16,7 @@
 			<label for="login-password"><?php echo $Lang->password; ?> ( <a id="show-reset" href="#" tabindex="50"><?php echo $Lang->forgotten; ?> ?</a> )</label>
 			<input type="password" name="signin-password" id="login-password" tabindex="20" />
 
-			<input type="submit" name="dologin" value="Sign In" tabindex="30"/>
+			<input type="submit" name="dologin" value="<?php echo $Lang->loginsignin; ?>" tabindex="30"/>
 
 		</div>
 
@@ -38,7 +38,7 @@
 			<label id="signup-password-2"><?php echo $Lang->password; ?> ( <?php echo $Lang->retype; ?> )</label>
 			<input type="password" name="signup-password-2" id="signup-password-2" />
 			
-			<input type="submit" name="dosignup" value="Sign Up"/>
+			<input type="submit" name="dosignup" value="<?php echo $Lang->loginsignup; ?>"/>
 
 		</div>
 
@@ -54,7 +54,7 @@
 			<label id="reset-email"><?php echo $Lang->email; ?></label>
 			<input type="text" name="reset-email" id="reset-email" />
 
-			<input type="submit" name="doreset" value="Reset Password"/>
+			<input type="submit" name="doreset" value="<?php echo $Lang->loginresetpassword; ?>"/>
 
 		</div>
 

@@ -6,7 +6,7 @@
 
 	<div id="settings">
 
-		<h1>Account Settings ( John Williams )</h1>
+		<h1><?php echo $Lang->accountpage; ?> ( John Williams )</h1>
 
 		<form method="post" action="" enctype="multipart/form-data">
 
@@ -17,7 +17,7 @@
 					<img src="<?php echo $Theme->location; ?>style/images/avatar.png" />
 					<div class="clear"></div>
 
-					<label id="theme-label" for="theme">Theme</label>
+					<label id="theme-label" for="theme"><?php echo $Lang->themelabelaccount; ?></label>
 					<div class="clear"></div>
 					<select name="theme" id="theme">
 						<option value="default">Default</option>
@@ -25,9 +25,9 @@
 
 					<div class="clear"></div>
 					<div id="settings-submit">
-						<label for="updateaccount">Validate</label>
+						<label for="updateaccount"><?php echo $Lang->validate; ?></label>
 						<div class="clear"></div>
-						<input type="submit" name="updateaccount" id="updateaccount" value="Update Account Settings" />
+						<input type="submit" name="updateaccount" id="updateaccount" value="<?php echo $Lang->updateaccountsettings; ?>" />
 					</div>
 
 				</div>
@@ -36,21 +36,21 @@
 
 					<fieldset>
 
-						<h3>Global Settings</h3>
+						<h3><?php echo $Lang->globalsettingaccount; ?></h3>
 
-						<label>Email</label>
+						<label><?php echo $Lang->emailaccount; ?></label>
 						<div class="clear"></div>
-						<input type="text" name="email" value="example@example.org" />
+						<input type="text" name="email" value="" />
 						<div class="clear"></div>
 
-						<label>Language</label>
+						<label><?php echo $Lang->langaccount; ?></label>
 						<div class="clear"></div>
 						<select name="language">
 							<option value="en_EN">English</option>
 						</select>
 						<div class="clear"></div>
 
-						<label>Change Avatar</label>
+						<label><?php echo $Lang->avataraccount; ?></label>
 						<div class="clear"></div>
 						<input type="file" name="new-avatar" />
 						<div class="clear"></div>
@@ -63,21 +63,21 @@
 
 					<fieldset>
 
-						<h3>Change Password</h3>
+						<h3><?php echo $Lang->passwordaccount; ?></h3>
 
-						<label>Actual password</label>
+						<label><?php echo $Lang->actualpasswordaccount; ?></label>
 						<div class="clear"></div>
-						<input type="password" name="currentpassword" />
-						<div class="clear"></div>
-
-						<label>New Password</label>
-						<div class="clear"></div>
-						<input type="password" name="oldpassword-1" />
+						<input type="password" name="oldpassword" />
 						<div class="clear"></div>
 
-						<label>New Password (Retype)</label>
+						<label><?php echo $Lang->newpasswordaccount; ?></label>
 						<div class="clear"></div>
-						<input type="password" name="oldpassword-2" />
+						<input type="password" name="newpassword-1" />
+						<div class="clear"></div>
+
+						<label><?php echo $Lang->newpasswordagainaccount; ?></label>
+						<div class="clear"></div>
+						<input type="password" name="newpassword-2" />
 						<div class="clear"></div>
 
 					</fieldset>

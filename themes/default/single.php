@@ -6,13 +6,13 @@
 
 	<div id="single" class="grid_9">
 
-		<h1>Snippet View</h1>
+		<h1><?php echo $Lang->snippetviewpage; ?></h1>
 
 		<div id="single-box">
 
 			<h4><a href="#">Enable Hidden Admin Feature displaying ALL Site Settings</a></h4>
 
-			<p>Published by John on <?php echo date('M d Y'); ?> in <a href="#">Wordpress</a></p>
+			<p><?php echo $Lang->publishedbyview; ?> John <?php echo $Lang->publisheddateview; ?> <?php echo date('M d Y'); ?> <?php echo $Lang->in; ?> <a href="#">Wordpress</a></p>
 
 			<p>This little piece of code does something pretty cool. It will add an additional option to your settings menu with a link to "all settings".</p>
 

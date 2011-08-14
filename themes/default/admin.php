@@ -38,7 +38,7 @@
 
 					</fieldset>
 
-					<input name="doadmin" type="submit" value="Update" />
+					<input name="doadmin" type="submit" value="<?php echo $Lang->updatebutton; ?>" />
 
 				</form>
 
