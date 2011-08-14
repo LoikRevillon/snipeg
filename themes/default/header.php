@@ -9,4 +9,3 @@
 		<script src="<?php echo $Theme->location; ?>js/scripts.js"></script>
 	</head>
 	<body>
-	<?php var_dump($_SESSION); ?>
