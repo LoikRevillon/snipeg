@@ -4,11 +4,11 @@
 
 <div id="main" class="container_12">
 
-	<form method="get" action="test.search.php" id="search" autocomplete="off" class="prefix_3 grid_6">
+	<form method="get" action="?action=search" id="search" class="prefix_3 grid_6" autocomplete="off">
 
-		<input name="query" type="text" id="query" autofocus />
+		<input type="text" name="query" id="query" autofocus />
 
-		<input name="dosearch" type="submit" value="Search" />
+		<input type="submit" name="dosearch" value="Search" />
 
 	</form>
 

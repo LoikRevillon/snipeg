@@ -46,6 +46,7 @@
 
 				<input type="button" value="Edit" />
 				<div class="clear"></div>
+				
 				<input type="button" value="Remove" />
 
 			</div>

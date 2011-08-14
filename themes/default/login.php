@@ -4,19 +4,19 @@
 
 <div id="main" class="container_12">
 
-	<form method="post" action="" id="login" autocomplete="off" class="prefix_4 grid_4">
+	<form method="post" action="" id="login" class="prefix_4 grid_4" autocomplete="off">
 
 		<div id="signin">
 
 			<h1>Sign In</h1>
 
-			<label for id="login-name">Your Name ( <a id="show-signup" href="#" >sign up !</a> )</label>
-			<input name="login" type="text" id="login-name" autofocus />
+			<label for="login-name">Your Name ( <a href="#" id="show-signup" tabindex="40">sign up !</a> )</label>
+			<input type="text" name="signin-login" id="login-name" tabindex="10" autofocus />
 
-			<label for id="login-password">Password ( <a id="show-reset" href="#">forgotten ?</a> )</label>
-			<input name="password" type="password" id="login-password" />
+			<label for="login-password">Password ( <a id="show-reset" href="#" tabindex="50">forgotten ?</a> )</label>
+			<input type="password" name="signin-password" id="login-password" tabindex="20" />
 
-			<input name="dologin" type="submit" value="Sign In"/>
+			<input type="submit" name="dologin" value="Sign In" tabindex="30"/>
 
 		</div>
 
@@ -26,19 +26,19 @@
 
 			<p><a href="#" class="show-signin">Show sign in</a></p>
 
-			<label for id="signup-name">Your Name</label>
-			<input name="login" type="text" id="signup-name" />
+			<label id="signup-name">Your Name</label>
+			<input type="text" name="signup-login" id="signup-name" />
 
-			<label for id="signup-email">Email</label>
-			<input name="email" type="text" id="signup-email" />
+			<label id="signup-email">Email</label>
+			<input type="text" name="signup-email" id="signup-email" />
 
-			<label for id="signup-password-1">Password</label>
-			<input name="password-1" type="password" id="signup-password-1" />
+			<label id="signup-password-1">Password</label>
+			<input type="password" name="signup-password-1" id="signup-password-1" />
 
-			<label for id="signup-password-2">Password ( Again )</label>
-			<input name="password-2" type="password" id="signup-password-2" />
+			<label id="signup-password-2">Password ( Again )</label>
+			<input type="password" name="signup-password-2" id="signup-password-2" />
 			
-			<input name="dosignup" type="submit" value="Sign Up"/>
+			<input type="submit" name="dosignup" value="Sign Up"/>
 
 		</div>
 
@@ -48,13 +48,13 @@
 
 			<p><a href="#" class="show-signin">Show sign in</a></p>
 
-			<label for id="reset-name">Username</label>
-			<input name="login" type="text" id="reset-name" />
+			<label id="reset-name">Username</label>
+			<input type="text" name="reset-login" id="reset-name" />
 
-			<label for id="reset-email">Email</label>
-			<input name="email" type="text" id="reset-email" />
+			<label id="reset-email">Email</label>
+			<input type="text" name="reset-email" id="reset-email" />
 
-			<input name="doreset" type="submit" value="Reset Password"/>
+			<input type="submit" name="doreset" value="Reset Password"/>
 
 		</div>
 

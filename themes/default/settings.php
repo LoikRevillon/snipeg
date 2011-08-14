@@ -20,7 +20,7 @@
 
 					<div id="settings-submit">
 
-						<input type="submit" value="Update Account Settings" />
+						<input type="submit" name="updateaccount" value="Update Account Settings" />
 
 					</div>
 
@@ -34,19 +34,19 @@
 
 						<label>Email</label>
 						<div class="clear"></div>
-						<input name="email" type="text" value="example@example.org" />
+						<input type="text" name="email" value="example@example.org" />
 						<div class="clear"></div>
 
 						<label>Language</label>
 						<div class="clear"></div>
-						<select>
-							<option>English</option>
+						<select name="language">
+							<option value="en_EN">English</option>
 						</select>
 						<div class="clear"></div>
 
 						<label>Change Avatar</label>
 						<div class="clear"></div>
-						<input type="file" />
+						<input type="file" name="new-avatar" />
 						<div class="clear"></div>
 
 					</fieldset>
@@ -61,15 +61,17 @@
 
 						<label>Actual password</label>
 						<div class="clear"></div>
-						<input name="" type="password" />
+						<input type="password" name="currentpassword" />
 						<div class="clear"></div>
+						
 						<label>New Password</label>
 						<div class="clear"></div>
-						<input name="" type="password" />
+						<input type="password" name="oldpassword-1" />
 						<div class="clear"></div>
+						
 						<label>New Password (Retype)</label>
 						<div class="clear"></div>
-						<input name="" type="password" />
+						<input type="password" name="oldpassword-2" />
 						<div class="clear"></div>
 
 					</fieldset>

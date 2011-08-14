@@ -8,23 +8,23 @@
 
 		<h1>Add new snippet</h1>
 
-		<form id="add-snippet"method="post" action="">
+		<form method="post" action="" id="add-snippet">
 
 			<div id="add-snippet-main" class="grid_7">
 
 				<label for id="snippet-name">Title</label>
 				<div class="clear"></div>
-				<input name="name" type="text" id="snippet-name" autofocus />
+				<input type="text" name="name" id="snippet-name" autofocus />
 				<div class="clear"></div>
 
 				<label for id="snippet-description">Description</label>
 				<div class="clear"></div>
-				<input name="description" type="text" id="snippet-description" />
+				<input type="text" name="description" id="snippet-description" />
 				<div class="clear"></div>
 
 				<label for id="snippet-tags">Tags (comma separated)</label>
 				<div class="clear"></div>
-				<input name="tags" type="text" id="snippet-tags" />
+				<input type="text" name="tags" id="snippet-tags" />
 				<div class="clear"></div>
 
 				<label for="snippet-content">Code</label>
@@ -32,7 +32,7 @@
 				<textarea name="content" id="snippet-content"></textarea>
 				<div class="clear"></div>
 
-				<input name="addsnippet" type="submit" value="Add new snippet" />
+				<input type="submit" name="addsnippet" value="Add new snippet" />
 
 			</div>
 
@@ -40,7 +40,7 @@
 
 				<label for="new-category">Create category</label>
 				<div class="clear"></div>
-				<input name="new-category" type="text" id="new-category" placeholder="New category name" />
+				<input type="text" name="newcategory" id="new-category" placeholder="New category name" />
 				<div class="clear"></div>
 
 				<label for="snippet-category">Or choose existing category</label>
@@ -63,11 +63,15 @@
 
 				<label for="snippet-is-public">Snippet privacy</label>
 				<div class="clear"></div>
+
 				<fieldset id="radio-fieldset">
-					<input name="private" type="radio" id="snippet-is-public" value="0" checked="checked"/><label for="snippet-is-public">Set public</label>
+
+					<input type="radio" name="private" id="snippet-is-public" value="0" checked="checked"/><label for="snippet-is-public">Set public</label>
 					<div class="clear"></div>
-					<input name="private" type="radio" id="snippet-is-private" value="1"/><label for="snippet-is-private">Keep private</label>
+
+					<input type="radio" name="private" id="snippet-is-private" value="1"/><label for="snippet-is-private">Keep private</label>
 					<div class="clear"></div>
+
 				</fieldset>
 
 			</div>

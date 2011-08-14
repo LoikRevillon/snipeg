@@ -198,6 +198,10 @@ input[type=text], input[type=password], textarea, img, blockquote, #single-snipp
 		inset 0 4px 8px #22272D;
 }
 
+.info, .warning, .error {
+	min-height: 16px;
+}
+
 textarea, .success, .info, .warning, .error {
 	display: block;
 }

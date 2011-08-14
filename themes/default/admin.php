@@ -10,83 +10,89 @@
 
 		<div class="userlist-line alpha grid_5">
 
-			<form method="post" action="">
+			<div class="alpha grid_3">
 
-				<div class="alpha grid_3">
+				<h3>Username</h3>
+				<p>Last Modification date</p>
 
-					<h3>Username</h3>
-					<p>Last Modification date</p>
+				<form method="post" action="">
 
 					<fieldset>
 
-						<input name="admin" type="checkbox" id="admin-2" />
-						<label for="admin-2">User is admin</label>
+						<input type="checkbox" name="isadmin" id="is-admin-1" />
+						<label for="is-admin-1">User is admin</label>
+
 						<div class="clear"></div>
 
-						<input name="lock" type="checkbox" id="lock-2" />
-						<label for="lock-2">Lock this user</label>
+						<input type="checkbox" name="islocked" id="is-locked-1" />
+						<label for="is-locked-1">Lock this user</label>
+						
 						<div class="clear"></div>
 
-						<input name="delete" type="checkbox" id="delete-2" />
-						<label for="delete-2">Delete this user</label>
+						<input type="checkbox"name="delete" id="delete-1" />
+						<label for="delete-1">Delete this user</label>
+						
 						<div class="clear"></div>
 
-						<input name="id" type="hidden" value="2" />
+						<input type="hidden" name="id" value="1" />
 
 					</fieldset>
 
-					<input name="updateuser" type="submit" value="Update" />
+					<input name="doadmin" type="submit" value="Update" />
 
-				</div>
+				</form>
 
-				<div class="grid_2 omega">
+			</div>
 
-					<img src="style/images/avatar.png" />
+			<div class="grid_2 omega">
 
-				</div>
+				<img src="style/images/avatar.png" />
 
-			</form>
+			</div>
 
 		</div>
 
-		<div class="userlist-line grid_5 alpha">
+		<div class="userlist-line alpha grid_5">
 
-			<form method="post" action="">
+			<div class="alpha grid_3">
 
-				<div class="alpha grid_3">
+				<h3>Username</h3>
+				<p>Last Modification date</p>
 
-					<h3>Username</h3>
-					<p>Last Modification date</p>
+				<form method="post" action="">
 
 					<fieldset>
 
-						<input name="admin" type="checkbox" id="admin-3" />
-						<label for="admin-3">User is admin</label>
+						<input type="checkbox" name="isadmin" id="is-admin-2" />
+						<label for="is-admin-2">User is admin</label>
+
 						<div class="clear"></div>
 
-						<input name="lock" type="checkbox" id="lock-3" />
-						<label for="lock-3">Lock this user</label>
+						<input type="checkbox" name="islocked" id="is-locked-2" />
+						<label for="is-locked-2">Lock this user</label>
+						
 						<div class="clear"></div>
 
-						<input name="delete" type="checkbox" id="delete-3" />
-						<label for="delete-3">Delete this user</label>
+						<input type="checkbox"name="delete" id="delete-2" />
+						<label for="delete-2">Delete this user</label>
+						
 						<div class="clear"></div>
 
-						<input name="id" type="hidden" value="3" />
+						<input type="hidden" name="id" value="2" />
 
 					</fieldset>
 
-					<input name="updateuser" type="submit" value="Update" />
+					<input name="doadmin" type="submit" value="Update" />
 
-				</div>
+				</form>
 
-				<div class="grid_2 omega">
+			</div>
 
-					<img src="style/images/avatar.png" />
+			<div class="grid_2 omega">
 
-				</div>
+				<img src="style/images/avatar.png" />
 
-			</form>
+			</div>
 
 		</div>
 
