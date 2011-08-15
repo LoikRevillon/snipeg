@@ -12,6 +12,8 @@ class Tool {
 
 	public static function preload() {
 
+		session_start();
+
 		if(!isset($_SESSION['messages']))
 			$_SESSION['messages'] = array();
 
