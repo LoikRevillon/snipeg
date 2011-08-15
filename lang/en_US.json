@@ -1,3 +1,12 @@
 {
+	"error_extension_gd_not_found": "Extension GD not found",
+	"error_unauthorized_filetype": "Unauthorized filetype",
+	"error_file_size_exceeds_php_limits": "File size exceeds php limits",
+	"error_upload_interrupted": "Upload interrupted during transfer",
+	"error_uploaded_file_is_empty": "Uploaded file is empty",
+	
+	"error_uploaded_file_not_found": "Uploaded file not found in server",
+	"error_filename_is_empty": "No filename specified",
+	"error_is_not_a_valid_dir": "Is not a valid directory"
 
 }

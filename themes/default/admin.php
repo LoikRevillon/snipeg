@@ -46,7 +46,7 @@
 
 			<div class="grid_2 omega">
 
-				<img src="style/images/avatar.png" />
+				<img src="<?php echo DEFAULT_AVATAR; ?>" />
 
 			</div>
 

@@ -40,7 +40,7 @@
 
 		<div id="single-about">
 
-			<p><img src="style/images/avatar.png" /></p>
+			<p><img src="<?php echo DEFAULT_AVATAR; ?>" /></p>
 
 			<div id="action">
 

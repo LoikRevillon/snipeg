@@ -14,7 +14,7 @@
 
 				<div class="alpha grid_4">
 
-					<img src="<?php echo $Theme->location; ?>style/images/avatar.png" />
+					<img src="<?php echo DEFAULT_AVATAR; ?>" />
 					<div class="clear"></div>
 
 					<label id="theme-label" for="theme"><?php echo $Lang->themelabelaccount; ?></label>

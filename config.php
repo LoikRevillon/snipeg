@@ -1,79 +1,59 @@
 <?php
 
-/**
- * Main configuration file
- *
- * @package base
+/*
+ * General
+ * -------------------------------------------------------------------------------------
 */
 
-/**
- * Absolute install path
+define('ROOT', __DIR__ . '/');
+define('HTTP_ROOT', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
+define('PHP_CHARSET', 'utf-8');
+
+/*
+ * Themes
+ * -------------------------------------------------------------------------------------
 */
 
-define ('ROOT', __DIR__ . '/');
+define('THEME_DIR', 'themes/');
+define('THEME_PATH', ROOT . THEME_DIR);
 
-/**
- * Directory of themes
-*/ 
-
-define ('THEME_DIR', 'themes/');
-
-/**
- * Absolute path of themes
+/*
+ * Classes
+ * -------------------------------------------------------------------------------------
 */
 
-define ('THEME_PATH', ROOT . THEME_DIR);
+define('CLASSES_DIR', 'classes/');
+define('CLASSES_PATH', ROOT . CLASSES_DIR);
 
-/**
- * Absolute path of classes
-*/
-
-define ('CLASSES_PATH', ROOT . 'classes/');
-
-/**
- * Relative path to languages
+/*
+ * Languages
+ * -------------------------------------------------------------------------------------
 */
 
 define('LANGUAGE_DIR', 'lang/');
+define('LANGUAGE_PATH', ROOT . LANGUAGE_DIR);
+define('DEFAULT_LANG', 'en_US');
 
-/**
- * Absolute path to languages
-*/
-
-define ('LANGUAGE_PATH', ROOT . LANGUAGE_DIR);
-
-/**
- * Charset (remove it if you don't want to force charset)
-*/
-
-define ('PHP_CHARSET', 'utf-8');
-
-/**
- * Default content of HTML <title> tag
-*/
-
-define ('DEFAULT_TITLE', '');
-
-/**
- * Install directory URL
-*/
-
-define('HTTP_ROOT', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
-
-/**
- * Default theme
+/*
+ * Themes
+ * -------------------------------------------------------------------------------------
 */
 
 define('DEFAULT_THEME', 'default');
 
-/**
- * Default language
+/*
+ * Avatars
+ * -------------------------------------------------------------------------------------
 */
 
-define('DEFAULT_LANG', 'en_US');
+define('AVATAR_DIR', 'avatars/');
+define('AVATAR_WIDTH', 100);
+define('AVATAR_HEIGHT', 100);
+define('DEFAULT_AVATAR', AVATAR_DIR . 'avatar.png');
 
-/**
- * Default number of snippets show in one page of results (paging)
+/*
+ * Display
+ * -------------------------------------------------------------------------------------
 */
 
 define('NUM_SNIPPET_ON_PAGE', 5);
