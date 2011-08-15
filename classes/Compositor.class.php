@@ -10,7 +10,7 @@ class Compositor {
 		$objects = array();
 
 		foreach($args AS $arg) {
-			if(is_object($arg) AND get_class($arg) == 'stdClass')
+			if(is_object($arg))
 				$objects[] = $arg;
 		}
 
