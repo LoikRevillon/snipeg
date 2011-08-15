@@ -5,8 +5,6 @@
  * -------------------------------------------------------------------------------------
 */
 
-session_start();
-
 require 'config.php';
 require 'functions.php';
 
@@ -85,7 +83,7 @@ if (!empty($_POST)) {
 	}
 }
 
-$file = THEME_PATH . $_SESSION['theme']['name'] . '/' . $Theme->$includeFile;
+$file = THEME_PATH . $Theme->dirname . '/' . $Theme->$includeFile;
 
 if(file_exists($file) AND !is_dir($file))
 	include $file;

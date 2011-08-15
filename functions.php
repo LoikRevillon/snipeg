@@ -56,9 +56,9 @@ function do_login() {
 
 	$manager = UsersManager::getReference();
 	$login = $_POST['signin-login'];
-	unset($_POST['signin-login'])
+	unset($_POST['signin-login']);
 	$passwd = $_POST['signin-password'];
-	unset($_POST['signin-password'];
+	unset($_POST['signin-password']);
 
 	if ($user = $manager->userExistinDB($login)) {
 		if ($user->password === hash('sha256', $passwd)) {
@@ -183,13 +183,13 @@ function do_admin () {
 		}
 	}
 
-	header('location : ' . ROOT);
+	header('Location : ' . HTTP_ROOT);
 
 }
 
 function add_snippet () {
 
-	unset($_POST['addsnippet'];
+	unset($_POST['addsnippet']);
 
 	if ($_POST['tags'] )
 	$currentUser= $_SESSION['user'];
@@ -210,7 +210,7 @@ function add_snippet () {
 	$snippet->addNewSnippet();
 	Tool::appendMessage($Lang->snippetaddingsuccess, M_SUCCESS);
 
-	header('location : ' . ROOT);
+	header('Location : ' . HTTP_ROOT);
 
 }
 
@@ -241,7 +241,7 @@ function do_search() {
 
 	unset($_GET['dosearch']);
 
-	$manager = 
+	//$manager = 
 
 }
 
@@ -261,7 +261,11 @@ function update_account() {
 		if (in_array($_POST['language'], $langOfTheme))
 			$currentUser->_language = $_POST['language'];
 	}
+/*
 	if (!empty
+*/
+
+}
 			
 
 				
