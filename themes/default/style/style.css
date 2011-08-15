@@ -43,6 +43,7 @@ html, body, div, span, blockquote, pre, code, p, a, h1, h2, h3, h4, h5, h6, img,
 body {
 	background: url('images/background.png');
 	padding-bottom: 18px;
+	overflow: hidden;
 }
 
 #paging a, #paging a:after, .tags a, .tags a:after, .success:before, .info:before, .warning:before, .error:before, div.checker span, div.radio span, div.selector, div.selector span, div.button, div.button span {
