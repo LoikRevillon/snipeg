@@ -193,7 +193,7 @@ function update_account() {
 		if ($_POST['newpassword-1'] === $_POST['newpassword-2'])
 			$currentUser->_password = $_POST['newpassword-1'];
 	}
-	if (!empty(code_geshi)) {} # FIX IT
+	//if (!empty(code_geshi)) {} # FIX IT
 
 }
 		

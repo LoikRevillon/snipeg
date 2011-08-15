@@ -333,6 +333,10 @@ label {
 	padding: 12px;
 }
 
+#signin label a {
+	padding: 0;
+}
+
 blockquote p {
 	margin: 0;
 }
