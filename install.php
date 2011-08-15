@@ -57,7 +57,8 @@ if (isset($_POST['init'])) {
 
 			if ($admin->addNewUser()) {
 					
-				Tool::appendMessage('Init successfully.', Tool::M_SUCCESS);
+				Tool::appendMessage('Init successfully !', Tool::M_SUCCESS);
+				Tool::appendMessage('Please remove this file from your server.', Tool::M_INFO);
 				
 			} else {
 				Tool::appendMessage('User name unavailable. May you ever init Stan', Tool::M_ERROR);
@@ -92,19 +93,19 @@ if (isset($_POST['init'])) {
 
 					<div id="init">
 
-						<h1><?php echo $Lang->loginsignin; ?></h1>
+						<h1>Snipeg Initialisation</h1>
 
 						<label for="login-name">Admin name</label>
-						<input type="text" name="init-login" id="login-name" value="leeroy"tabindex="10" autofocus />
+						<input type="text" name="init-login" id="login-name" tabindex="10" autofocus />
 
 						<label for="login-email">Email</label>
-						<input type="text" name="init-email" id="login-email" value="leeroy@jenkins.org" tabindex="20" />
+						<input type="text" name="init-email" id="login-email" tabindex="20" />
 
 						<label for="login-password-1">Password</label>
-						<input type="password" name="init-password-1" id="login-password-1" value="leeroy" tabindex="20" />
+						<input type="password" name="init-password-1" id="login-password-1" tabindex="20" />
 
 						<label for="login-password-2">Password ( Retype )</label>
-						<input type="password" name="init-password-2" id="login-password-2" value="leeroy" tabindex="20" />
+						<input type="password" name="init-password-2" id="login-password-2" tabindex="20" />
 
 						<div class="clear"></div>
 						<input type="submit" name="init" value="Init" tabindex="30"/>
@@ -115,4 +116,4 @@ if (isset($_POST['init'])) {
 
 			</div>
 
-	<?php include($Theme->location . 'footer.php');
+	<?php include(THEME_PATH . $Theme->dirname  . '/' . 'footer.php');
