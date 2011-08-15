@@ -8,6 +8,7 @@
 define('ROOT', __DIR__ . '/');
 define('HTTP_ROOT', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
 define('PHP_CHARSET', 'utf-8');
+define('DB_NAME', 'stanislas.sqlite');
 
 /*
  * Themes
@@ -56,4 +57,5 @@ define('DEFAULT_AVATAR', AVATAR_DIR . 'avatar.png');
  * -------------------------------------------------------------------------------------
 */
 
+define('NUM_USER_PER_PAGE', 5);
 define('NUM_SNIPPET_ON_PAGE', 5);

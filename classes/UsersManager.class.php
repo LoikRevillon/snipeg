@@ -39,8 +39,8 @@ class UsersManager {
 
 		$db = PDOSQLite::getDBLink();
 		$request = $db->prepare('SELECT rowid as id, * FROM users ORDER BY name ASC LIMIT :limit_down , :limit_up');
-		$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_ON_PAGE, PDO::PARAM_INT);
-		$request->bindValue(':limit_up', $pageNumber * NUM_USER_ON_PAGE, PDO::PARAM_INT);
+		$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_PER_PAGE, PDO::PARAM_INT);
+		$request->bindValue(':limit_up', $pageNumber * NUM_USER_PER_PAGE, PDO::PARAM_INT);
 		$request->execute();
 
 		$usersList = array();
@@ -75,8 +75,8 @@ class UsersManager {
 		if($this->userExistInDB($newInfos->_name))
 			return false;
 
-		$d b= PDOSQLite::getDBLink();
-		$request= $db->prepare('UPDATE users SET admin = :admin, name = :name, email = :email, password = :password, locked = :locked, theme = :theme, font = :font, color_scheme = :color_scheme, language = :language, favorite_lang = :favorite_lang WHERE rowid = :id');
+		$db= PDOSQLite::getDBLink();
+		$request= $db->prepare('UPDATE users SET admin = :admin, name = :name, email = :email, password = :password, locked = :locked, theme = :theme, language = :language, favorite_lang = :favorite_lang WHERE rowid = :id');
 
 		$request->bindValue(':id', $userId, PDO::PARAM_INT);
 		$request->bindValue(':admin', $newInfos->_admin, PDO::PARAM_INT);

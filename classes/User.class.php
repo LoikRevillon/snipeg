@@ -58,12 +58,12 @@ class User {
 			return false;
 
 		$db = PDOSQLite::getDBLink();
-		$request = $db->prepare('INSERT INTO users VALUES(:admin, :name, :email, :password, :locked, :theme, :language, :favorite_lang)');
+		$request = $db->prepare('INSERT INTO users VALUES(:admin, :name, :email, :password, :avatar, :locked, :theme, :language, :favorite_lang)');
 		$request->bindParam(':admin', $this->_admin, PDO::PARAM_INT, 1);
 		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 30);
 		$request->bindParam(':email', $this->_email, PDO::PARAM_STR, 80);
-		$request->bindParam(':avatar', $this->_avatar, PDO::PARAM_INT, 1);
 		$request->bindParam(':password', $this->_password, PDO::PARAM_STR, 64);
+		$request->bindParam(':avatar', $this->_avatar, PDO::PARAM_INT, 1);
 		$request->bindParam(':locked', $this->_locked, PDO::PARAM_INT, 1);
 		$request->bindParam(':theme', $this->_theme, PDO::PARAM_STR, 50);
 		$request->bindParam(':language', $this->_language, PDO::PARAM_STR, 10);

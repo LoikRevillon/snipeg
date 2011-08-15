@@ -33,7 +33,7 @@ class Tool {
 			foreach($_SESSION['messages'] as $type => &$messages) {
 				foreach($messages as $index => $message) {
 					echo '<p class="' . $type . '">' . $message . '</p>';
-					unset($messages[$key]);
+					unset($messages[$index]);
 				}
 			}
 		}

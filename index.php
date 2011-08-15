@@ -10,6 +10,10 @@ require 'functions.php';
 
 Tool::preload();
 
+if (!file_exists(DB_NAME) OR is_dir(DB_NAME)) {
+	Tool::appendMessage('There is no database initialized. Think to install Snipeg first', M_WARNING);
+}
+
 /*
  * Global variables
  * -------------------------------------------------------------------------------------
@@ -23,6 +27,8 @@ $Snippet = null;
  * Includes
  * -------------------------------------------------------------------------------------
 */
+
+Tool::readMessages();
 
 // Logout
 if(isset($_GET['logout']))
@@ -62,7 +68,9 @@ if (isset($_SESSION['user'])) {
 	if (isset($_GET['id']) AND SnippetsManager::isPublic($_GET['id'])) {
 		$includeFile = 'single';
 	} else {
+/*
 		Tool::appendMessage($Lang->havetobelogin, Tool::M_ERROR);
+*/
 		$includeFile = 'login';
 	}
 }
