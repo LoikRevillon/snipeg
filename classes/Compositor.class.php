@@ -32,7 +32,8 @@ class Compositor {
 
 	public function __get($attr) {
 
-		return $this->_object->$attr;
+		if(isset($this->_object->$attr))
+			return $this->_object->$attr;
 
 	}
 
