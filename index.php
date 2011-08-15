@@ -5,6 +5,8 @@
  * -------------------------------------------------------------------------------------
 */
 
+session_start();
+
 require 'config.php';
 require 'functions.php';
 
@@ -27,61 +29,46 @@ $Snippet = null;
 // Logout
 if(isset($_GET['logout']))
 	session_destroy();
-var_dump($Theme);
 
-/*
-if (!empty($_GET['action'])) {
-*/
-if (!empty($_GET)) {
-	switch($_GET) {
-		case 'action':
+if (isset($_SESSION['user'])) {
+
+	if (!empty($_GET)) {
+		if (array_key_exists('action', $_GET))
 			load_page();
-			break;
-		case 'delete':
+		else if (array_key_exists('delete', $_GET))
 			delete_snippet();
-			break;
-		case 'search':
+		else if (array_key_exists('search', $_GET))
 			search_snippet();
-			break;
-	}	
-} else {
+	}
 
-	if (isset($_SESSION['user']))
-		$includeFile= 'home';
-	else
-		$includeFile= 'login';
+	if (!empty($_POST)) {
 
-}
-
-if (!empty($_POST)) {
-
-	switch($_POST) {
-		case 'dologin':
+		if (array_key_exists('dologin', $_POST))
 			do_login();
-			break;
-		case 'dosignup':
+		else if (array_key_exists('dosignup', $_POST))
 			do_sign_up();
-			break;
-		case 'doreset':
+		else if (array_key_exists('doreset', $_POST))
 			do_reset();
-			break;
-		case 'doadmin':
+		else if (array_key_exists('doadmin', $_POST))
 			do_admin();
-			break;
-		case 'addsnippet':
+		else if (array_key_exists('addsnippet', $_POST))
 			add_snippet();
-			break;
-		case 'id':
+		else if (array_key_exists('id', $_POST))
 			delete_snippet();
-			break;
-		case 'dosearch':
+		else if (array_key_exists('search', $_POST))
 			do_search();
-			break;
-		case 'updateaccount':
-			do_account();
-			break;
+		else if (array_key_exists('updateaccount', $_POST))
+			do_account();		
+	}
+} else {
+	if (isset($_GET['id']) AND SnippetsManager::isPublic($_GET['id'])) {
+		$includeFile = 'single';
+	} else {
+		Tool::appendMessage($Lang->havetobelogin, Tool::M_ERROR);
+		$includeFile = 'login';
 	}
 }
+	
 
 $file = THEME_PATH . $Theme->dirname . '/' . $Theme->$includeFile;
 
