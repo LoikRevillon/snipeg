@@ -8,7 +8,7 @@
 
 		<h1><?php echo $Lang->accountpage; ?> ( John Williams )</h1>
 
-		<form method="post" action="" enctype="multipart/form-data">
+		<form method="post" action="" enctype="multipart/form-data" autocomplete="off">
 
 			<div id="settings-first-line">
 
