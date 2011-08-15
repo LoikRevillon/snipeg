@@ -1,6 +1,7 @@
-/**
- * Bug Fix : Firefox
- */
+/*
+ * Bug Fix : Firefox & Opera
+ * -------------------------------------------------------------------------------------
+*/
 
 div.button, div.selector {
 	background-position: 0 -32px;
@@ -32,4 +33,8 @@ div.radio span {
 
 div.radio span.checked {
 	background-position: -85px 0;
+}
+
+input[type=submit] {
+	background-color: #000;
 }
