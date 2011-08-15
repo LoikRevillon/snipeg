@@ -5,6 +5,8 @@
  * -------------------------------------------------------------------------------------
 */
 
+session_start();
+
 require 'config.php';
 require 'functions.php';
 
@@ -12,7 +14,6 @@ Tool::preload();
 
 /*
  * Global variables
- * Warn : $Theme must be created before $Lang
  * -------------------------------------------------------------------------------------
 */
 
@@ -28,19 +29,63 @@ $Snippet = null;
 // Logout
 if(isset($_GET['logout']))
 	session_destroy();
+var_dump($Theme);
 
 /*
- * Debug
- * -------------------------------------------------------------------------------------
+if (!empty($_GET['action'])) {
 */
-
-$actions = array('admin', 'browse', 'login', 'new', 'search', 'settings', 'single');
-
-if(isset($_GET['action']) AND in_array($_GET['action'], $actions)) {
-	$include = THEME_PATH . $Theme->dirname . '/' . $Theme->$_GET['action'];
+if (!empty($_GET)) {
+	switch($_GET) {
+		case 'action':
+			load_page();
+			break;
+		case 'delete':
+			delete_snippet();
+			break;
+		case 'search':
+			search_snippet();
+			break;
+	}	
 } else {
-	$include = THEME_PATH . $Theme->dirname . '/' . $Theme->default;
+
+	if (isset($_SESSION['user']))
+		$includeFile= 'home';
+	else
+		$includeFile= 'login';
+
 }
 
-if(file_exists($include))
-	include $include;
+if (!empty($_POST)) {
+
+	switch($_POST) {
+		case 'dologin':
+			do_login();
+			break;
+		case 'dosignup':
+			do_sign_up();
+			break;
+		case 'doreset':
+			do_reset();
+			break;
+		case 'doadmin':
+			do_admin();
+			break;
+		case 'addsnippet':
+			add_snippet();
+			break;
+		case 'id':
+			delete_snippet();
+			break;
+		case 'dosearch':
+			do_search();
+			break;
+		case 'updateaccount':
+			do_account();
+			break;
+	}
+}
+
+$file = THEME_PATH . $_SESSION['theme']['name'] . '/' . $Theme->$includeFile;
+
+if(file_exists($file) AND !is_dir($file))
+	include $file;
