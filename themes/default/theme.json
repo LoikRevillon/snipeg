@@ -3,6 +3,7 @@
 	"default": "search.php",
 	"admin": "admin.php",
 	"browse": "browse.php",
+	"edit": "new.php",
 	"login": "login.php",
 	"new": "new.php",
 	"search": "search.php",
