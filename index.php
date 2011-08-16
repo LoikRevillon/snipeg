@@ -10,10 +10,6 @@ require 'functions.php';
 
 Tool::preload();
 
-if(!file_exists(DB_NAME) OR is_dir(DB_NAME)) {
-	Tool::appendMessage('There is currently no database initialized. Think to install Snipeg first.', Tool::M_WARNING);
-}
-
 /*
  * Global variables
  * -------------------------------------------------------------------------------------
@@ -23,6 +19,9 @@ $Theme = Tool::loadTheme();
 $Lang = Tool::loadLanguage();
 $Snippet = null;
 $Snippets = array();
+
+if(!file_exists(DB_NAME) OR is_dir(DB_NAME))
+	Tool::appendMessage($Lang->warning_no_database_initialized, Tool::M_WARNING);
 
 /*
  * Includes
@@ -71,8 +70,6 @@ if(isset($_SESSION['user'])) {
 	else
 		$includeFile = 'login';
 }
-
-Tool::readMessages();
 
 $file = THEME_PATH . $Theme->dirname . '/' . $Theme->$includeFile;
 

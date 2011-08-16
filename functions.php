@@ -17,7 +17,7 @@ function load_page($includeFile) {
 
 	if(!empty($Theme->$pageRequested)) {
 		if($pageRequested === 'admin' AND $_SESSION['user']['admin'] !== 1)  {
-			Tool::appendMessage($Lang->notenoughrights, M_ERROR);
+			Tool::appendMessage($Lang->error_not_enough_right, M_ERROR);
 			$includeFile = 'default';
 		} else {
 			$includeFile = $pageRequested;
@@ -26,7 +26,7 @@ function load_page($includeFile) {
 		session_destroy();
 		$includeFile = 'login';
 	} else {
-		Tool::appendMessage($Lang->filenotexist, Tool::M_ERROR);
+		Tool::appendMessage($Lang->error_file_not_found . ' : ' . $pageRequested , Tool::M_ERROR);
 		$includeFile = 'default';
 	}
 
@@ -63,10 +63,10 @@ function do_login() {
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
 			$_SESSION['user'] = $user;
 		} else {
-			Tool::appendMessage($Lang->wrongsignin, Tool::M_ERROR);
+			Tool::appendMessage($Lang->error_wrong_sign_in, Tool::M_ERROR);
 		}
 	} else {
-		Tool::appendMessage($Lang->missingsignin, Tool::M_ERROR);
+		Tool::appendMessage($Lang->error_missing_sign_in, Tool::M_ERROR);
 	}
 
 }
@@ -78,11 +78,11 @@ function do_sign_up() {
 	$manager = UsersManager::getReference();
 
 	if($manager->userExistInDB($_POST['signup-login'])) {
-		Tool::appendMessage($Lang->failsignuplogin, Tool::M_ERROR);
+		Tool::appendMessage($Lang->error_username_already_in_use . ' : ' . $_POST['signup-login'], Tool::M_ERROR);
 	} elseif($_POST['signup-password-1'] !== $_POST['signup-password-2']) {
-		Tool::appendMessage($Lang->failsignuppasswd, Tool::M_ERROR);
-	} elseif(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-		Tool::appendMessage($Lang->failsignupemail, Tool::M_ERROR);
+		Tool::appendMessage($Lang->error_password_are_different, Tool::M_ERROR);
+	} elseif(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) { // TODO : Check if email already in use
+		Tool::appendMessage($Lang->error_email_is_not_a_valid_email . ' : ' . $_POST['email'], Tool::M_ERROR);
 	} else {
 		$userInformations = array();
 		$userInformations['admin'] = 0;
@@ -93,12 +93,10 @@ function do_sign_up() {
 		$userInformations['theme'] = DEFAULT_THEME;
 		$userInformations['language'] = DEFAULT_LANG;
 		$userInformations['favorite_lang'] = array();
-
 		$newUser = new User($userInformations);
 
 		if($newUser->addNewUser())
-			Tool::appendMessage('Successfully signing.', Tool::M_SUCCESS);
-
+			Tool::appendMessage($Lang->success_sign_in, Tool::M_SUCCESS);
 	}
 
 }
@@ -110,11 +108,11 @@ function do_reset() {
 	$manager = UsersManager::getReference();
 
 	if(!$user = $manager->userExistInDB($_POST['reset-login']) OR $user->_email !== $_POST['reset-email']) {
-		Tool::appendMessage($Lang->failreset, M_ERROR);
+		Tool::appendMessage($Lang->error_account_reset, M_ERROR);
 	} else {
 		$newPassword = Tool::generatePassword(8);
-		$mail = $Lang->emailreset;
-		Tool::appendMessage($Lang->emailresetsent, M_INFO);
+		$mail = $Lang->emailreset; // FIX IT
+		Tool::appendMessage($Lang->info_reset_email_send, M_INFO);
 	}
 
 }

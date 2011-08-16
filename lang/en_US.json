@@ -7,6 +7,21 @@
 	
 	"error_uploaded_file_not_found": "Uploaded file not found in server",
 	"error_filename_is_empty": "No filename specified",
-	"error_is_not_a_valid_dir": "Is not a valid directory"
+	"error_is_not_a_valid_dir": "Is not a valid directory",
+	"error_file_not_found": "File not found",
+
+	"error_not_enough_right": "You are not allowed to do this action.",
+	"error_wrong_sign_in": "Incorrect username or password",
+	"error_missing_sign_in": "Empty username or password",
+	"error_username_already_in_use": "Username already in use",
+	"error_password_are_different": "Passwords are different",
+	"error_email_is_not_a_valid_email": "Email is not a valid email address",
+	"error_account_reset": "No matching found for this username / email  ",
+
+	"warning_no_database_initialized": "There is currently no database initialized. Think to install Snipeg first.",
+
+	"info_reset_email_send": "New password generated. An email was sent to your email address",
+
+	"success_sign_in": "Successfull signing."
 
 }
