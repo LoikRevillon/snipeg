@@ -39,14 +39,18 @@ class UsersManager {
 
 	}
 
-	public function getAllUsers($pageNumber) {
+	public function getAllUsers($pageNumber = false) {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid as id, * FROM `users` ORDER BY `name` ASC LIMIT :limit_down , :limit_up');
-			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_PER_PAGE, PDO::PARAM_INT);
-			$request->bindValue(':limit_up', $pageNumber * NUM_USER_PER_PAGE, PDO::PARAM_INT);
-			$request->execute();
+			if (!empty($pageNumber)) {
+				$request = $db->prepare('SELECT rowid as id, * FROM `users` ORDER BY `name` ASC LIMIT :limit_down , :limit_up');
+				$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_PER_PAGE, PDO::PARAM_INT);
+				$request->bindValue(':limit_up', $pageNumber * NUM_USER_PER_PAGE, PDO::PARAM_INT);
+				$request->execute();
+			} else {
+				$request = $db->query('SELECT rowid as id, * FROM `users` ORDER BY `name` ASC LIMIT');
+			}
 		} catch(Exception $e) {
 			return array();
 		}
