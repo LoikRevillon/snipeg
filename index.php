@@ -17,6 +17,7 @@ Tool::preload();
 
 $Theme = Tool::loadTheme();
 $Lang = Tool::loadLanguage();
+$User = null;
 $Snippet = null;
 $Snippets = array();
 

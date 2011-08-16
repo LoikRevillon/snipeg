@@ -16,7 +16,7 @@ function load_page($includeFile) {
 	$pageRequested = $_GET['action'];
 
 	if(!empty($Theme->$pageRequested)) {
-		if($pageRequested === 'admin' AND $_SESSION['user']['admin'] !== 1)  {
+		if($pageRequested === 'admin' AND $_SESSION['user']->_admin !== 1)  {
 			Tool::appendMessage($Lang->error_not_enough_right, M_ERROR);
 			$includeFile = 'default';
 		} else {
@@ -62,13 +62,28 @@ function remind_post($param) {
 function do_login() {
 
 	global $Lang;
+	global $User;
 
 	$manager = UsersManager::getReference();
 
 	if(!empty($_POST['signin-login']) AND !empty($_POST['signin-password'])) {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
+
 			$_SESSION['user'] = $user;
+
+			// Set Global variable $User
+			$User = new stdClass();
+			$User->id = intval($_SESSION['user']->_id);
+			$User->isadmin = ($_SESSION['user']->_admin == 1);
+			$User->name = $_SESSION['user']->_name;
+			$User->email = $_SESSION['user']->_email;
+			$User->avatar = ($_SESSION['user']->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $User->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
+			$User->islocked = ($_SESSION['user']->_locked == 1);
+			$User->theme = $_SESSION['user']->_theme;
+			$User->language = $_SESSION['user']->_language;
+			$User->programminglanguages = $_SESSION['user']->_favoriteLang;
+
 		} else {
 			Tool::appendMessage($Lang->error_wrong_sign_in, Tool::M_ERROR);
 		}
