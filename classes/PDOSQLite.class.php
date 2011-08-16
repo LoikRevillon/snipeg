@@ -8,7 +8,11 @@ class PDOSQLite {
 
 	private function __construct() {
 
+		global $Lang;
+
 		try {
+			if(!file_exists(DB_NAME) AND !is_dir(DB_NAME))
+				throw new Exception($Lang->warning_no_database_initialized);
 			self::$_dbLink = new PDO('sqlite:' . DB_NAME);
 			self::$_dbLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
