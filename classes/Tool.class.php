@@ -97,7 +97,7 @@ class Tool {
 
 		if(!empty($_SESSION['theme']->dirname)) {
 			if(!isset($_SESSION['user'])
-				OR (isset($_SESSION['theme']->dirname) AND $_SESSION['user']->dirname == $_SESSION['theme']->dirname)) {
+				OR (isset($_SESSION['theme']->dirname) AND $_SESSION['user']->theme == $_SESSION['theme']->dirname)) {
 				return $_SESSION['theme'];
 			}
 		}
