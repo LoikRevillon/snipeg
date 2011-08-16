@@ -57,8 +57,8 @@ class SnippetsManager {
 		try {
 			$db = PDOSQLite::getDBLink();
 			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user AND `name` = :name ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
-			$request->bindParam(':id_user', $idUser, PDO::PARAM_INT, 1);
-			$request->bindParam(':name', $snippetName, PDO::PARAM_STR, 255);
+			$request->bindValue(':id_user', $idUser, PDO::PARAM_INT);
+			$request->bindValue(':name', $snippetName, PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
