@@ -18,7 +18,6 @@ Tool::preload();
 $Theme = Tool::loadTheme();
 $Lang = Tool::loadLanguage();
 $User = null;
-$Users = array();
 $Snippet = null;
 $Snippets = array();
 
@@ -47,7 +46,7 @@ if(!empty($_POST)) {
 	elseif(array_key_exists('search', $_POST))
 		do_search();
 	elseif(array_key_exists('updateaccount', $_POST))
-		do_account();
+		update_account();
 
 }
 
