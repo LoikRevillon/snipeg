@@ -1,32 +1,47 @@
 <?php
 
-if(file_exists('config.php') AND !is_dir('config.php'))
-	require 'config.php';
-else
-	die('Error : You have to renamme config.inc.php to config.php AND configure it !');
+/*
+ * Includes functions & constants
+ * -------------------------------------------------------------------------------------
+*/
 
-require 'functions.php';
+if(file_exists('config.php') AND !is_dir('config.php')) {
+	require 'config.php';
+	require 'functions.php';
+} else {
+	die('Error : You have to renamme config.inc.php to config.php AND configure it !');
+}
 
 if(file_exists(DB_NAME) AND !is_dir(DB_NAME)) {
-
 	$userManager = UsersManager::getReference();
 	$usersList = $userManager->getAllUsers(1);
 
 	if(!empty($usersList))
 		header('Location: ' . pathinfo(HTTP_ROOT, PATHINFO_DIRNAME));
-
 }
+
+/*
+ * Preloading
+ * -------------------------------------------------------------------------------------
+*/
 
 Tool::preload();
 
+$complete = false;
 $Theme = Tool::loadTheme();
 $Lang = Tool::loadLanguage();
 $Theme->location = str_replace('install.php', '', $Theme->location);
 
+/*
+ * Entry point
+ * -------------------------------------------------------------------------------------
+*/
+
 if(isset($_POST['init'])) {
 
-	/**
-	 * Creating databases.
+	/*
+	 * Creating database & tables
+	 * -------------------------------------------------------------------------------------
 	*/
 
 	$db = PDOSQLite::getDBLink(false);
@@ -35,17 +50,16 @@ if(isset($_POST['init'])) {
 
 	$db->query('CREATE TABLE IF NOT EXISTS `users` (`admin` INT(1), `name` VARCHAR(30), `email` VARCHAR(80), `avatar` INT(1), `password` VARCHAR(64), `locked` INT(1), `theme` VARCHAR(50), `language` VARCHAR(10), `favorite_lang` TEXT)');
 
-	/**
-	 * Creating first admin.
+	/*
+	 * Adding first user (admin)
+	 * -------------------------------------------------------------------------------------
 	*/
 
 	if(!empty($_POST['init-login']) AND !empty($_POST['init-email'])
 		AND !empty($_POST['init-password-1']) AND !empty($_POST['init-password-2'])) {
 
 		if(filter_var($_POST['init-email'], FILTER_VALIDATE_EMAIL)) {
-
 			if($_POST['init-password-1'] === $_POST['init-password-2']) {
-
 				$adminArray = array(
 					'admin' => 1,
 					'name' => $_POST['init-login'],
@@ -61,17 +75,18 @@ if(isset($_POST['init'])) {
 				$admin = new User($adminArray);
 
 				if($admin->addNewUser()) {
-					Tool::appendMessage('Init successfully !', Tool::M_SUCCESS);
-					Tool::appendMessage('Please remove this file from your server.', Tool::M_INFO);
+					Tool::appendMessage($Lang->success_installation, Tool::M_SUCCESS);
+					Tool::appendMessage($Lang->info_install_remove_file, Tool::M_WARNING);
+					$complete = true;
 				}
 			} else {
-				Tool::appendMessage('Passwords are differents.', Tool::M_ERROR);
+				Tool::appendMessage($Lang->error_password_are_different, Tool::M_ERROR);
 			}
 		} else {
-			Tool::appendMessage('Invalid email address.', Tool::M_ERROR);
+			Tool::appendMessage($Lang->error_email_is_not_a_valid_email, Tool::M_ERROR);
 		}
 	} else {
-			Tool::appendMessage('All fields are required.', Tool::M_ERROR);
+			Tool::appendMessage($Lang->error_all_fields_are_required, Tool::M_ERROR);
 	}
 }
 
@@ -90,7 +105,7 @@ if(isset($_POST['init'])) {
 	<body>
 		<div id="topbar"></div>
 
-<?php Tool::readMessages();?>
+		<?php Tool::readMessages();?>
 
 		<div id="main" class="container_12">
 
@@ -120,5 +135,11 @@ if(isset($_POST['init'])) {
 			</form>
 
 		</div>
+
+		<?php if($complete) : ?>
+		<script type="text/javascript">
+			$('#init').hide();
+		</script>
+		<?php endif; ?>
 
 <?php include(THEME_PATH . $Theme->dirname  . '/' . 'footer.php');

@@ -89,7 +89,7 @@ function do_sign_up() {
 	} elseif($_POST['signup-password-1'] !== $_POST['signup-password-2']) {
 		Tool::appendMessage($Lang->error_password_are_different, Tool::M_ERROR);
 	} elseif(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) { // TODO : Check if email already in use
-		Tool::appendMessage($Lang->error_email_is_not_a_valid_email . ' : ' . $_POST['email'], Tool::M_ERROR);
+		Tool::appendMessage($Lang->error_email_is_not_a_valid_email, Tool::M_ERROR);
 	} else {
 		$userInformations = array();
 		$userInformations['admin'] = 0;

@@ -1,4 +1,12 @@
 {
+	"success_installation": "Init successfull !",
+	"success_sign_in": "Successfull signing.",
+
+	"info_install_remove_file": "For security reasons, please remove this file from your server.",
+	"info_reset_email_send": "New password generated. An email was sent to your email address",
+
+	"warning_no_database_initialized": "There is currently no database initialized. Think to install Snipeg first.",
+
 	"error_extension_gd_not_found": "Extension GD not found",
 	"error_unauthorized_filetype": "Unauthorized filetype",
 	"error_file_size_exceeds_php_limits": "File size exceeds php limits",
@@ -15,13 +23,7 @@
 	"error_missing_sign_in": "Empty username or password",
 	"error_username_already_in_use": "Username already in use",
 	"error_password_are_different": "Passwords are different",
-	"error_email_is_not_a_valid_email": "Email is not a valid email address",
-	"error_account_reset": "No matching found for this username / email  ",
-
-	"warning_no_database_initialized": "There is currently no database initialized. Think to install Snipeg first.",
-
-	"info_reset_email_send": "New password generated. An email was sent to your email address",
-
-	"success_sign_in": "Successfull signing."
-
+	"error_email_is_not_a_valid_email": "Email is not a valid email address.",
+	"error_account_reset": "No matching found for this username / email",
+	"error_all_fields_are_required": "All fields are required."
 }
