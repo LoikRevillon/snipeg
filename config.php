@@ -58,4 +58,4 @@ define('DEFAULT_AVATAR', AVATAR_DIR . 'avatar.png');
 */
 
 define('NUM_USER_PER_PAGE', 5);
-define('NUM_SNIPPET_ON_PAGE', 5);
+define('NUM_SNIPPET_PER_PAGE', 5);
