@@ -69,6 +69,7 @@ class Tool {
 			$userStd->admin = $userObject->_admin;
 			$userStd->name = $userObject->_name;
 			$userStd->email = $userObject->_email;
+			$userStd->avatar = ($userObject->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $userStd->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
 			$userStd->password = $userObject->_password;
 			$userStd->locked = $userObject->_locked;
 			$userStd->theme = $userObject->_theme;
