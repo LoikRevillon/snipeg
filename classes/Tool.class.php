@@ -133,4 +133,21 @@ class Tool {
 
 	}
 
+	public static function formatUser($userObject) {
+
+		$User = new stdClass();
+		$User->id = intval($userObject->_id);
+		$User->isadmin = ($userObject->_admin == 1);
+		$User->name = $userObject->_name;
+		$User->email = $userObject->_email;
+		$User->avatar = ($userObject->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $User->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
+		$User->islocked = ($userObject->_locked == 1);
+		$User->theme = $userObject->_theme;
+		$User->language = $userObject->_language;
+		$User->programminglanguages = $userObject->_favoriteLang;
+
+		return $User;
+
+	}
+
 }

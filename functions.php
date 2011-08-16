@@ -73,16 +73,7 @@ function do_login() {
 			$_SESSION['user'] = $user;
 
 			// Set Global variable $User
-			$User = new stdClass();
-			$User->id = intval($_SESSION['user']->_id);
-			$User->isadmin = ($_SESSION['user']->_admin == 1);
-			$User->name = $_SESSION['user']->_name;
-			$User->email = $_SESSION['user']->_email;
-			$User->avatar = ($_SESSION['user']->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $User->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
-			$User->islocked = ($_SESSION['user']->_locked == 1);
-			$User->theme = $_SESSION['user']->_theme;
-			$User->language = $_SESSION['user']->_language;
-			$User->programminglanguages = $_SESSION['user']->_favoriteLang;
+			$User = Tool::formatUser($_SESSION['user']);
 
 		} else {
 			Tool::appendMessage($Lang->error_wrong_sign_in, Tool::M_ERROR);

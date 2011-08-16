@@ -55,7 +55,7 @@ class UsersManager {
 
 		while($result = $request->fetch(PDO::FETCH_ASSOC)) {
 			$result['favorite_lang']= unserialize($result['favorite_lang']);
-			$usersList[] = new User($result);
+			$usersList[] = Tool::formatUser(new User($result));
 		}
 
 		return $usersList;
