@@ -46,7 +46,7 @@
 						<label><?php echo $Lang->langaccount; ?></label>
 						<div class="clear"></div>
 						<select name="language">
-							<option value="en_EN">English</option>
+							<option value="en_US">English</option>
 						</select>
 						<div class="clear"></div>
 
