@@ -27,12 +27,17 @@
 	"error_not_enough_right": "You are not allowed to do this action.",
 	"error_wrong_sign_in": "Incorrect username or password.",
 	"error_missing_sign_in": "Empty username or password.",
+
 	"error_username_already_in_use": "Username already in use.",
 	"error_password_are_different": "Passwords are different.",
+	"error_wrong_password": "Wrong password advised.",
 	"error_email_is_not_a_valid_email": "Email is not a valid email address.",
+	"error_email_is_unavailable": "Email is not available.",
+	
 	"error_account_reset": "No matching found for this username / email.",
 	"error_all_fields_are_required": "All fields are required.",
 
 	"error_missing_snippet_name": "Snippet name are missing.",
 	"error_delete_snippet": "Snippet can not be deleted."
+	"error_update_user": "New informations couldn't be saved."
 }
