@@ -141,7 +141,7 @@ function do_admin() {
 	} else {
 		if(!empty($_POST['delete'])) {
 			$user->deleteUser();
-			Tool::appendMessage($Lang->userdeletesuccess, M_SUCCESS);
+			Tool::appendMessage($Lang->success_delete_user, M_SUCCESS);
 		} else {
 			$newUser = new stdClass();
 
@@ -152,7 +152,7 @@ function do_admin() {
 
 			$updatedUser = new Compositor($user, $newUser);
 			$manager->updateUserInfos($user->_id, $updatedUser);
-			Tool::appendMessage($Lang->userupdatedsuccess, M_SUCCESS);
+			Tool::appendMessage($Lang->success_update_user, M_SUCCESS);
 		}
 	}
 
@@ -166,7 +166,7 @@ function add_snippet() {
 	$snippetArray = array();
 
 	if(empty($_POST['name'])) {
-		Tool::appendMessage($Lang->newsnippetfailedname, M_ERROR);
+		Tool::appendMessage($Lang->error_missing_snippet_name, M_ERROR);
 		return false;
 	}
 
@@ -183,7 +183,7 @@ function add_snippet() {
 	$snippet = new Snippet($snippetArray);
 	$snippet->addNewSnippet();
 
-	Tool::appendMessage($Lang->snippetaddingsuccess, M_SUCCESS);
+	Tool::appendMessage($Lang->success_add_snippet, M_SUCCESS);
 
 }
 
@@ -194,7 +194,7 @@ function delete_snippet() {
 	$manager = SnippetsManager::getReference();
 
 	if(empty($_GET['id']) OR !$snippet = $manager->getSnippetById($_GET['id'])) {
-		Tool::appendMessage($Lang->snippetdeletedfailed, M_ERROR);
+		Tool::appendMessage($Lang->error_delete_snippet, M_ERROR);
 		return false;
 	}
 
@@ -202,9 +202,9 @@ function delete_snippet() {
 
 	if($snippetOwner->_id === $snippet->_userId) {
 		$snippet->deleteSnippet();
-		Tool::appendMessage($Lang->snippetdeletedsuccess, M_SUCCESS);
+		Tool::appendMessage($Lang->success_delete_snippet, M_SUCCESS);
 	} else {
-		Tool::appendMessage($Lang->snippetdeletedfailed, M_ERROR);
+		Tool::appendMessage($Lang->error_delete_snippet, M_ERROR);
 	}
 
 }
