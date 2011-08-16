@@ -11,24 +11,24 @@ function __autoload($className) {
 function load_page($includeFile) {
 
 	global $Theme;
-	
+
 	$pageRequested = $_GET['action'];
 
-	if (!empty($Theme->$pageRequested)) {
-		
-		if ($pageRequested === 'admin' AND $_SESSION['user']['admin'] !== 1)  {
-			
+	if(!empty($Theme->$pageRequested)) {
+
+		if($pageRequested === 'admin' AND $_SESSION['user']['admin'] !== 1)  {
+
 			Tool::appendMessage($Lang->notenoughrights, M_ERROR);
 			$includeFile = 'default';
 
 		} else {
 			$includeFile = $pageRequested;
 		}
-	} elseif ($pageRequested === 'logout' ){
-		
+	} elseif($pageRequested === 'logout' ){
+
 		session_destroy();
 		$includeFile = 'login';
-		
+
 	} else {
 		Tool::appendMessage($Lang->filenotexist, Tool::M_ERROR);
 		$includeFile = 'default';
@@ -40,9 +40,9 @@ function lang_of_theme() {
 	$listLang = array();
 
 	foreach(glob(ROOT . $Theme->dirname . LANGUAGE_DIR . '*.json') as $languageFile) {
-		$listLang[] = pathinfo($languageFile, PATHINFO_FILENAME);		
+		$listLang[] = pathinfo($languageFile, PATHINFO_FILENAME);
 	}
-	
+
 	return $listLang;
 }
 
@@ -57,11 +57,11 @@ function do_login() {
 	global $Lang;
 	$manager = UsersManager::getReference();
 
-	if (!empty($_POST['signin-login']) AND !empty($_POST['signin-password'])) {
+	if(!empty($_POST['signin-login']) AND !empty($_POST['signin-password'])) {
 
 		var_dump(hash('sha256', $_POST['signin-password']));
-	
-		if ($user = $manager->userExistinDB($_POST['signin-login']) 
+
+		if($user = $manager->userExistinDB($_POST['signin-login'])
 				AND $user->_password === hash('sha256', $_POST['signin-password'])) {
 				$_SESSION['user'] = $user;
 		} else {
@@ -76,15 +76,15 @@ function do_sign_up() {
 
 	$manager = UsersManager::getReference();
 
-	if ($manager->userExistInDB($_POST['signup-login'])) {
+	if($manager->userExistInDB($_POST['signup-login'])) {
 		Tool::appendMessage($Lang->failsignuplogin, Tool::M_ERROR);
-		
-	} elseif ($_POST['signup-password1'] !== $_POST['signup-password2']) {
+
+	} elseif($_POST['signup-password1'] !== $_POST['signup-password2']) {
 		Tool::appendMessage($Lang->failsignuppasswd, Tool::M_ERROR);
-		
-	} elseif (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+
+	} elseif(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 		Tool::appendMessage($Lang->failsignupemail, Tool::M_ERROR);
-		
+
 	} else {
 		$userInformations = array();
 		$userInformations['admin'] = 0;
@@ -96,12 +96,11 @@ function do_sign_up() {
 		$userInformations['language'] = DEFAULT_LANG;
 		$userInformations['favorite_lang'] = array();
 
-		$newUser = new User ($userInformations);
+		$newUser = new User($userInformations);
 
-		if ($newUser->addNewUser()) {
-
+		if($newUser->addNewUser())
 			Tool::appendMessage('Successfully signing.', Tool::M_SUCCESS);
-		}
+
 	}
 }
 
@@ -109,36 +108,36 @@ function do_reset() {
 
 	$manager = UsersManager::getReference();
 
-	if (!$user = $manager->userExistInDB($_POST['reset-login']) OR $user->_email !== $_POST['reset-email']) {
+	if(!$user = $manager->userExistInDB($_POST['reset-login']) OR $user->_email !== $_POST['reset-email']) {
 		Tool::appendMessage($Lang->failreset, M_ERROR);
-		
+
 	} else {
 		$newPassword = Tool::generatePassword(8);
 		$mail = $Lang->emailreset;
 		Tool::appendMessage($Lang->emailresetsent, M_INFO);
 	}
 }
-		
-function do_admin () {
+
+function do_admin() {
 
 	$manager = UsersManager::getReference();
 
-	if (isadmin() AND !$user = $manager->getUserInformations($_POST['id'])) {
+	if(isadmin() AND !$user = $manager->getUserInformations($_POST['id'])) {
 		Tool::appendMessage($Lang->usernotexist, M_ERROR);
 	} else {
-		if (!empty($_POST['delete'])) {
+		if(!empty($_POST['delete'])) {
 			$user->deleteUser();
 			Tool::appendMessage($Lang->userdeletesuccess, M_SUCCESS);
 		} else {
 			$newUser = new stdClass();
-			
-			if (!empty($_POST['isadmin']))
+
+			if(!empty($_POST['isadmin']))
 				$newUser->_admin = 1;
-				
-			if (!empty($_POST['islocked']))
+
+			if(!empty($_POST['islocked']))
 				$newUser->_locked = 1;
 
-			$updatedUser = new Compositor ($user, $newUser);
+			$updatedUser = new Compositor($user, $newUser);
 
 			$manager->updateUserInfos($user->_id, $updatedUser);
 			Tool::appendMessage($Lang->userupdatedsuccess, M_SUCCESS);
@@ -146,16 +145,16 @@ function do_admin () {
 	}
 }
 
-function add_snippet () {
-	
+function add_snippet() {
+
 	$currentUser = $_SESSION['user'];
 	$snippetArray = array();
 
-	if (empty($_POST['name'])) {
+	if(empty($_POST['name'])) {
 		Tool::appendMessage($Lang->newsnippetfailedname, M_ERROR);
 		return false;
 	}
-		
+
 	$snippetArray['name'] = $_POST['name'];
 	$snippetArray['id_user'] = $currentUser->_id;
 	$snippetArray['last_update'] = time();
@@ -166,24 +165,24 @@ function add_snippet () {
 	$snippetArray['tags'] = $_POST['tags'];
 	$snippetArray['policy'] = $_POST['policy'];
 
-	$snippet = new Snippet ($snippetArray);
+	$snippet = new Snippet($snippetArray);
 	$snippet->addNewSnippet();
 	Tool::appendMessage($Lang->snippetaddingsuccess, M_SUCCESS);
-	
+
 }
 
 function delete_snippet() {
 
 	$manager = SnippetsManager::getReference();
-	if (empty($_GET['id']) OR !$snippet = $manager->getSnippetById($_GET['id'])) {
+	if(empty($_GET['id']) OR !$snippet = $manager->getSnippetById($_GET['id'])) {
 
 		Tool::appendMessage($Lang->snippetdeletedfailed, M_ERROR);
 		return false;
 	}
-	
+
 	$snippetOwner = $_SESSION['user'];
 
-	if ($snippetOwner->_id === $snippet->_userId) {
+	if($snippetOwner->_id === $snippet->_userId) {
 		$snippet->deleteSnippet();
 		Tool::appendMessage($Lang->snippetdeletedsuccess, M_SUCCESS);
 	} else {
@@ -195,15 +194,15 @@ function do_search() {
 
 	global $Snippets;
 
-	if (!empty($_GET['query'])) {
-		if (empty($_GET['page']))
+	if(!empty($_GET['query'])) {
+		if(empty($_GET['page']))
 			$page = 1;
 		else
 			$page = $_GET['page'];
-			
+
 		$manager = SnippetManager::getReference();
 		$user = $_SESSION['user'];
-		if (isset($_GET['category'])) {
+		if(isset($_GET['category'])) {
 			$Snippets = $manager->instantSearch_GetSnippetsByCategory($user->_id, $_SESSION['query'], $page);
 		} else {
 			$Snippets = $manager->instantSearch_GetSnippets($user->_id, $_SESSION['query'], $page);
@@ -215,20 +214,20 @@ function update_account() {
 
 	$currentUser = $_SESSION['user'];
 
-	if (!empty($_POST['email'])) {
-		if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+	if(!empty($_POST['email'])) {
+		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 			$currentUser->_email = $_POST['email'];
 	}
-	if (!empty($_POST['language'])) {
+	if(!empty($_POST['language'])) {
 		$langOfTheme = lang_of_theme();
 
-		if (in_array($_POST['language'], $langOfTheme))
+		if(in_array($_POST['language'], $langOfTheme))
 			$currentUser->_language = $_POST['language'];
 	}
-	if (file_exists(AVATAR)) {} # FIT IT
-	
-	if (!empty($_POST['oldpassword']) AND $currentUser->_password !== hash('sha256', $_POST['oldpassword'])) {
-		if ($_POST['newpassword-1'] === $_POST['newpassword-2'])
+	//if(file_exists(AVATAR)) {} # FIT IT
+
+	if(!empty($_POST['oldpassword']) AND $currentUser->_password !== hash('sha256', $_POST['oldpassword'])) {
+		if($_POST['newpassword-1'] === $_POST['newpassword-2'])
 			$currentUser->_password = $_POST['newpassword-1'];
 	}
 	//if (!empty(code_geshi)) {} # FIX IT

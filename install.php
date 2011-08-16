@@ -1,18 +1,17 @@
 <?php
 
-if (file_exists('config.php') AND !is_dir('config.php')) {
+if(file_exists('config.php') AND !is_dir('config.php'))
 	require 'config.php';
-} else {
-	die ('Error : You have to renamme config.inc.php to config.php AND configure it !');
-}
+else
+	die('Error : You have to renamme config.inc.php to config.php AND configure it !');
 
 require 'functions.php';
 
-if (file_exists(DB_NAME) AND !is_dir(DB_NAME)) {
+if(file_exists(DB_NAME) AND !is_dir(DB_NAME)) {
 
 	$userManager = UsersManager::getReference();
 	$usersList = $userManager->getAllUsers(1);
-	if (!empty($usersList))
+	if(!empty($usersList))
 		header('Location: ' . pathinfo(HTTP_ROOT, PATHINFO_DIRNAME));
 }
 
@@ -20,49 +19,50 @@ Tool::preload();
 
 $Theme = Tool::loadTheme();
 
-$Theme->location = str_replace ('install.php', '', $Theme->location);
+$Theme->location = str_replace('install.php', '', $Theme->location);
 
-if (isset($_POST['init'])) {
-		
+if(isset($_POST['init'])) {
+
 	/**
 	 * Creating databases.
 	*/
-		
+
 	$db = PDOSQLite::getDBLink();
 
 	$db->query('CREATE TABLE IF NOT EXISTS snippets (name VARCHAR(255), id_user INT(1), last_update BIGINT(32), content TEXT, language INT(1), comment TEXT, category VARCHAR(80), tags TEXT, private INT(1))');
-				
+
 	$db->query('CREATE TABLE IF NOT EXISTS users (admin INT(1), name VARCHAR(30), email VARCHAR(80), avatar INT(1), password VARCHAR(64), locked INT(1), theme VARCHAR(50), language VARCHAR(10), favorite_lang TEXT)');
 
 	/**
 	 * Creating first admin.
 	*/
 
-	if (!empty($_POST['init-login']) AND !empty($_POST['init-email'])
+	if(!empty($_POST['init-login']) AND !empty($_POST['init-email'])
 				AND !empty($_POST['init-password-1']) AND !empty($_POST['init-password-2'])) {
 
-		if (filter_var($_POST['init-email'], FILTER_VALIDATE_EMAIL)) {
+		if(filter_var($_POST['init-email'], FILTER_VALIDATE_EMAIL)) {
 
-			if ($_POST['init-password-1'] === $_POST['init-password-2']) {
-				
+			if($_POST['init-password-1'] === $_POST['init-password-2']) {
+
 				$adminArray = array(
-								'admin' => 1,
-								'name' => $_POST['init-login'],
-								'email' => $_POST['init-email'],
-								'avatar' => 0,
-								'password' => hash('sha256', $_POST['init-password-1']),
-								'locked' => 0,
-								'theme' => 'default',
-								'language' => 'en_US',
-								'favorite_lang' => array()
-								);
+					'admin' => 1,
+					'name' => $_POST['init-login'],
+					'email' => $_POST['init-email'],
+					'avatar' => 0,
+					'password' => hash('sha256', $_POST['init-password-1']),
+					'locked' => 0,
+					'theme' => 'default',
+					'language' => 'en_US',
+					'favorite_lang' => array()
+				);
+
 				$admin = new User($adminArray);
 
-				if ($admin->addNewUser()) {
-						
+				if($admin->addNewUser()) {
+
 					Tool::appendMessage('Init successfully !', Tool::M_SUCCESS);
 					Tool::appendMessage('Please remove this file from your server.', Tool::M_INFO);
-				
+
 				} else {
 						Tool::appendMessage('User name unavailable. May you ever init Stan.', Tool::M_ERROR);
 				}
