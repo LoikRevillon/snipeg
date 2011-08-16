@@ -20,6 +20,7 @@ if(file_exists(DB_NAME) AND !is_dir(DB_NAME)) {
 Tool::preload();
 
 $Theme = Tool::loadTheme();
+$Lang = Tool::loadLanguage();
 $Theme->location = str_replace('install.php', '', $Theme->location);
 
 if(isset($_POST['init'])) {
@@ -28,7 +29,7 @@ if(isset($_POST['init'])) {
 	 * Creating databases.
 	*/
 
-	$db = PDOSQLite::getDBLink();
+	$db = PDOSQLite::getDBLink(false);
 
 	$db->query('CREATE TABLE IF NOT EXISTS `snippets` (`name` VARCHAR(255), `id_user` INT(1), `last_update` BIGINT(32), `content TEXT`, `language` INT(1), `comment` TEXT, `category` VARCHAR(80), `tags` TEXT, `private` INT(1))');
 
@@ -100,16 +101,16 @@ if(isset($_POST['init'])) {
 					<h1>Snipeg Initialisation</h1>
 
 					<label for="login-name">Admin name</label>
-					<input type="text" name="init-login" id="login-name" tabindex="10" autofocus />
+					<input type="text" name="init-login" id="init-name" value="<?php remind_post('init-login'); ?>" tabindex="10" autofocus />
 
 					<label for="login-email">Email</label>
-					<input type="text" name="init-email" id="login-email" tabindex="20" />
+					<input type="text" name="init-email" id="init-email" value="<?php remind_post('init-email'); ?>" tabindex="20" />
 
 					<label for="login-password-1">Password</label>
-					<input type="password" name="init-password-1" id="login-password-1" tabindex="20" />
+					<input type="password" name="init-password-1" id="init-password-1" value="<?php remind_post('init-password-1'); ?>" tabindex="20" />
 
 					<label for="login-password-2">Password ( Retype )</label>
-					<input type="password" name="init-password-2" id="login-password-2" tabindex="20" />
+					<input type="password" name="init-password-2" id="init-password-2" value="<?php remind_post('init-password-2'); ?>" tabindex="20" />
 
 					<div class="clear"></div>
 					<input type="submit" name="init" value="Init" tabindex="30"/>

@@ -52,6 +52,13 @@ function is_admin() {
 
 }
 
+function remind_post($param) {
+
+	if(!empty($_POST) AND isset($_POST[$param]))
+		echo htmlspecialchars($_POST[$param]);
+
+}
+
 function do_login() {
 
 	global $Lang;
