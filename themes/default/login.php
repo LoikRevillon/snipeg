@@ -2,6 +2,8 @@
 
 <div id="topbar"></div>
 
+<?php Tool::readMessages();?>
+
 <div id="main" class="container_12">
 
 	<form method="post" action="?action=search" id="login" class="prefix_4 grid_4" autocomplete="off">

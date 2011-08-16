@@ -9,3 +9,4 @@
 		<li><a href="?action=logout"><?php echo $Lang->menulogout; ?></a></li>
 	</ul>
 </div>
+<?php Tool::readMessages();?>
