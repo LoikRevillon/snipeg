@@ -166,24 +166,32 @@ function add_snippet() {
 	$snippetArray = array();
 
 	if(empty($_POST['name'])) {
-		Tool::appendMessage($Lang->error_missing_snippet_name, M_ERROR);
+		Tool::appendMessage($Lang->error_missing_snippet_name, Tool::M_ERROR);
 		return false;
 	}
+
+	if (!empty($_POST['newcategory']))
+		$category = $_POST['newcategory'];
+	else
+		$category = $_POST['category'];		
 
 	$snippetArray['name'] = $_POST['name'];
 	$snippetArray['id_user'] = $currentUser->_id;
 	$snippetArray['last_update'] = time();
 	$snippetArray['content'] = $_POST['content'];
-	$snippetArray['language'] = $_POST['language'];
-	$snippetArray['comment'] = $_POST['comment'];
-	$snippetArray['category'] = $_POST['category'];
+	$snippetArray['language'] = $_POST['language'];  ## FIX IT (geshi codes)
+	$snippetArray['comment'] = $_POST['description'];
+	$snippetArray['category'] = $category;
 	$snippetArray['tags'] = $_POST['tags'];
-	$snippetArray['policy'] = $_POST['policy'];
+	$snippetArray['private'] = $_POST['private'];
 
 	$snippet = new Snippet($snippetArray);
-	$snippet->addNewSnippet();
-
-	Tool::appendMessage($Lang->success_add_snippet, M_SUCCESS);
+	var_dump($snippetArray);
+	var_dump($snippet);
+	if ($snippet->addNewSnippet()) 
+		Tool::appendMessage($Lang->success_add_snippet, Tool::M_SUCCESS);
+	else
+		Tool::appendMessage($Lang->error_add_snippet, Tool::M_ERROR);
 
 }
 
@@ -232,26 +240,45 @@ function do_search() {
 
 function update_account() {
 
+	global $Lang;
 	$currentUser = $_SESSION['user'];
 
 	if(!empty($_POST['email'])) {
-		// Need fix : email already used ?
-		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
-			$currentUser->_email = $_POST['email'];
+
+		if (!Tool::emailExistInDB($_POST['email'])) {
+			
+			if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+				$currentUser->_email = $_POST['email'];
+				
+			else
+				Tool::appendMessage($Lang->error_email_is_not_a_valid_email, Tool::M_ERROR);
+				
+		} else {
+			Tool::appendMessage($Lang->error_email_is_unavailable, Tool::M_ERROR);
+		}
 	}
+	
 	if(!empty($_POST['language'])) {
 		$langOfTheme = lang_of_theme();
 		if(in_array($_POST['language'], $langOfTheme))
 			$currentUser->_language = $_POST['language'];
 	}
-
 	//if(file_exists(AVATAR)) {} # FIT IT
 
 	if(!empty($_POST['oldpassword']) AND $currentUser->_password !== hash('sha256', $_POST['oldpassword'])) {
 		if($_POST['newpassword-1'] === $_POST['newpassword-2'])
 			$currentUser->_password = $_POST['newpassword-1']; // NEED FIX ? Not my code, need check.
+		else
+			Tool::appendMessage($Lang->error_password_are_different, Tool::M_ERROR);
+	} else {
+		Tool::appendMessage($Lang->error_wrong_password, Tool::M_ERROR);
 	}
-
 	//if (!empty(code_geshi)) {} # FIX IT
+
+	$manager = UsersManager::getReference();
+	if ($manager->updateUserInfos($currentUser->_id, $currentUser))
+		Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
+	else
+		Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
 
 }
