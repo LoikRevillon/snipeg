@@ -94,14 +94,14 @@ function do_sign_up() {
 		Tool::appendMessage($Lang->error_username_already_in_use . ' : ' . $_POST['signup-login'], Tool::M_ERROR);
 	} elseif($_POST['signup-password-1'] !== $_POST['signup-password-2']) {
 		Tool::appendMessage($Lang->error_password_are_different, Tool::M_ERROR);
-	} elseif(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) { // TODO : Check if email already in use
+	} elseif(!filter_var($_POST['signup-email'], FILTER_VALIDATE_EMAIL)) { // TODO : Check if email already in use
 		Tool::appendMessage($Lang->error_email_is_not_a_valid_email, Tool::M_ERROR);
 	} else {
 		$userInformations = array();
 		$userInformations['admin'] = 0;
 		$userInformations['name'] = $_POST['signup-login'];
 		$userInformations['email'] = $_POST['signup-email'];
-		$userInformations['password'] = hash('sha256', $_POST['signup-password1']);
+		$userInformations['password'] = hash('sha256', $_POST['signup-password-1']);
 		$userInformations['locked'] = 0;
 		$userInformations['theme'] = DEFAULT_THEME;
 		$userInformations['language'] = DEFAULT_LANG;
