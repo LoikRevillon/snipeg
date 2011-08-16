@@ -46,18 +46,18 @@
 				<label for="snippet-category"><?php echo $Lang->setcategorysnippet; ?></label>
 				<div class="clear"></div>
 				<select name="category" id="snippet-category">
-					<option name="default">Default</option>
-					<option name="miscellaneous">Miscellaneous</option>
-					<option name="wordpress">Wordpress</option>
+					<option value="default">Default</option>
+					<option value="miscellaneous">Miscellaneous</option>
+					<option value="wordpress">Wordpress</option>
 				</select>
 				<div class="clear"></div>
 
 				<label for="snippet-language"><?php echo $Lang->programminglangsnippet; ?></label>
 				<div class="clear"></div>
 				<select name="language" id="snippet-language">
-						<option name="html">HTML</option>
-						<option name="php">PHP</option>
-						<option name="js">Javascript</option>
+						<option value="html">HTML</option>
+						<option value="php">PHP</option>
+						<option value="js">Javascript</option>
 				</select>
 				<div class="clear"></div>
 
