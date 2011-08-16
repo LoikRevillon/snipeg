@@ -53,35 +53,38 @@ class User {
 		if($manager->userExistInDB($this->_name))
 			return false;
 
-		$db = PDOSQLite::getDBLink();
-		$request = $db->prepare('INSERT INTO users VALUES(:admin, :name, :email, :avatar, :password, :locked, :theme, :language, :favorite_lang)');
-		$request->bindParam(':admin', $this->_admin, PDO::PARAM_INT, 1);
-		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 30);
-		$request->bindParam(':email', $this->_email, PDO::PARAM_STR, 80);
-		$request->bindParam(':password', $this->_password, PDO::PARAM_STR, 64);
-		$request->bindParam(':avatar', $this->_avatar, PDO::PARAM_INT, 1);
-		$request->bindParam(':locked', $this->_locked, PDO::PARAM_INT, 1);
-		$request->bindParam(':theme', $this->_theme, PDO::PARAM_STR, 50);
-		$request->bindParam(':language', $this->_language, PDO::PARAM_STR, 10);
-		$request->bindParam(':favorite_lang', serialize($this->_favoriteLang), PDO::PARAM_STR);
-
-		return $request->execute();
+		try {
+			$db = PDOSQLite::getDBLink();
+			$request = $db->prepare('INSERT INTO `users` VALUES(:admin, :name, :email, :avatar, :password, :locked, :theme, :language, :favorite_lang)');
+			$request->bindParam(':admin', $this->_admin, PDO::PARAM_INT, 1);
+			$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 30);
+			$request->bindParam(':email', $this->_email, PDO::PARAM_STR, 80);
+			$request->bindParam(':password', $this->_password, PDO::PARAM_STR, 64);
+			$request->bindParam(':avatar', $this->_avatar, PDO::PARAM_INT, 1);
+			$request->bindParam(':locked', $this->_locked, PDO::PARAM_INT, 1);
+			$request->bindParam(':theme', $this->_theme, PDO::PARAM_STR, 50);
+			$request->bindParam(':language', $this->_language, PDO::PARAM_STR, 10);
+			$request->bindParam(':favorite_lang', serialize($this->_favoriteLang), PDO::PARAM_STR);
+			return $request->execute();
+		} catch(Exception $e) {
+			return false;
+		}
 
 	}
 
 	public function deleteUser() {
 
-		if(!empty($this->_id)) {
+		if(empty($this->_id))
+			return false;
 
+		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('DELETE FROM users WHERE rowid = :id');
+			$request = $db->prepare('DELETE FROM `users` WHERE rowid = :id');
 			$request->bindParam(':id', $this->_id, PDO::PARAM_INT, 1);
-
 			return $request->execute();
-
+		} catch(Exception $e) {
+			return false;
 		}
-
-		return false;
 
 	}
 

@@ -49,34 +49,40 @@ class Snippet {
 
 	public function addNewSnippet() {
 
-		$db = PDOSQLite::getDBLink();
-		$request = $db->prepare('INSERT INTO `snippets` VALUES (:name, :id_user, :last_update, :content, :language, :comment, :category, :tags, :private)');
+		try {
+			$db = PDOSQLite::getDBLink();
+			$request = $db->prepare('INSERT INTO `snippets` VALUES (:name, :id_user, :last_update, :content, :language, :comment, :category, :tags, :private)');
 
-		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 255);
-		$request->bindParam(':id_user', $this->_idUser, PDO::PARAM_INT, 1);
-		$request->bindParam(':last_update', $this->_lastUpdate, PDO::PARAM_INT, 32);
-		$request->bindParam(':content', $this->_content, PDO::PARAM_STR);
-		$request->bindParam(':language', $this->_language, PDO::PARAM_INT, 1);
-		$request->bindParam(':comment', $this->_comment, PDO::PARAM_STR);
-		$request->bindParam(':category', $this->_category, PDO::PARAM_STR, 80);
-		$request->bindParam(':tags', $this->_tags, PDO::PARAM_STR);
-		$request->bindParam(':private', $this->_private, PDO::PARAM_INT, 1);
+			$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 255);
+			$request->bindParam(':id_user', $this->_idUser, PDO::PARAM_INT, 1);
+			$request->bindParam(':last_update', $this->_lastUpdate, PDO::PARAM_INT, 32);
+			$request->bindParam(':content', $this->_content, PDO::PARAM_STR);
+			$request->bindParam(':language', $this->_language, PDO::PARAM_INT, 1);
+			$request->bindParam(':comment', $this->_comment, PDO::PARAM_STR);
+			$request->bindParam(':category', $this->_category, PDO::PARAM_STR, 80);
+			$request->bindParam(':tags', $this->_tags, PDO::PARAM_STR);
+			$request->bindParam(':private', $this->_private, PDO::PARAM_INT, 1);
 
-		return $request->execute();
+			return $request->execute();
+		} catch(Exception $e) {
+			return false;
+		}
 
 	}
 
 	public function deleteSnippet() {
 
-		if(!empty($this->_id)) {
+		if(empty($this->_id))
+			return false;
+
+		try {
 			$db = PDOSQLite::getDBLink();
 			$request = $db->prepare('DELETE FROM `snippets` WHERE rowid = :id');
 			$request->bindParam(':id', $this->_id, PDO::PARAM_STR, 1);
-
 			return $request->execute();
+		} catch(Exception $e) {
+			return false;
 		}
-
-		return false;
 
 	}
 

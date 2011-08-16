@@ -32,7 +32,7 @@ class Tool {
 		if(!empty($_SESSION['messages'])) {
 			foreach($_SESSION['messages'] as $type => &$messages) {
 				foreach($messages as $index => $message) {
-					echo '<p class="' . $type . '">' . $message . '</p>';
+					echo '<p class="' . htmlspecialchars($type) . '">' . htmlspecialchars($message) . '</p>';
 					unset($messages[$index]);
 				}
 			}
