@@ -59,6 +59,43 @@ class Tool {
 
 	}
 
+	public static function formatUser($userObject) {
+
+		if (!empty($userObject)) {
+
+			$userStd = new stdClass();
+
+			$userStd->id = $userObject->_id;
+			$userStd->admin = $userObject->_admin;
+			$userStd->name = $userObject->_name;
+			$userStd->email = $userObject->_email;
+			$userStd->password = $userObject->_password;
+			$userStd->locked = $userObject->_locked;
+			$userStd->theme = $userObject->_theme;
+			$userStd->language = $userObject->_language;
+			$userStd->favorite_lang = $userObject->_favorite_lang;
+
+			return $userStd;
+		} else {
+			return false;
+		}
+	}
+
+	public static function emailExistInDB($email) {
+
+		try {
+
+			$db = PDOSQLite::getDBLink();
+			$request = $db->prepare('SELECT * FROM `users` WHERE `email` = :email');
+			$request->bindValue(':email', $email, PDO::PARAM_STR);
+
+			return $request->execute();
+			
+		} catch (Exception$e) {
+			return false;
+		}
+	}
+
 	public static function loadLanguage() {
 
 		global $Theme;
@@ -130,23 +167,6 @@ class Tool {
 		}
 
 		return $listOfThemes;
-
-	}
-
-	public static function formatUser($userObject) {
-
-		$User = new stdClass();
-		$User->id = intval($userObject->_id);
-		$User->isadmin = ($userObject->_admin == 1);
-		$User->name = $userObject->_name;
-		$User->email = $userObject->_email;
-		$User->avatar = ($userObject->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $User->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
-		$User->islocked = ($userObject->_locked == 1);
-		$User->theme = $userObject->_theme;
-		$User->language = $userObject->_language;
-		$User->programminglanguages = $userObject->_favoriteLang;
-
-		return $User;
 
 	}
 
