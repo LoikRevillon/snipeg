@@ -38,6 +38,6 @@
 	"error_all_fields_are_required": "All fields are required.",
 
 	"error_missing_snippet_name": "Snippet name are missing.",
-	"error_delete_snippet": "Snippet can not be deleted."
+	"error_delete_snippet": "Snippet can not be deleted.",
 	"error_update_user": "New informations couldn't be saved."
 }
