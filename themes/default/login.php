@@ -4,7 +4,7 @@
 
 <div id="main" class="container_12">
 
-	<form method="post" action="" id="login" class="prefix_4 grid_4" autocomplete="off">
+	<form method="post" action="?action=search" id="login" class="prefix_4 grid_4" autocomplete="off">
 
 		<div id="signin">
 

@@ -19,7 +19,8 @@ if (file_exists(DB_NAME) AND !is_dir(DB_NAME)) {
 Tool::preload();
 
 $Theme = Tool::loadTheme();
-$Lang = Tool::loadLanguage();
+
+$Theme->location = str_replace ('install.php', '', $Theme->location);
 
 if (isset($_POST['init'])) {
 		
@@ -40,31 +41,36 @@ if (isset($_POST['init'])) {
 	if (!empty($_POST['init-login']) AND !empty($_POST['init-email'])
 				AND !empty($_POST['init-password-1']) AND !empty($_POST['init-password-2'])) {
 
-		if ($_POST['init-password-1'] === $_POST['init-password-2']) {
+		if (filter_var($_POST['init-email'], FILTER_VALIDATE_EMAIL)) {
 
-			$adminArray = array(
-							'admin' => 1,
-							'name' => $_POST['init-login'],
-							'email' => $_POST['init-email'],
-							'avatar' => 0,
-							'password' => hash('sha256', $_POST['init-password-1']),
-							'locked' => 0,
-							'theme' => 'default',
-							'language' => 'en_US',
-							'favorite_lang' => array()
-							);
-			$admin = new User($adminArray);
-
-			if ($admin->addNewUser()) {
-					
-				Tool::appendMessage('Init successfully !', Tool::M_SUCCESS);
-				Tool::appendMessage('Please remove this file from your server.', Tool::M_INFO);
+			if ($_POST['init-password-1'] === $_POST['init-password-2']) {
 				
+				$adminArray = array(
+								'admin' => 1,
+								'name' => $_POST['init-login'],
+								'email' => $_POST['init-email'],
+								'avatar' => 0,
+								'password' => hash('sha256', $_POST['init-password-1']),
+								'locked' => 0,
+								'theme' => 'default',
+								'language' => 'en_US',
+								'favorite_lang' => array()
+								);
+				$admin = new User($adminArray);
+
+				if ($admin->addNewUser()) {
+						
+					Tool::appendMessage('Init successfully !', Tool::M_SUCCESS);
+					Tool::appendMessage('Please remove this file from your server.', Tool::M_INFO);
+				
+				} else {
+						Tool::appendMessage('User name unavailable. May you ever init Stan.', Tool::M_ERROR);
+				}
 			} else {
-				Tool::appendMessage('User name unavailable. May you ever init Stan', Tool::M_ERROR);
+				Tool::appendMessage('Passwords are not equals.', Tool::M_ERROR);
 			}
 		} else {
-			Tool::appendMessage('Passwords are not equals.', Tool::M_ERROR);
+			Tool::appendMessage('Email are not valid.', Tool::M_ERROR);
 		}
 	} else {
 			Tool::appendMessage('All fields are required.', Tool::M_ERROR);

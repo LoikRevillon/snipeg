@@ -18,10 +18,6 @@ class User {
 
 	private $_theme;
 
-	private $_font;
-
-	private $_colorScheme;
-
 	private $_language;
 
 	private $_favoriteLang;
@@ -58,7 +54,7 @@ class User {
 			return false;
 
 		$db = PDOSQLite::getDBLink();
-		$request = $db->prepare('INSERT INTO users VALUES(:admin, :name, :email, :password, :avatar, :locked, :theme, :language, :favorite_lang)');
+		$request = $db->prepare('INSERT INTO users VALUES(:admin, :name, :email, :avatar, :password, :locked, :theme, :language, :favorite_lang)');
 		$request->bindParam(':admin', $this->_admin, PDO::PARAM_INT, 1);
 		$request->bindParam(':name', $this->_name, PDO::PARAM_STR, 30);
 		$request->bindParam(':email', $this->_email, PDO::PARAM_STR, 80);

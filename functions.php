@@ -8,19 +8,31 @@ function __autoload($className) {
 		require $classPath;
 }
 
-function load_page() {
+function load_page($includeFile) {
 
+	global $Theme;
+	
 	$pageRequested = $_GET['action'];
-	if(!empty($Theme->$pageRequested))
-		if ($pageRequested == 'admin' AND $_SESSION['user']['admin'] !== 1)  {
+
+	if (!empty($Theme->$pageRequested)) {
+		
+		if ($pageRequested === 'admin' AND $_SESSION['user']['admin'] !== 1)  {
+			
 			Tool::appendMessage($Lang->notenoughrights, M_ERROR);
-			$includeFile = 'home';
+			$includeFile = 'default';
+
 		} else {
 			$includeFile = $pageRequested;
 		}
-	else
+	} elseif ($pageRequested === 'logout' ){
+		
+		session_destroy();
+		$includeFile = 'login';
+		
+	} else {
 		Tool::appendMessage($Lang->filenotexist, Tool::M_ERROR);
-		$includeFile = 'home';
+		$includeFile = 'default';
+	}
 }
 
 function lang_of_theme() {
@@ -42,46 +54,54 @@ function is_admin() {
 
 function do_login() {
 
+	global $Lang;
 	$manager = UsersManager::getReference();
-	
-	if ($user = $manager->userExistinDB($_POST['signin-login'])) {
-		if ($user->password === hash('sha256', $_POST['signin-password'])) {
-			$_SESSION['user'] = $user;
-		}
-	}
 
-	if (empty($_SESSION['user']))
-		Tool::appendMessage($Lang->wrongsignin, M_ERROR);
+	if (!empty($_POST['signin-login']) AND !empty($_POST['signin-password'])) {
+
+		var_dump(hash('sha256', $_POST['signin-password']));
+	
+		if ($user = $manager->userExistinDB($_POST['signin-login']) 
+				AND $user->_password === hash('sha256', $_POST['signin-password'])) {
+				$_SESSION['user'] = $user;
+		} else {
+			Tool::appendMessage($Lang->wrongsignin, Tool::M_ERROR);
+		}
+	} else {
+		Tool::appendMessage($Lang->missingsignin, Tool::M_ERROR);
+	}
 }
 
-function do_signUp() {
+function do_sign_up() {
 
 	$manager = UsersManager::getReference();
 
-	if (!$manager->userExistInDB($_POST['signup-login'])) {
-		Tool::appendMessage($Lang->failsignup-login, M_ERROR);
+	if ($manager->userExistInDB($_POST['signup-login'])) {
+		Tool::appendMessage($Lang->failsignuplogin, Tool::M_ERROR);
 		
-	} else if ($_POST['signup-password1'] !== $_POST['signup-password2']) {
-		Tool::appendMessage($Lang->failsignup-passwd, M_ERROR);
+	} elseif ($_POST['signup-password1'] !== $_POST['signup-password2']) {
+		Tool::appendMessage($Lang->failsignuppasswd, Tool::M_ERROR);
 		
-	} else if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-		Tool::appendMessage($Lang->failsignup-email, M_ERROR);
+	} elseif (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+		Tool::appendMessage($Lang->failsignupemail, Tool::M_ERROR);
 		
 	} else {
 		$userInformations = array();
 		$userInformations['admin'] = 0;
 		$userInformations['name'] = $_POST['signup-login'];
 		$userInformations['email'] = $_POST['signup-email'];
-		$userInformations['password'] = hash('sha256', $_POST['signup-password']);
+		$userInformations['password'] = hash('sha256', $_POST['signup-password1']);
 		$userInformations['locked'] = 0;
 		$userInformations['theme'] = DEFAULT_THEME;
 		$userInformations['language'] = DEFAULT_LANG;
 		$userInformations['favorite_lang'] = array();
 
 		$newUser = new User ($userInformations);
-		$newUser->addNewUser();
 
-		$_SESSION['user']= $newUser;
+		if ($newUser->addNewUser()) {
+
+			Tool::appendMessage('Successfully signing.', Tool::M_SUCCESS);
+		}
 	}
 }
 
@@ -171,7 +191,25 @@ function delete_snippet() {
 	}
 }
 
-function do_search() {}
+function do_search() {
+
+	global $Snippets;
+
+	if (!empty($_GET['query'])) {
+		if (empty($_GET['page']))
+			$page = 1;
+		else
+			$page = $_GET['page'];
+			
+		$manager = SnippetManager::getReference();
+		$user = $_SESSION['user'];
+		if (isset($_GET['category'])) {
+			$Snippets = $manager->instantSearch_GetSnippetsByCategory($user->_id, $_SESSION['query'], $page);
+		} else {
+			$Snippets = $manager->instantSearch_GetSnippets($user->_id, $_SESSION['query'], $page);
+		}
+	}
+}
 
 function update_account() {
 
@@ -196,7 +234,3 @@ function update_account() {
 	//if (!empty(code_geshi)) {} # FIX IT
 
 }
-		
-			
-
-				
