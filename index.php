@@ -47,6 +47,7 @@ if(!empty($_POST)) {
 		do_search();
 	elseif(array_key_exists('updateaccount', $_POST))
 		do_account();
+
 }
 
 if(isset($_SESSION['user'])) {
@@ -65,11 +66,10 @@ if(isset($_SESSION['user'])) {
 	}
 
 } else {
-	if(isset($_GET['id']) AND SnippetsManager::isPublic($_GET['id'])) {
+	if(isset($_GET['id']) AND SnippetsManager::isPublic($_GET['id']))
 		$includeFile = 'single';
-	} else {
+	else
 		$includeFile = 'login';
-	}
 }
 
 Tool::readMessages();
