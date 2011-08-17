@@ -6,7 +6,8 @@
 
 	<div id="admin" class="prefix_1 grid_10">
 
-		<h1><?php echo $Lang->adminpage; ?></h1>
+		<h1><?php echo $Lang->adminpage;
+		if (!empty($Pages)) : echo ' ( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' ) '; endif;?></h1>
 
 		<div class="userlist-line alpha grid_5">
 
@@ -50,18 +51,20 @@
 
 			</div>
 
-		</div>
+		</div>		
 
 <?php if (!empty($Pages)) : ?>
 		<div class="clear"></div>
-
-		<div id="paging">
+		
+		<div id="paging">		
 			<a href="?action=admin&page=1"><?php echo $Lang->first; ?></a>			
-<?php foreach ($Pages AS $numPage) : ?>
-			<a href="?action=admin&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>			
-<?php endforeach; ?>
+<?php foreach ($Pages AS $key => $numPage) :
+		if ($key < count($Pages) - 1) :?>
+			<a href="?action=admin&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>	
+<?php	endif;
+	endforeach; ?>
 			<a href="?action=admin&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
-		</div>		
+		</div>
 <?php endif; ?>
 
 	</div>

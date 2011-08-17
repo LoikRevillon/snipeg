@@ -2,11 +2,14 @@
 
 <?php include('top.php'); ?>
 
+<?php $currentPage = (!empty($_GET['page'])) ? $_GET['page'] : 1; ?>
+
 <div id="main" class="container_12">
 
 	<div id="browse">
 
-		<h1><?php echo $Lang->browsepage; ?> (<?php echo $Lang->pagenumberbeginbrowse; ?> X <?php echo $Lang->of; ?> X)</h1>
+		<h1><?php echo $Lang->browsepage;
+		if (!empty($Pages)) : echo ' ( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' ) '; endif;?></h1>
 
 		<div class="browse-line">
 
@@ -37,11 +40,13 @@
 
 <?php if (!empty($Pages)) : ?>
 	<div id="paging">		
-		<a href="?action=admin&page=1"><?php echo $Lang->first; ?></a>			
-<?php foreach ($Pages AS $numPage) : ?>
-		<a href="?action=admin&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>			
-<?php endforeach; ?>
-		<a href="?action=admin&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+		<a href="?action=browse&page=1"><?php echo $Lang->first; ?></a>			
+<?php foreach ($Pages AS $key => $numPage) :
+		if ($key < count($Pages) - 1) :?>
+		<a href="?action=browse&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>	
+<?php	endif;
+	endforeach; ?>
+		<a href="?action=browse&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
 	</div>
 <?php endif; ?>
 
