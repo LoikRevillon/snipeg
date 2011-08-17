@@ -76,7 +76,7 @@ class AvatarGenerator {
 			imagecopyresampled($destination, $source, 0, -$semi_diff, 0, 0, $this->_width, $tmpHeight, $this->_oWidth, $this->_oHeight);
 		}
 
-		if(imagepng($destination, $this->_directory . $this->_filename . '.png', 98)) {
+		if(imagepng($destination, $this->_directory . $this->_filename . '.png', 9)) {
 			imagedestroy($source);
 			imagedestroy($destination);
 			return true;
