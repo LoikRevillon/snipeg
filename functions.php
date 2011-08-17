@@ -65,18 +65,13 @@ function remind_post($param) {
 function do_login() {
 
 	global $Lang;
-	global $User;
 
 	$manager = UsersManager::getReference();
 
 	if(!empty($_POST['signin-login']) AND !empty($_POST['signin-password'])) {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
-
 			$_SESSION['user'] = $user;
-
-			// Set Global variable $User
-			$User = Tool::formatUser($_SESSION['user']);
 
 		} else {
 			Tool::appendMessage($Lang->error_wrong_sign_in, Tool::M_ERROR);

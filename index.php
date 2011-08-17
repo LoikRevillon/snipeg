@@ -17,7 +17,7 @@ Tool::preload();
 
 $Theme = Tool::loadTheme();
 $Lang = Tool::loadLanguage();
-$User = (isset($_SESSION['user'])) ? Tool::formatUser($_SESSION['user']) : null;
+$User = null;
 $Users = array();
 $Snippet = null;
 $Snippets = array();
@@ -50,6 +50,10 @@ if(!empty($_POST)) {
 		update_account();
 
 }
+
+// Set Global $User
+if(!empty($_SESSION['user']))
+	$User = Tool::formatUser($_SESSION['user']);
 
 if(isset($_SESSION['user'])) {
 
