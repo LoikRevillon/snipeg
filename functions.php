@@ -11,13 +11,14 @@ function __autoload($className) {
 
 function load_page($includeFile) {
 
+	global $Lang;
 	global $Theme;
 
 	$pageRequested = $_GET['action'];
 
 	if(!empty($Theme->$pageRequested)) {
 		if($pageRequested === 'admin' AND $_SESSION['user']->_admin !== 1)  {
-			Tool::appendMessage($Lang->error_not_enough_right, M_ERROR);
+			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 			$includeFile = 'default';
 		} else {
 			$includeFile = $pageRequested;
@@ -124,11 +125,11 @@ function do_reset() {
 	$manager = UsersManager::getReference();
 
 	if(!$user = $manager->userExistInDB($_POST['reset-login']) OR $user->_email !== $_POST['reset-email']) {
-		Tool::appendMessage($Lang->error_account_reset, M_ERROR);
+		Tool::appendMessage($Lang->error_account_reset, Tool::M_ERROR);
 	} else {
 		$newPassword = Tool::generatePassword(8);
 		$mail = $Lang->emailreset; // FIX IT
-		Tool::appendMessage($Lang->info_reset_email_send, M_INFO);
+		Tool::appendMessage($Lang->info_reset_email_send, ToolM_INFO);
 	}
 
 }
@@ -140,11 +141,11 @@ function do_admin() {
 	$manager = UsersManager::getReference();
 
 	if(isadmin() AND !$user = $manager->getUserInformations($_POST['id'])) {
-		Tool::appendMessage($Lang->usernotexist, M_ERROR);
+		Tool::appendMessage($Lang->usernotexist, Tool::M_ERROR);
 	} else {
 		if(!empty($_POST['delete'])) {
 			$user->deleteUser();
-			Tool::appendMessage($Lang->success_delete_user, M_SUCCESS);
+			Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
 		} else {
 			$newUser = new stdClass();
 
@@ -155,7 +156,7 @@ function do_admin() {
 
 			$updatedUser = new Compositor($user, $newUser);
 			$manager->updateUserInfos($user->_id, $updatedUser);
-			Tool::appendMessage($Lang->success_update_user, M_SUCCESS);
+			Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
 		}
 	}
 
@@ -176,7 +177,7 @@ function add_snippet() {
 	if (!empty($_POST['newcategory']))
 		$category = $_POST['newcategory'];
 	else
-		$category = $_POST['category'];		
+		$category = $_POST['category'];
 
 	$snippetArray['name'] = $_POST['name'];
 	$snippetArray['id_user'] = $currentUser->_id;
@@ -191,7 +192,7 @@ function add_snippet() {
 	$snippet = new Snippet($snippetArray);
 	var_dump($snippetArray);
 	var_dump($snippet);
-	if ($snippet->addNewSnippet()) 
+	if ($snippet->addNewSnippet())
 		Tool::appendMessage($Lang->success_add_snippet, Tool::M_SUCCESS);
 	else
 		Tool::appendMessage($Lang->error_add_snippet, Tool::M_ERROR);
@@ -205,7 +206,7 @@ function delete_snippet() {
 	$manager = SnippetsManager::getReference();
 
 	if(empty($_GET['id']) OR !$snippet = $manager->getSnippetById($_GET['id'])) {
-		Tool::appendMessage($Lang->error_delete_snippet, M_ERROR);
+		Tool::appendMessage($Lang->error_delete_snippet, Tool::M_ERROR);
 		return false;
 	}
 
@@ -213,9 +214,9 @@ function delete_snippet() {
 
 	if($snippetOwner->_id === $snippet->_userId) {
 		$snippet->deleteSnippet();
-		Tool::appendMessage($Lang->success_delete_snippet, M_SUCCESS);
+		Tool::appendMessage($Lang->success_delete_snippet, Tool::M_SUCCESS);
 	} else {
-		Tool::appendMessage($Lang->error_delete_snippet, M_ERROR);
+		Tool::appendMessage($Lang->error_delete_snippet, Tool::M_ERROR);
 	}
 
 }
@@ -249,19 +250,19 @@ function update_account() {
 
 	if(!empty($_POST['email'])) {
 
-		if (Tool::emailExistInDB($_POST['email'])) {			
+		if (Tool::emailExistInDB($_POST['email'])) {
 			if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 				$currentUser->_email = $_POST['email'];
 				$needUpdate = true;
-				
+
 			} else {
 				Tool::appendMessage($Lang->error_email_is_not_a_valid_email, Tool::M_ERROR);
-			}				
+			}
 		} else {
 			Tool::appendMessage($Lang->error_email_is_unavailable, Tool::M_ERROR);
 		}
 	}
-	
+
 	if(!empty($_POST['language'])) {
 		$langOfTheme = lang_of_theme();
 		if(in_array($_POST['language'], $langOfTheme) AND $currentUser->_language !== $_POST['language']) {
