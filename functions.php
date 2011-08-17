@@ -141,7 +141,7 @@ function do_admin() {
 	$manager = UsersManager::getReference();
 
 	if(isadmin() AND !$user = $manager->getUserInformations($_POST['id'])) {
-		Tool::appendMessage($Lang->usernotexist, Tool::M_ERROR);
+		Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 	} else {
 		if(!empty($_POST['delete'])) {
 			$user->deleteUser();
@@ -190,9 +190,8 @@ function add_snippet() {
 	$snippetArray['private'] = $_POST['private'];
 
 	$snippet = new Snippet($snippetArray);
-	var_dump($snippetArray);
-	var_dump($snippet);
-	if ($snippet->addNewSnippet())
+
+	if($snippet->addNewSnippet())
 		Tool::appendMessage($Lang->success_add_snippet, Tool::M_SUCCESS);
 	else
 		Tool::appendMessage($Lang->error_add_snippet, Tool::M_ERROR);

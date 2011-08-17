@@ -25,6 +25,7 @@
 	"error_file_not_found": "File not found.",
 
 	"error_not_enough_right": "You are not allowed to do this action.",
+	"error_user_not_exists" : "User not exists.",
 	"error_wrong_sign_in": "Incorrect username or password.",
 	"error_missing_sign_in": "Empty username or password.",
 
@@ -37,7 +38,9 @@
 	"error_account_reset": "No matching found for this username / email.",
 	"error_all_fields_are_required": "All fields are required.",
 
-	"error_missing_snippet_name": "Snippet name are missing.",
+	"error_missing_snippet_name": "Snippet name is missing.",
 	"error_delete_snippet": "Snippet can not be deleted.",
-	"error_update_user": "New informations couldn't be saved."
+	"error_update_user": "New informations couldn't be saved.",
+
+	"error_add_snippet": "An error occurred. The snippet was not added."
 }
