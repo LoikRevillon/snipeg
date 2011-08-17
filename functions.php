@@ -9,25 +9,85 @@ function __autoload($className) {
 
 }
 
+function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
+
+	global $Pages;
+	
+	$countPage = ceil ($elementCounted / $elementPerPage);
+
+	if (!empty($_GET['page']) AND ($_GET['page'] <= $countPage OR $_GET['page'] < 1)) {
+		$pageRequested = $_GET['page'];
+	}
+
+	if ($elementCounted > $elementPerPage) {
+		if ($pageRequested > 3) {
+			$Pages = array();
+			if ($pageRequested > $countPage - 3) {
+				$i = (($countPage - 4) > 1) ? $countPage - 4 : 2;
+			} else {
+				$i = $pageRequested - 2;
+			}
+
+			for ($j = 0; $i < $countPage AND $j <= 3; $i++, $j++) {
+				$Pages[] = $i;
+			}
+			$Pages[] = $countPage;							
+		} else {
+			$Pages = array();
+			for ($j = 0, $i = 2; $i < $countPage AND $j <= 3; $i++, $j++) {
+				$Pages[] = $i;
+			}
+			$Pages[] = $countPage;
+		}
+	}
+}
+
 function load_page($includeFile) {
 
 	global $Lang;
 	global $Theme;
+	global $User;
+	global $Users;
+	global $Snippet;
+	global $Snippets;
 
-	$pageRequested = $_GET['action'];
+	$actionRequested = $_GET['action'];
 
-	if(!empty($Theme->$pageRequested)) {
-		if($pageRequested === 'admin' AND !is_admin())  {
-			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-			$includeFile = 'default';
+	if(!empty($Theme->$actionRequested)) {
+
+		$page = 1;
+		
+		if($actionRequested === 'admin')  {
+			if (!is_admin()) {
+				Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+				$includeFile = 'default';
+			} else {
+				$manager = UsersManager::getReference();
+				$users = $manager->countOfUsers();
+				
+				create_paging($users->count, &$page, NUM_USER_PER_PAGE);			
+					
+				$Users = $manager->getAllUsers($page);
+				$includeFile = $actionRequested;
+			}
+		} elseif ($actionRequested === 'browse') {
+			$page = 1;
+			
+			$manager = SnippetsManager::getReference();
+			$snippets = $manager->countOfSnippetByUser($User->id);
+			
+			create_paging($snippets->count, &$page, NUM_SNIPPET_PER_PAGE);
+					
+			$Snippets = $manager->getSnippetsByUser($User->id, $page);
+			$includeFile = $actionRequested;
 		} else {
-			$includeFile = $pageRequested;
+			$includeFile = $actionRequested;
 		}
-	} elseif($pageRequested === 'logout' ){
+	} elseif($actionRequested === 'logout' ){
 		session_destroy();
 		$includeFile = 'login';
 	} else {
-		Tool::appendMessage($Lang->error_file_not_found . ' : ' . $pageRequested , Tool::M_ERROR);
+		Tool::appendMessage($Lang->error_file_not_found . ' : ' . $actionRequested , Tool::M_ERROR);
 		$includeFile = 'default';
 	}
 
