@@ -13,6 +13,45 @@ class SnippetsManager {
 
 	}
 
+	public function countOfSnippetByUser ($userId) {
+
+		try {
+			$db = PDOSQLite::getDBLink();
+			$request = $db->prepare('SELECT COUNT(*) AS count FROM `snippets` WHERE `id_user` = :id_user');
+			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
+			$request->execute();
+
+			return $request->fetch(PDO::FETCH_OBJ);
+			
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+
+	public function getSnippetsByUser ($userId, $pageNumber) {
+
+		try {
+			$db = PDOSQLite::getDBLink();
+			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
+			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
+			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
+			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
+			$request->execute();
+
+			$allSnippetOfUser = array();
+
+			while ($result = $request->fetch(PDO::FETCH_ASSOC)) {
+				$allSnippetOfUser[] = new Snippet($result);
+			}
+			
+			return $allSnippetOfUser;
+
+		} catch (Exception $e) {
+			return false;
+		}
+
+	}
+
 	public function getSnippetById($id) {
 
 		try {
