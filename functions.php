@@ -34,6 +34,8 @@ function load_page($includeFile) {
 
 function lang_of_theme() {
 
+	global $Theme;
+
 	$listLang = array();
 	$languagesFiles = glob(ROOT . $Theme->dirname . LANGUAGE_DIR . '*.json');
 
@@ -247,8 +249,7 @@ function update_account() {
 
 	if(!empty($_POST['email'])) {
 
-		if (Tool::emailExistInDB($_POST['email'])) {
-			
+		if (Tool::emailExistInDB($_POST['email'])) {			
 			if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 				$currentUser->_email = $_POST['email'];
 				$needUpdate = true;
@@ -270,9 +271,12 @@ function update_account() {
 	}
 
 	if(!empty($_FILES['new-avatar']['name'])) {
-		if ($currentUser->_avatar= new AvatarGenerator($_FILES['new-avatar'], $_FILES['new-avatar']['tmp-name'])) {
-			rename (AVATAR_DIR . $_FILES['name'] . '.png', AVATAR_DIR . $currentUser->_id . '.png');
+		try {
+			$generator = new AvatarGenerator($_FILES['new-avatar'], $currentUser->_id);
 			$needUpdate = true;
+			$currentUser->_avatar = 1;
+		} catch(AvatarGeneratorException $e) {
+			Tool::appendMessage($e, Tool::M_ERROR);
 		}
 	}
 
