@@ -39,6 +39,20 @@ class UsersManager {
 
 	}
 
+	public static function countOfUsers() {
+
+		try {
+			$db = PDOSQLite::getDBLink();
+			$request = $db->query('SELECT COUNT(*) AS count FROM `users`');
+			$request->execute();
+			
+			return $request->fetch(PDO::FETCH_OBJ);
+			
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+
 	public function getAllUsers($pageNumber = false) {
 
 		try {
