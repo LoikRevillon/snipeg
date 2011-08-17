@@ -52,6 +52,18 @@
 
 		</div>
 
+<?php if (!empty($Pages)) : ?>
+		<div class="clear"></div>
+
+		<div id="paging">
+			<a href="?action=admin&page=1"><?php echo $Lang->first; ?></a>			
+<?php foreach ($Pages AS $numPage) : ?>
+			<a href="?action=admin&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>			
+<?php endforeach; ?>
+			<a href="?action=admin&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+		</div>		
+<?php endif; ?>
+
 	</div>
 
 </div>
