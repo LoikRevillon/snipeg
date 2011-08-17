@@ -87,12 +87,9 @@ class UsersManager {
 
 	public function updateUserInfos($userId, $newInfos) {
 
-		if($this->userExistInDB($newInfos->_name))
-			return false;
-
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request= $db->prepare('UPDATE `users` SET admin = :admin, name = :name, email = :email, password = :password, locked = :locked, theme = :theme, language = :language, favorite_lang = :favorite_lang WHERE rowid = :id');
+			$request= $db->prepare('UPDATE `users` SET `admin` = :admin, `name` = :name, `email` = :email, `avatar` = :avatar, `password` = :password, `locked` = :locked, `theme` = :theme, `language` = :language, `favorite_lang` = :favorite_lang WHERE `rowid` = :id');
 
 			$request->bindValue(':id', $userId, PDO::PARAM_INT);
 			$request->bindValue(':admin', $newInfos->_admin, PDO::PARAM_INT);
@@ -103,8 +100,9 @@ class UsersManager {
 			$request->bindValue(':locked', $newInfos->_locked, PDO::PARAM_INT);
 			$request->bindValue(':theme', $newInfos->_theme, PDO::PARAM_STR);
 			$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);
-			$request->bindValue(':favorite_lang', $newInfos->_favoriteLang, PDO::PARAM_STR);
+			$request->bindValue(':favorite_lang', serialize($newInfos->_favoriteLang), PDO::PARAM_STR);
 			return $request->execute();
+			
 		} catch(Exception $e) {
 			return false;
 		}
