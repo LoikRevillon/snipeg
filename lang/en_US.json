@@ -34,6 +34,7 @@
 	"error_wrong_password": "Wrong password advised.",
 	"error_email_is_not_a_valid_email": "Email is not a valid email address.",
 	"error_email_is_unavailable": "Email is not available.",
+	"error_avatar_oversized": "Avatar file have to be smaller than 2 Mo.",
 	
 	"error_account_reset": "No matching found for this username / email.",
 	"error_all_fields_are_required": "All fields are required.",

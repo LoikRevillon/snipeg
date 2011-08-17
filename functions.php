@@ -17,7 +17,7 @@ function load_page($includeFile) {
 	$pageRequested = $_GET['action'];
 
 	if(!empty($Theme->$pageRequested)) {
-		if($pageRequested === 'admin' AND $_SESSION['user']->_admin !== 1)  {
+		if($pageRequested === 'admin' AND !is_admin())  {
 			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 			$includeFile = 'default';
 		} else {
@@ -131,11 +131,12 @@ function do_reset() {
 
 function do_admin() {
 
+	global $User;
 	global $Lang;
 
 	$manager = UsersManager::getReference();
 
-	if(isadmin() AND !$user = $manager->getUserInformations($_POST['id'])) {
+	if(is_admin() AND !$user = $manager->getUserInformations($_POST['id'])) {
 		Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 	} else {
 		if(!empty($_POST['delete'])) {
@@ -266,12 +267,16 @@ function update_account() {
 	}
 
 	if(!empty($_FILES['new-avatar']['name'])) {
-		try {
-			$generator = new AvatarGenerator($_FILES['new-avatar'], $currentUser->_id);
-			$needUpdate = true;
-			$currentUser->_avatar = 1;
-		} catch(AvatarGeneratorException $e) {
-			Tool::appendMessage($e, Tool::M_ERROR);
+		if ($_FILES['new-avatar']['size'] <= 2 * 1024 * 1024) {
+			try {
+				$generator = new AvatarGenerator($_FILES['new-avatar'], $currentUser->_id);
+				$needUpdate = true;
+				$currentUser->_avatar = 1;
+			} catch(AvatarGeneratorException $e) {
+				Tool::appendMessage($e, Tool::M_ERROR);
+			}
+		} else {
+			Tool::appendMessage($Lang->error_avatar_oversized, Tool::M_ERROR);
 		}
 	}
 
