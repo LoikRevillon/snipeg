@@ -48,10 +48,10 @@ function lang_of_theme() {
 
 }
 
-// TODO : FIX
 function is_admin() {
 
-	return isset($_SESSION['user']->_admin);
+	global $User;
+	return $User->isadmin;
 
 }
 

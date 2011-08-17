@@ -17,7 +17,8 @@ Tool::preload();
 
 $Theme = Tool::loadTheme();
 $Lang = Tool::loadLanguage();
-$User = null;
+$User = (isset($_SESSION['user'])) ? Tool::formatUser($_SESSION['user']) : null;
+$Users = array();
 $Snippet = null;
 $Snippets = array();
 
