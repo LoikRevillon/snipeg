@@ -65,13 +65,13 @@ class Tool {
 
 			$userStd = new stdClass();
 
-			$userStd->id = $userObject->_id;
-			$userStd->admin = $userObject->_admin;
+			$userStd->id = intval($userObject->_id);
+			$userStd->isadmin = ($userObject->_admin == 1);
 			$userStd->name = $userObject->_name;
 			$userStd->email = $userObject->_email;
 			$userStd->avatar = ($userObject->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $userStd->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
 			$userStd->password = $userObject->_password;
-			$userStd->locked = $userObject->_locked;
+			$userStd->islocked = ($userObject->_locked == 1);
 			$userStd->theme = $userObject->_theme;
 			$userStd->language = $userObject->_language;
 			$userStd->favorite_lang = $userObject->_favorite_lang;
