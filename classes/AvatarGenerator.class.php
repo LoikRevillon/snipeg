@@ -3,7 +3,6 @@
 class AvatarGenerator {
 
 	private $_oFile;
-	private $_oExtension;
 	private $_oHeight;
 	private $_oWidth;
 
@@ -11,6 +10,7 @@ class AvatarGenerator {
 	private $_filename;
 	private $_height;
 	private $_width;
+	private $_mime;
 
 	private $_authorizedMime = array(
 		'image/gif', 'image/jpeg', 'image/png'
@@ -24,16 +24,18 @@ class AvatarGenerator {
 			throw new AvatarGeneratorException($Lang->error_extension_gd_not_found);
 
 		$this->_oFile = $filearray['tmp_name'];
-		$this->_oExtension = pathinfo($this->_oFile, PATHINFO_EXTENSION);
+		$this->_oExtension = strtolower(pathinfo($this->_oFile, PATHINFO_EXTENSION));
 		$type = $filearray['type'];
 		$errors = $filearray['error'];
 
-		if(!in_array($type, $this->_authorizedMime))
-			throw new AvatarGeneratorException($Lang->error_unauthorized_filetype . ' : ' . $type);
 		if(!file_exists($this->_oFile))
 			throw new AvatarGeneratorException($Lang->error_uploaded_file_not_found . ' : ' . $tmp_file);
 		if(!file_exists($directory) OR !is_dir($directory))
 			throw new AvatarGeneratorException($Lang->error_is_not_a_valid_dir . ' : ' . $dir);
+		if(!in_array($type, $this->_authorizedMime))
+			throw new AvatarGeneratorException($Lang->error_unauthorized_filetype . ' : ' . $type);
+		else
+			$this->_mime = $type;
 
 		switch($errors) {
 			case 1 :
@@ -88,14 +90,14 @@ class AvatarGenerator {
 
 	private function _imagecreatefrom() {
 
-		switch($this->_oExtension) {
-			case 'png':
+		switch($this->_mime) {
+			case 'image/png':
 				return 'imagecreatefrompng';
 			break;
-			case 'gif':
+			case 'image/gif':
 				return 'imagecreatefromgif';
 			break;
-			default:
+			case 'image/jpeg':
 				return 'imagecreatefromjpeg';
 			break;
 		}
