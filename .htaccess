@@ -1,0 +1,4 @@
+# Deny access to Sqlite files
+<FilesMatch "\.(sqlite|sqlite2|sqlite3|sq|sq2|sq3)$">
+	Deny from all
+</FilesMatch>
