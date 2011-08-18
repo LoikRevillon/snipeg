@@ -6,6 +6,7 @@
 	"success_update_user": "User updated successfully.",
 	
 	"success_add_snippet": "Snippet added successfully.",
+	"success_update_snippet": "Snippet updated successfully.",
 	"success_delete_snippet": "Snippet deleted successfully.",
 
 	"info_install_remove_file": "For security reasons, please remove this file from your server.",
@@ -42,6 +43,7 @@
 	"error_missing_snippet_name": "Snippet name is missing.",
 	"error_delete_snippet": "Snippet can not be deleted.",
 	"error_update_user": "New informations couldn't be saved.",
+	"error_update_snippet": "New informations couldn't be saved.",
 
 	"error_add_snippet": "An error occurred. The snippet was not added."
 }
