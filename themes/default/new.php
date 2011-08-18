@@ -14,22 +14,22 @@
 
 				<label for id="snippet-name"><?php echo $Lang->titlesnippet; ?></label>
 				<div class="clear"></div>
-				<input type="text" name="name" id="snippet-name" autofocus />
+				<input type="text" name="name" id="snippet-name" value="<?php remind_post('name'); ?>" autofocus />
 				<div class="clear"></div>
 
 				<label for id="snippet-description"><?php echo $Lang->descriptionsnippet; ?></label>
 				<div class="clear"></div>
-				<input type="text" name="description" id="snippet-description" />
+				<input type="text" name="description" id="snippet-description" value="<?php remind_post('description'); ?>" />
 				<div class="clear"></div>
 
 				<label for id="snippet-tags"><?php echo $Lang->tagssnippet; ?></label>
 				<div class="clear"></div>
-				<input type="text" name="tags" id="snippet-tags" />
+				<input type="text" name="tags" id="snippet-tags" value="<?php remind_post('tags'); ?>" />
 				<div class="clear"></div>
 
 				<label for="snippet-content"><?php echo $Lang->codesnippet; ?></label>
 				<div class="clear"></div>
-				<textarea name="content" id="snippet-content"></textarea>
+				<textarea name="content" id="snippet-content"><?php remind_post('content'); ?></textarea>
 				<div class="clear"></div>
 
 				<input type="submit" name="addsnippet" value="<?php echo $Lang->addsnippetpage; ?>" />
