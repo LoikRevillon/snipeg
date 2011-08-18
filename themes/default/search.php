@@ -26,20 +26,13 @@
 
 		<script type="text/javascript">
 			$(document).ready(function() {
-				if($.browser.mozilla || $.browser.opera) {
-					var lnk = $('<link>');
-					lnk.attr({
-						rel: 'stylesheet',
-						href: '<?php echo $Theme->location; ?>style/style-fix.css'
-					});
-					$('head').append(lnk);
-				}
-				instantSearch('<?php echo $Theme->location . 'instantsearch.php'; ?>');
+				instantSearch();
 			});
 
 			function instantSearch(requestPage) {
 
 				var request;
+				var requestPage = "<?php echo $Theme->location . 'instantsearch.php'; ?>";
 				var runningRequest = false;
 
 				$('input#query').keyup(function(e) {
