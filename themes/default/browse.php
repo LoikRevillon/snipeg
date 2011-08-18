@@ -11,30 +11,39 @@
 		<h1><?php echo $Lang->browsepage;
 		if (!empty($Pages)) : echo ' ( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' ) '; endif;?></h1>
 
+<?php	foreach($Snippets AS $snippet) : ?>
+
 		<div class="browse-line">
 
 			<div class="grid_7">
 
-				<h4><a href="">Enable Hidden Admin Feature displaying ALL Site Settings</a></h4>
-				<p>This little piece of code does something pretty cool. It will add an additional option to your settings menu with a link to "all settings".</p>
-				<p><?php echo $Lang->publishedbyview; ?> John <?php echo $Lang->publisheddateview; ?> <?php echo date('M d Y'); ?> <?php echo $Lang->in; ?> category <a href="#">Wordpress</a></p>
+				<h4><a href="?action=single&query=<?php echo $snippet->name; ?>"><?php echo $snippet->name; ?></a></h4>
+				<p><?php echo $snippet->comment; ?></p>
+				<p><?php echo $Lang->publishedbyview . ' ' . $User->name . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' category : <a href="?action=view&category=' . $snippet->category . '">' . $snippet->category . '</a>';?></p>
 
 			</div>
 
 			<div class="prefix_1 grid_4">
 
 				<div class="tags">
+					
+<?php			if (!empty($snippet->tags)) :
+					foreach($snippet->tags AS $tag) :
+?>
 
-					<a href="">wordpress</a>
-					<a href="">hidden</a>
-					<a href="">admin</a>
-					<a href="">settings</a>
+					<a href="?action=browse&tag='<?php echo $tag; ?>'"><?php echo $tag; ?></a>
 
+<?php
+				endforeach;
+				endif;
+?>
 				</div>
 
 			</div>
 
 		</div>
+
+<?php	endforeach; ?>
 
 	</div>
 
