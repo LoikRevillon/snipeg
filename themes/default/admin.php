@@ -9,33 +9,37 @@
 		<h1><?php echo $Lang->adminpage;
 		if (!empty($Pages)) : echo ' ( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' ) '; endif;?></h1>
 
+<?php	$i = 0;
+	foreach ($Users AS $user) : ?>
 		<div class="userlist-line alpha grid_5">
+<?php	$i++; ?>
 
 			<div class="alpha grid_3">
 
-				<h3>Username</h3>
-				<p>Last Modification date</p>
+				<h3><?php echo $user->name; ?></h3>
 
-				<form method="post" action="">
+				<p>Email : <?php echo $user->email; ?></p>
+
+				<form method="post" action="?action=admin">
 
 					<fieldset>
 
-						<input type="checkbox" name="isadmin" id="is-admin-1" />
-						<label for="is-admin-1"><?php echo $Lang->becomeadmin; ?></label>
+						<input type="checkbox" name="isadmin" id="is-admin-<?php echo $i ?>" <?php if ($user->isadmin) { echo 'checked';}?> />
+						<label for="is-admin-<?php echo $i ?>"><?php echo $Lang->becomeadmin; ?></label>
 
 						<div class="clear"></div>
 
-						<input type="checkbox" name="islocked" id="is-locked-1" />
-						<label for="is-locked-1"><?php echo $Lang->lockuseradmin; ?></label>
-						
+						<input type="checkbox" name="islocked" id="is-locked-<?php echo $i ?>" <?php if ($user->islocked) { echo 'checked';}?> />
+						<label for="is-locked-<?php echo $i ?>"><?php echo $Lang->lockuseradmin; ?></label>
+							
 						<div class="clear"></div>
 
-						<input type="checkbox"name="delete" id="delete-1" />
-						<label for="delete-1"><?php echo $Lang->deleteuseradmin; ?></label>
-						
+						<input type="checkbox"name="delete" id="delete-<?php echo $i ?>" />
+						<label for="delete-<?php echo $i ?>"><?php echo $Lang->deleteuseradmin; ?></label>
+							
 						<div class="clear"></div>
 
-						<input type="hidden" name="id" value="1" />
+						<input type="hidden" name="id" value="<?php echo $user->id; ?>" />
 
 					</fieldset>
 
@@ -46,14 +50,15 @@
 			</div>
 
 			<div class="grid_2 omega">
-
-				<img src="<?php echo DEFAULT_AVATAR; ?>" />
-
+					
+				<img src="<?php echo $user->avatar; ?>" />
+					
 			</div>
-
-		</div>		
-
-<?php if (!empty($Pages)) : ?>
+		</div>
+<?php
+	endforeach;
+	
+	if (!empty($Pages)) : ?>
 		<div class="clear"></div>
 		
 		<div id="paging">		
