@@ -97,11 +97,10 @@ class Tool {
 			$snippetStd->category = $snippetObject->_category;
 			$snippetStd->tags = array();
 
-			if (mb_strlen($snippetObject->_tags) != 0) {
-				$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($snippetObject->_tags)));
-				foreach($tagsArray AS $tag) {
+			$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($snippetObject->_tags)));
+			foreach($tagsArray AS $tag) {
+				if(!empty($tag))
 					$snippetStd->tags[] = $tag;
-				}
 			}
 			
 			$snippetStd->privacy = ($snippetObject->_private) ? true : false;
