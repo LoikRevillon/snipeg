@@ -19,7 +19,7 @@
 
 				<h4><a href="?action=single&id=<?php echo $snippet->id; ?>"><?php echo $snippet->name; ?></a></h4>
 				<p><?php echo $snippet->comment; ?></p>
-				<p><?php echo $Lang->publishedbyview . ' ' . $User->name . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' <a href="?action=view&category=' . $snippet->category . '">' . $snippet->category . '</a>';?></p>
+				<p><?php echo $Lang->publishedbyview . ' ' . $User->name . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' <a href="?action=browse&category=' . $snippet->category . '">' . $snippet->category . '</a>';?></p>
 
 			</div>
 
@@ -31,7 +31,7 @@
 					foreach($snippet->tags AS $tag) :
 ?>
 
-					<a href="?action=browse&tag=<?php echo $tag; ?>"><?php echo $tag; ?></a>
+					<a href="?action=browse&tags=<?php echo $tag; ?>"><?php echo $tag; ?></a>
 
 <?php
 				endforeach;
