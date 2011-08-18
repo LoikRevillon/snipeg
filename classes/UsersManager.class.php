@@ -39,32 +39,56 @@ class UsersManager {
 
 	}
 
-	public static function countOfUsers() {
+	public static function countOfUsers($dropThisUserId = false) {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->query('SELECT COUNT(*) AS count FROM `users`');
-			$request->execute();
-			
+
+			if (empty($dropThisUserId)) {
+
+				$request = $db->query('SELECT COUNT(*) AS count FROM `users`');
+
+			} else {
+				$request = $db->prepare('SELECT COUNT(*) AS count FROM `users` WHERE `rowid` != :id');
+				$request->bindValue(':id', $dropThisUserId, PDO::PARAM_INT);
+				$request->execute();
+			}
+
 			return $request->fetch(PDO::FETCH_OBJ);
-			
+
 		} catch (Exception $e) {
 			return false;
 		}
 	}
 
-	public function getAllUsers($pageNumber = false) {
+	public function getAllUsers($pageNumber = false, $dropThisUserId = false) {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			if (!empty($pageNumber)) {
-				$request = $db->prepare('SELECT rowid as id, * FROM `users` ORDER BY `name` ASC LIMIT :limit_down , :limit_up');
-				$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_PER_PAGE, PDO::PARAM_INT);
-				$request->bindValue(':limit_up', $pageNumber * NUM_USER_PER_PAGE, PDO::PARAM_INT);
-				$request->execute();
-			} else {
-				$request = $db->query('SELECT rowid as id, * FROM `users` ORDER BY `name` ASC LIMIT');
+			$requestString = 'SELECT `rowid` AS id, * FROM `users`';
+
+			if (!empty($dropThisUserId))
+				$requestString .= ' WHERE `rowid` != :id';
+
+			$requestString .= ' ORDER BY `name` ASC';
+
+			if (!empty($pageNumber))
+				$requestString .= ' LIMIT :limit_down, :limit_up';
+
+			$request = $db->prepare($requestString);
+
+			if (!empty($pageNumber) OR !empty($dropThisUserId)) {
+
+				if (!empty($dropThisUserId))
+					$request->bindValue(':id', $dropThisUserId, PDO::PARAM_INT);
+
+				if (!empty($pageNumber)) {
+					$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_PER_PAGE, PDO::PARAM_INT);
+					$request->bindValue(':limit_up', $pageNumber * NUM_USER_PER_PAGE, PDO::PARAM_INT);
+				}
 			}
+			$request->execute();
+
 		} catch(Exception $e) {
 			return array();
 		}
@@ -116,7 +140,7 @@ class UsersManager {
 			$request->bindValue(':language', $newInfos->_language, PDO::PARAM_STR);
 			$request->bindValue(':favorite_lang', serialize($newInfos->_favoriteLang), PDO::PARAM_STR);
 			return $request->execute();
-			
+
 		} catch(Exception $e) {
 			return false;
 		}
