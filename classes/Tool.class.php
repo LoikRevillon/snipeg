@@ -67,16 +67,47 @@ class Tool {
 
 			$userStd->id = intval($userObject->_id);
 			$userStd->isadmin = ($userObject->_admin == 1);
-			$userStd->name = $userObject->_name;
-			$userStd->email = $userObject->_email;
+			$userStd->name = htmlspecialchars($userObject->_name);
+			$userStd->email = htmlspecialchars($userObject->_email);
 			$userStd->avatar = ($userObject->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $userStd->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
-			$userStd->password = $userObject->_password;
+			$userStd->password = htmlspecialchars($userObject->_password);
 			$userStd->islocked = ($userObject->_locked == 1);
-			$userStd->theme = $userObject->_theme;
-			$userStd->language = $userObject->_language;
-			$userStd->favorite_lang = $userObject->_favorite_lang;
+			$userStd->theme = htmlspecialchars($userObject->_theme);
+			$userStd->language = htmlspecialchars($userObject->_language);
+			$userStd->favorite_lang = $userObject->_favoriteLang;
 
 			return $userStd;
+		} else {
+			return false;
+		}
+	}
+
+	public static function formatSnippet($snippetObject) {
+
+		if (!empty($snippetObject)) {
+
+			$snippetStd = new stdClass();
+
+			$snippetStd->id = intval($snippetObject->_id);
+			$snippetStd->name = htmlspecialchars($snippetObject->_name);
+			$snippetStd->idUser = intval($snippetObject->idUser);
+			$snippetStd->lastUpdate = intval($snippetObject->_lastUpdate);
+			$snippetStd->content = nl2br(htmlspecialchars($snippet->_content));
+			$snippetStd->language = intval($snippetObject->_language);		## FIX IT : with Geshi codes.
+			$snippetStd->comment = htmlspecialchars($snippetObject->comment);
+			$snippetStd->category = htmlspecialchars($snippetObject->_category);
+			$snippetStd->tags = array();
+
+			if (mb_strlen($snippetObject->_tags) != 0) {
+				$tagsArray = explode(',', str_replace(', ', ',', str_replace(' ,', ', ', strtolower($snippetObject->_tags))));
+				foreach($tagsArray AS $tag) {
+					$snippetStd->tags[] = htmlspecialchars(ucfirst($tag));
+				}
+			}
+			
+			$snippetStd->privacy = ($snippetObject->_private) ? true : false;
+
+			return $snippetStd;
 		} else {
 			return false;
 		}
