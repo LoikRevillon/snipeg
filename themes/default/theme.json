@@ -1,4 +1,5 @@
 {
+	"appname": "Snipeg Project",
 	"name": "Default theme",
 	"default": "search.php",
 	"admin": "admin.php",
