@@ -93,7 +93,7 @@ class Tool {
 			$snippetStd->lastUpdate = $snippetObject->_lastUpdate;
 			$snippetStd->content = $snippetObject->_content;
 			$snippetStd->language = intval($snippetObject->_language);		## FIX IT : with Geshi codes.
-			$snippetStd->comment = $snippetObject->comment;
+			$snippetStd->comment = $snippetObject->_comment;
 			$snippetStd->category = $snippetObject->_category;
 			$snippetStd->tags = array();
 
