@@ -45,7 +45,7 @@ function instantSearch(requestPage) {
 			request.abort();
 
 		runningRequest = true;
-		request = $.getJSON(requestPage, { 'query': $q.val() }, function(data) {
+		request = $.getJSON(requestPage, { 'dosearch': '', 'query': $q.val() }, function(data) {
 			if(data != null)
 				showResults(data, $q.val());
 			runningRequest = false;

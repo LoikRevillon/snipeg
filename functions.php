@@ -347,10 +347,7 @@ function do_search() {
 	global $Snippets;
 	global $User;
 
-	if(empty($_GET['page']))
-		$page = 1;
-	else
-		$page = (is_numeric($page)) ? intval($_GET['page']) : 1; // SECURITY ISSUE ?
+	$page = (empty($_GET['page']) OR !is_numeric($_GET['page'])) ? 1 : intval($_GET['page']);
 
 	$manager = SnippetsManager::getReference();
 
