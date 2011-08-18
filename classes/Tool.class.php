@@ -90,16 +90,16 @@ class Tool {
 
 			$snippetStd->id = intval($snippetObject->_id);
 			$snippetStd->name = htmlspecialchars($snippetObject->_name);
-			$snippetStd->idUser = intval($snippetObject->idUser);
+			$snippetStd->idUser = intval($snippetObject->_idUser);
 			$snippetStd->lastUpdate = intval($snippetObject->_lastUpdate);
-			$snippetStd->content = nl2br(htmlspecialchars($snippet->_content));
+			$snippetStd->content = $snippetObject->_content;
 			$snippetStd->language = intval($snippetObject->_language);		## FIX IT : with Geshi codes.
 			$snippetStd->comment = htmlspecialchars($snippetObject->comment);
-			$snippetStd->category = htmlspecialchars($snippetObject->_category);
+			$snippetStd->category = htmlspecialchars(ucfirst($snippetObject->_category));
 			$snippetStd->tags = array();
 
 			if (mb_strlen($snippetObject->_tags) != 0) {
-				$tagsArray = explode(',', str_replace(', ', ',', str_replace(' ,', ', ', strtolower($snippetObject->_tags))));
+				$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($snippetObject->_tags)));
 				foreach($tagsArray AS $tag) {
 					$snippetStd->tags[] = htmlspecialchars(ucfirst($tag));
 				}
