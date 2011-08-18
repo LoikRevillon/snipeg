@@ -67,13 +67,12 @@ class Tool {
 
 			$userStd->id = intval($userObject->_id);
 			$userStd->isadmin = ($userObject->_admin == 1);
-			$userStd->name = htmlspecialchars($userObject->_name);
-			$userStd->email = htmlspecialchars($userObject->_email);
+			$userStd->name = $userObject->_name;
+			$userStd->email = $userObject->_email;
 			$userStd->avatar = ($userObject->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $userStd->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
-			$userStd->password = htmlspecialchars($userObject->_password);
 			$userStd->islocked = ($userObject->_locked == 1);
-			$userStd->theme = htmlspecialchars($userObject->_theme);
-			$userStd->language = htmlspecialchars($userObject->_language);
+			$userStd->theme = $userObject->_theme;
+			$userStd->language = $userObject->_language;
 			$userStd->favorite_lang = $userObject->_favoriteLang;
 
 			return $userStd;
@@ -89,19 +88,19 @@ class Tool {
 			$snippetStd = new stdClass();
 
 			$snippetStd->id = intval($snippetObject->_id);
-			$snippetStd->name = htmlspecialchars($snippetObject->_name);
+			$snippetStd->name = $snippetObject->_name;
 			$snippetStd->idUser = intval($snippetObject->_idUser);
-			$snippetStd->lastUpdate = intval($snippetObject->_lastUpdate);
+			$snippetStd->lastUpdate = $snippetObject->_lastUpdate;
 			$snippetStd->content = $snippetObject->_content;
 			$snippetStd->language = intval($snippetObject->_language);		## FIX IT : with Geshi codes.
-			$snippetStd->comment = htmlspecialchars($snippetObject->comment);
-			$snippetStd->category = htmlspecialchars(ucfirst($snippetObject->_category));
+			$snippetStd->comment = $snippetObject->comment;
+			$snippetStd->category = $snippetObject->_category;
 			$snippetStd->tags = array();
 
 			if (mb_strlen($snippetObject->_tags) != 0) {
 				$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($snippetObject->_tags)));
 				foreach($tagsArray AS $tag) {
-					$snippetStd->tags[] = htmlspecialchars(ucfirst($tag));
+					$snippetStd->tags[] = $tag;
 				}
 			}
 			
