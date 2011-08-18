@@ -15,8 +15,8 @@ function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 	
 	$countPage = ceil ($elementCounted / $elementPerPage);
 
-	if (!empty($_GET['page']) AND ($_GET['page'] <= $countPage OR $_GET['page'] < 1)) {
-		$pageRequested = $_GET['page'];
+	if (!empty($_GET['page']) AND (intval(remind_post($_GET['page'])) <= $countPage OR intval(remind_post($_GET['page'])) < 1)) {
+		$pageRequested = intval(remind_post($_GET['page']));
 	}
 
 	if ($elementCounted > $elementPerPage) {
@@ -42,6 +42,37 @@ function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 	}
 }
 
+function lang_of_theme() {
+
+	global $Theme;
+
+	$listLang = array();
+	$languagesFiles = glob(ROOT . $Theme->dirname . LANGUAGE_DIR . '*.json');
+
+	foreach($languagesFiles as $languageFile) {
+		$listLang[] = pathinfo($languageFile, PATHINFO_FILENAME);
+	}
+
+	return $listLang;
+
+}
+
+function is_admin() {
+
+	global $User;
+	return $User->isadmin;
+
+}
+
+function remind_post($param) {
+	
+	if(!empty($_POST) AND isset($_POST[$param]))
+		echo htmlspecialchars($_POST[$param]);
+
+}
+
+
+
 function load_page($includeFile) {
 
 	global $Lang;
@@ -52,6 +83,7 @@ function load_page($includeFile) {
 	global $Snippets;
 
 	$actionRequested = $_GET['action'];
+
 
 	if(!empty($Theme->$actionRequested)) {
 
@@ -78,7 +110,10 @@ function load_page($includeFile) {
 			
 			create_paging($snippets->count, &$page, NUM_SNIPPET_PER_PAGE);
 					
-			$Snippets = $manager->getSnippetsByUser($User->id, $page);
+			$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
+			foreach ($snippetsObjectInArray AS $snippet) {
+				$Snippets[] = Tool::formatSnippet($snippet);
+			}
 			$includeFile = $actionRequested;
 		} else {
 			$includeFile = $actionRequested;
@@ -90,35 +125,6 @@ function load_page($includeFile) {
 		Tool::appendMessage($Lang->error_file_not_found . ' : ' . $actionRequested , Tool::M_ERROR);
 		$includeFile = 'default';
 	}
-
-}
-
-function lang_of_theme() {
-
-	global $Theme;
-
-	$listLang = array();
-	$languagesFiles = glob(ROOT . $Theme->dirname . LANGUAGE_DIR . '*.json');
-
-	foreach($languagesFiles as $languageFile) {
-		$listLang[] = pathinfo($languageFile, PATHINFO_FILENAME);
-	}
-
-	return $listLang;
-
-}
-
-function is_admin() {
-
-	global $User;
-	return $User->isadmin;
-
-}
-
-function remind_post($param) {
-
-	if(!empty($_POST) AND isset($_POST[$param]))
-		echo htmlspecialchars($_POST[$param]);
 
 }
 
@@ -195,24 +201,24 @@ function do_admin() {
 	global $Lang;
 
 	$manager = UsersManager::getReference();
+	$user = $manager->getUserInformations($_POST['id']);
 
-	if(is_admin() AND !$user = $manager->getUserInformations($_POST['id'])) {
+	if(is_admin() AND !empty($user)) {
 		Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 	} else {
 		if(!empty($_POST['delete'])) {
 			$user->deleteUser();
 			Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
 		} else {
-			$newUser = new stdClass();
-
 			if(!empty($_POST['isadmin']))
-				$newUser->_admin = 1;
+				$user->_admin = 1;
 			if(!empty($_POST['islocked']))
-				$newUser->_locked = 1;
-
-			$updatedUser = new Compositor($user, $newUser);
-			$manager->updateUserInfos($user->_id, $updatedUser);
-			Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
+				$user->_locked = 1;
+				
+			if($manager->updateUserInfos($user->_id, $user))
+				Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
+			else
+				Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
 		}
 	}
 
@@ -356,9 +362,11 @@ function update_account() {
 
 	if (!empty($needUpdate)) {
 		$manager = UsersManager::getReference();
-		if ($manager->updateUserInfos($currentUser->_id, $currentUser))
+		if ($manager->updateUserInfos($currentUser->_id, $currentUser)) {
 			Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
-		else
+			$_SESSION['user'] = $currentUser;
+		} else {
 			Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
+		}
 	}
 }
