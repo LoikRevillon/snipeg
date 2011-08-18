@@ -100,7 +100,7 @@ if(isset($_POST['init'])) {
 		<script src="<?php echo $Theme->location;?>js/jquery-1.6.2.min.js"></script>
 		<script src="<?php echo $Theme->location;?>js/jquery.uniform.min.js"></script>
 		<script src="<?php echo $Theme->location;?>js/scripts.js"></script>
-		<style>#init input[type=text], #init input[type=password] { width: 256px; }</style>
+		<style>#init input[type=text], #init input[type=password] { width: 256px; } label {padding-left: 0;}</style>
 	</head>
 	<body>
 		<div id="topbar"></div>

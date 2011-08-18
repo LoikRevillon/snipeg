@@ -67,7 +67,7 @@ class Snippet {
 			$request->bindParam(':language', $this->_language, PDO::PARAM_INT, 1);
 			$request->bindParam(':comment', $this->_comment, PDO::PARAM_STR);
 			$request->bindParam(':category', $this->_category, PDO::PARAM_STR, 80);
-			$request->bindParam(':tags', $this->_tags, PDO::PARAM_STR);
+			$request->bindParam(':tags', strtolower($this->_tags), PDO::PARAM_STR);
 			$request->bindParam(':private', $this->_private, PDO::PARAM_INT, 1);
 
 			return $request->execute();
