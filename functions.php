@@ -98,11 +98,11 @@ function load_page($includeFile) {
 				$includeFile = 'default';
 			} else {
 				$manager = UsersManager::getReference();
-				$users = $manager->countOfUsers();
+				$users = $manager->countOfUsers($User->id);
 
 				create_paging($users->count, &$page, NUM_USER_PER_PAGE);
 
-				$Users = $manager->getAllUsers($page);
+				$Users = $manager->getAllUsers($page, $User->id);
 
 				$includeFile = $actionRequested;
 			}
