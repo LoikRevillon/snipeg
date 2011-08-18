@@ -8,6 +8,10 @@
 					});
 					$('head').append(lnk);
 				}
+
+				<?php if(isset($_GET['action']) AND $_GET['action'] == 'search') : ?>
+				instantSearch('<?php echo $Theme->location . 'instantsearch.php'; ?>');
+				<?php endif; ?>
 			});
 		</script>
 	</body>

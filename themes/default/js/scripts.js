@@ -25,10 +25,9 @@ $(document).ready(function() {
  * Instant Search
 */
 
-$(document).ready(function() {
+function instantSearch(requestPage) {
 
 	var request;
-	var requestPage = "test.search.php";
 	var runningRequest = false;
 
 	$('input#query').keyup(function(e) {
@@ -93,7 +92,7 @@ $(document).ready(function() {
 
 	});
 
-});
+};
 
 /*
  * htmlspecialchars equivalent
