@@ -48,8 +48,8 @@ class User {
 
 	public function __set($varName, $value) {
 
-		if (isset($varName))
-			$this->$varName = $value;
+		if (isset($this->{$varName}))
+			$this->{$varName} = $value;
 
 	}
 
