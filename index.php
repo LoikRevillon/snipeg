@@ -73,7 +73,7 @@ if(isset($_SESSION['user'])) {
 	}
 
 } else {
-	if($_GET['action'] === 'single')
+	if(isset($_GET['action']) AND $_GET['action'] === 'single')
 		load_page(&$includeFile);
 	else
 		$includeFile = 'login';
