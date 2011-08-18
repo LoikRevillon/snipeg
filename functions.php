@@ -350,7 +350,7 @@ function do_search() {
 	if(empty($_GET['page']))
 		$page = 1;
 	else
-		$page = $_GET['page']; // SECURITY ISSUE
+		$page = (is_numeric($page)) ? intval($_GET['page']) : 1; // SECURITY ISSUE ?
 
 	$manager = SnippetsManager::getReference();
 
