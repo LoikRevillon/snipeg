@@ -16,11 +16,13 @@
 
 				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=view&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
 
+				<!-- TODO : REIMPLEMENT CLEANLY
 				<div id="single-snippet">
 
-					<pre><?php echo htmlspecialchars($Snippet->content); ?></pre>
+					<pre><?php /* echo htmlspecialchars($Snippet->content); */ ?></pre>
 
 				</div>
+				-->
 
 				<textarea name="snippet-content" id="snippet-content" ><?php echo htmlspecialchars($Snippet->content); ?></textarea>
 
@@ -52,11 +54,11 @@
 
 			<div class="tags">
 
-				<?php if(!empty($snippet->tags)) : ?>
+				<?php if(!empty($Snippet->tags)) : ?>
 
-				<?php foreach($snippet->tags AS $tag) : ?>
+				<?php foreach($Snippet->tags AS $tag) : ?>
 
-				<a href="?action=browse&tag='<?php echo $tag; ?>'"><?php echo $tag; ?></a>
+				<a href="?action=browse&tag=<?php echo htmlspecialchars($tag); ?>"><?php echo htmlspecialchars($tag); ?></a>
 
 				<?php endforeach; ?>
 

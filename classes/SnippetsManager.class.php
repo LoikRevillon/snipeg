@@ -274,7 +274,7 @@ class SnippetsManager {
 
 			return $arrayOfSnippets;
 		} catch(Exception $e) {
-			return json_encode(array());
+			return array();
 		}
 
 	}

@@ -361,6 +361,12 @@ blockquote p {
 	margin-left: 0;
 }
 
+#single-snippet, #snippet-content {
+	font-family: monospace;
+	letter-spacing: 1px;
+	line-height: 18px;
+}
+
 /*
  * Paging
  * -------------------------------------------------------------------------------------

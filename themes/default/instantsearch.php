@@ -18,6 +18,7 @@ if(!empty($_SESSION['user']))
 	$User = Tool::formatUser($_SESSION['user']);
 
 if(!empty($User)) {
+
 	if(!empty($_GET['query'])) {
 
 		$page = (empty($_GET['page']) OR !is_numeric($_GET['page'])) ? 1 : intval($_GET['page']);
@@ -32,5 +33,7 @@ if(!empty($User)) {
 		$Snippets = array_map(function($s){ return Tool::formatSnippet($s); }, $Snippets);
 
 	}
+
 	echo json_encode($Snippets);
+
 }
