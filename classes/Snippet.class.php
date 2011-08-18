@@ -43,7 +43,8 @@ class Snippet {
 
 	public function __get($varName){
 
-		return $this->$varName;
+		if(isset($this->$varName))
+			return $this->$varName;
 
 	}
 
