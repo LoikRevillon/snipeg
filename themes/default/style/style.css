@@ -173,7 +173,7 @@ h1, h2, h3, h4, h5, h6, .success, .info, .warning, .error {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-input[type=text], input[type=password] textarea, #single-snippet {
+input[type=text], input[type=password], textarea, #single-snippet {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
@@ -552,11 +552,11 @@ blockquote p {
 	margin-left: 6px;
 }
 
-#add-snippet-main input[type=text], #add-snippet-main textarea {
+#add-snippet-main input[type=text], #add-snippet-main textarea, #single textarea {
 	width: 516px;
 }
 
-#add-snippet-main textarea {
+#add-snippet-main textarea, #single textarea {
 	min-height: 220px;
 }
 
