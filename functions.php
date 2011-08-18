@@ -155,24 +155,20 @@ function load_page($includeFile) {
 			$Snippet = $manager->getSnippetById($_GET['id']);
 			$Snippet = Tool::formatSnippet($Snippet);
 
-			if (empty($Snippet->id)) {
-				$includeFile = 'default';
-			} else {
-				if ($Snippet->privacy) {
-					if (empty($User)) {
-						Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-						$includeFile = 'login';
-					} else {
-						if ($User->id !== $Snippet->idUser) {
-							Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-							$includeFile = 'default';
-						} else {
-							$includeFile = $actionRequested;
-						}
-					}
+			if ($Snippet->privacy) {
+				if (empty($User)) {
+					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+					$includeFile = 'login';
 				} else {
-					$includeFile = $actionRequested;
+					if ($User->id !== $Snippet->idUser) {
+						Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+						$includeFile = 'default';
+					} else {
+						$includeFile = $actionRequested;
+					}
 				}
+			} else {
+				$includeFile = $actionRequested;
 			}
 		} elseif ($actionRequested === 'search') {
 			do_search();
