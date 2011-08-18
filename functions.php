@@ -12,7 +12,7 @@ function __autoload($className) {
 function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 
 	global $Pages;
-	
+
 	$countPage = ceil ($elementCounted / $elementPerPage);
 
 	if (!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage OR intval($_GET['page']) < 1)) {
@@ -31,7 +31,7 @@ function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 			for ($j = 0; $i < $countPage AND $j <= 3; $i++, $j++) {
 				$Pages[] = $i;
 			}
-			$Pages[] = $countPage;							
+			$Pages[] = $countPage;
 		} else {
 			$Pages = array();
 			for ($j = 0, $i = 2; $i < $countPage AND $j <= 3; $i++, $j++) {
@@ -65,12 +65,16 @@ function is_admin() {
 }
 
 function remind_post($param) {
-	
+
 	if(!empty($_POST) AND isset($_POST[$param]))
 		echo htmlspecialchars($_POST[$param]);
 
 }
 
+/*
+ * Page loader
+ * -------------------------------------------------------------------------------------
+*/
 
 function load_page($includeFile) {
 
@@ -87,7 +91,7 @@ function load_page($includeFile) {
 	if(!empty($Theme->$actionRequested)) {
 
 		$page = 1;
-		
+
 		if ($actionRequested === 'admin')  {
 			if (!is_admin()) {
 				Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
@@ -95,18 +99,18 @@ function load_page($includeFile) {
 			} else {
 				$manager = UsersManager::getReference();
 				$users = $manager->countOfUsers();
-				
-				create_paging($users->count, &$page, NUM_USER_PER_PAGE);			
-					
+
+				create_paging($users->count, &$page, NUM_USER_PER_PAGE);
+
 				$Users = $manager->getAllUsers($page);
-				
+
 				$includeFile = $actionRequested;
 			}
 		} elseif ($actionRequested === 'browse') {
-			
+
 			$manager = SnippetsManager::getReference();
 			$conditions = new stdClass();
-			
+
 			if (!empty($_GET['category'])) {
 				$conditions->field = 'category';
 				$conditions->value = $_GET['category'];
@@ -115,11 +119,11 @@ function load_page($includeFile) {
 				$conditions->value = $_GET['tags'];
 			} else {
 				$conditions = false;
-			}			
-			
+			}
+
 			$snippets = $manager->countOfSnippetByUser($User->id, $conditions);
 			$snippetsObjectInArray = array();
-			
+
 			create_paging($snippets->count, &$page, NUM_SNIPPET_PER_PAGE);
 
 			if (!empty($conditions)) {
@@ -132,13 +136,13 @@ function load_page($includeFile) {
 
 			if (empty($snippetsObjectInArray))
 				$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
-			
+
 			foreach ($snippetsObjectInArray AS $snippet) {
 				$Snippets[] = Tool::formatSnippet($snippet);
 			}
 
 			$includeFile = $actionRequested;
-			
+
 		} elseif ($actionRequested === 'single') {
 			$manager = SnippetsManager::getReference();
 			$Snippet = $manager->getSnippetById($_GET['id']);
@@ -158,11 +162,11 @@ function load_page($includeFile) {
 				}
 			} else {
 				$includeFile = $actionRequested;
-			}			
+			}
 		} else {
 			$includeFile = $actionRequested;
 		}
-		
+
 	} elseif($actionRequested === 'logout'){
 		session_destroy();
 		$includeFile = 'login';
@@ -173,6 +177,10 @@ function load_page($includeFile) {
 
 }
 
+/*
+ * POST processing
+ * -------------------------------------------------------------------------------------
+*/
 
 function do_login() {
 
@@ -183,11 +191,11 @@ function do_login() {
 	if(!empty($_POST['signin-login']) AND !empty($_POST['signin-password'])) {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
-				
+
 			if ($user->_locked == 0)
 				$_SESSION['user'] = $user;
 			else
-				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);		
+				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);
 
 		} else {
 			Tool::appendMessage($Lang->error_wrong_sign_in, Tool::M_ERROR);
@@ -266,7 +274,7 @@ function do_admin() {
 				$user->_admin = 1;
 			if(!empty($_POST['islocked']))
 				$user->_locked = 1;
-				
+
 			if($manager->updateUserInfos($user->_id, $user))
 				Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
 			else
@@ -297,7 +305,7 @@ function add_snippet() {
 	$snippetArray['id_user'] = $currentUser->_id;
 	$snippetArray['last_update'] = time();
 	$snippetArray['content'] = $_POST['content'];
-	$snippetArray['language'] = $_POST['language'];  ## FIX IT (geshi codes)
+	$snippetArray['language'] = (intval(!empty($_POST['language']))) ? $_POST['language'] : 0;  ## FIX IT (geshi codes)
 	$snippetArray['comment'] = $_POST['description'];
 	$snippetArray['category'] = $category;
 	$snippetArray['tags'] = $_POST['tags'];
@@ -337,21 +345,19 @@ function delete_snippet() {
 function do_search() {
 
 	global $Snippets;
+	global $User;
 
-	if(!empty($_GET['query'])) {
-		if(empty($_GET['page']))
-			$page = 1;
-		else
-			$page = $_GET['page']; // SECURITY ISSUE
+	if(empty($_GET['page']))
+		$page = 1;
+	else
+		$page = $_GET['page']; // SECURITY ISSUE
 
-		$manager = SnippetManager::getReference();
-		$user = $_SESSION['user'];
+	$manager = SnippetsManager::getReference();
 
-		if(isset($_GET['category']))
-			$Snippets = $manager->instantSearch_GetSnippetsByCategory($user->_id, $_SESSION['query'], $page);
-		elseif(isset($_GET['tag']))
-			$Snippets = $manager->instantSearch_GetSnippets($user->_id, $_SESSION['query'], $page);
-	}
+	if(!empty($_GET['category']))
+		$Snippets = $manager->instantSearch_GetSnippetsByCategory($User->id, $_GET['query'], $page);
+	else
+		$Snippets = $manager->instantSearch_GetSnippets($User->id, $_GET['query'], $page);
 
 }
 
@@ -462,4 +468,4 @@ function update_snippet() {
 			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 		}
 	}
-}			
+}

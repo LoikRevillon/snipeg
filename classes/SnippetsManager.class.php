@@ -18,34 +18,34 @@ class SnippetsManager {
 		try {
 			$db = PDOSQLite::getDBLink();
 			$requestString = 'SELECT COUNT(*) AS count FROM `snippets` WHERE `id_user` = :id_user';
-			
+
 			if (!empty($conditions)) {
 				$requestString .= ' AND `' . $conditions->field;
-				
+
 				if ($conditions->field === 'tags') {
-					
+
 					$requestString .= '` LIKE :';
 					$param = '%' . strtolower($conditions->value) . '%';
-					
+
 				} elseif ($conditions->field === 'category') {
-					
+
 					$requestString .= '` = :';
 					$param = strtolower($conditions->value);
 				}
 				$requestString .= $conditions->field;
-			
+
 				$request = $db->prepare($requestString);
 				$request->bindValue(':' . $conditions->field, $param, PDO::PARAM_STR);
-				
+
 			} else {
 				$request = $db->prepare($requestString);
 			}
-			
+
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->execute();
 
 			return $request->fetch(PDO::FETCH_OBJ);
-			
+
 		} catch (Exception $e) {
 			return false;
 		}
@@ -66,7 +66,7 @@ class SnippetsManager {
 			while ($result = $request->fetch(PDO::FETCH_ASSOC)) {
 				$allSnippetOfUser[] = new Snippet($result);
 			}
-			
+
 			return $allSnippetOfUser;
 
 		} catch (Exception $e) {
@@ -100,7 +100,7 @@ class SnippetsManager {
 			$request->bindParam(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->bindParam(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
-			
+
 			$publicSnippets = array();
 
 			while($result = $request->fetch(PDO::FETCH_ASSOC)) {
@@ -247,7 +247,7 @@ class SnippetsManager {
 			while($result = $request->fetch(PDO::FETCH_ASSOC)) {
 				$arrayOfSnippetsByCategory[] = json_encode($result);
 			}
-			
+
 			return $arrayOfSnippetsByCategory;
 		} catch(Exception $e) {
 			return array();
