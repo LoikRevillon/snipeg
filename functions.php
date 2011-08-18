@@ -15,8 +15,8 @@ function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 	
 	$countPage = ceil ($elementCounted / $elementPerPage);
 
-	if (!empty($_GET['page']) AND (intval(remind_post($_GET['page'])) <= $countPage OR intval(remind_post($_GET['page'])) < 1)) {
-		$pageRequested = intval(remind_post($_GET['page']));
+	if (!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage OR intval($_GET['page']) < 1)) {
+		$pageRequested = intval($_GET['page']);
 	}
 
 	if ($elementCounted > $elementPerPage) {
@@ -100,10 +100,10 @@ function load_page($includeFile) {
 				create_paging($users->count, &$page, NUM_USER_PER_PAGE);			
 					
 				$Users = $manager->getAllUsers($page);
+				
 				$includeFile = $actionRequested;
 			}
 		} elseif ($actionRequested === 'browse') {
-			$page = 1;
 			
 			$manager = SnippetsManager::getReference();
 			$snippets = $manager->countOfSnippetByUser($User->id);
@@ -114,11 +114,34 @@ function load_page($includeFile) {
 			foreach ($snippetsObjectInArray AS $snippet) {
 				$Snippets[] = Tool::formatSnippet($snippet);
 			}
+
 			$includeFile = $actionRequested;
+			
+		} elseif ($actionRequested === 'single') {
+			$manager = SnippetsManager::getReference();
+			$Snippet = $manager->getSnippetById($_GET['id']);
+			$Snippet = Tool::formatSnippet($Snippet);
+
+			if ($Snippet->privacy) {
+				if (empty($User)) {
+					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+					$includeFile = 'login';
+				} else {
+					if ($User->id !== $Snippet->idUser) {
+						Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+						$includeFile = 'default';
+					} else {
+						$includeFile = $actionRequested;
+					}
+				}
+			} else {
+				$includeFile = $actionRequested;
+			}			
 		} else {
 			$includeFile = $actionRequested;
 		}
-	} elseif($actionRequested === 'logout' ){
+		
+	} elseif($actionRequested === 'logout'){
 		session_destroy();
 		$includeFile = 'login';
 	} else {
@@ -127,6 +150,8 @@ function load_page($includeFile) {
 	}
 
 }
+
+
 
 function do_login() {
 
@@ -370,3 +395,44 @@ function update_account() {
 		}
 	}
 }
+
+function update_snippet() {
+
+	global $Lang;
+	global $Theme;
+
+	if (!empty($_POST['edit-snippet'])) {
+
+		if (isset($_SESSION['user']))
+			$user = $_SESSION['user'];
+
+		$manager = SnippetsManager::getReference();
+		$oldSnippet = $manager->getSnippetById($_POST['snippet-id']);
+
+		if (!empty($user) AND $oldSnippet->_idUser === $user->_id) {
+			$oldSnippet->_content = $_POST['snippet-content'];
+
+			if ($manager->updateSnippetInfos($oldSnippet->_id, $oldSnippet))
+				Tool::appendMessage($Lang->success_update_snippet, Tool::M_SUCCESS);
+			else
+				Tool::appendMessage($Lang->error_update_snippet, Tool::M_ERROR);
+		} else {
+			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+		}
+	} elseif (!empty($_POST['delete-snippet'])) {
+		if (isset($_SESSION['user']))
+			$user = $_SESSION['user'];
+
+		$manager = SnippetsManager::getReference();
+		$oldSnippet = $manager->getSnippetById($_POST['snippet-id']);
+
+		if (!empty($user) AND $oldSnippet->_idUser === $user->_id) {
+			if ($oldSnippet->deleteSnippet())
+				Tool::appendMessage($Lang->success_delete_snippet, Tool::M_SUCCESS);
+			else
+				Tool::appendMessage($Lang->error_delete_snippet, Tool::M_ERROR);
+		} else {
+			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+		}
+	}
+}			
