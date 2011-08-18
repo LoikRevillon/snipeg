@@ -6,7 +6,7 @@
 
 	<div id="settings">
 
-		<h1><?php echo $Lang->accountpage; ?> ( John Williams )</h1>
+		<h1><?php echo $Lang->accountpage; ?> ( <?php echo htmlspecialchars(ucfirst($User->name)); ?> )</h1>
 
 		<form method="post" action="" enctype="multipart/form-data" autocomplete="off">
 
@@ -14,11 +14,12 @@
 
 				<div class="alpha grid_4">
 
-					<img src="<?php echo DEFAULT_AVATAR; ?>" />
+					<img src="<?php echo $User->avatar; ?>" />
 					<div class="clear"></div>
 
 					<label id="theme-label" for="theme"><?php echo $Lang->themelabelaccount; ?></label>
 					<div class="clear"></div>
+					<!-- TODO : IMPLEMENT -->
 					<select name="theme" id="theme">
 						<option value="default">Default</option>
 					</select>
@@ -38,13 +39,14 @@
 
 						<h3><?php echo $Lang->globalsettingaccount; ?></h3>
 
-						<label><?php echo $Lang->emailaccount; ?></label>
+						<label><?php echo htmlspecialchars($Lang->emailaccount); ?></label>
 						<div class="clear"></div>
 						<input type="text" name="email" value="" />
 						<div class="clear"></div>
 
 						<label><?php echo $Lang->langaccount; ?></label>
 						<div class="clear"></div>
+						<!-- TODO : IMPLEMENT -->
 						<select name="language">
 							<option value="en_US">English</option>
 						</select>
@@ -86,11 +88,25 @@
 
 			</div>
 
+			<!-- NOT YET IMPLEMENTED
+
 			<div id="settings-second-line">
 
-				<?php include 'list.php'; ?>
+				<h3><?php echo $Lang->programminglangaccount; ?></h3>
+
+				<div class="grid_3">
+
+					<input name="actionscript" type="checkbox" id="actionscript">
+					<label for="actionscript">ActionScript</label>
+					<div class="clear"></div>
+
+					!!! 20 checkboxes by column (grid_3)
+
+				</div>
 
 			</div>
+
+			-->
 
 		</form>
 

@@ -12,19 +12,17 @@
 
 			<div id="single-box">
 
-				<h4><a href="#"><?php echo $Snippet->name; ?></a></h4>
+				<h4><a href="#"><?php echo htmlspecialchars($Snippet->name); ?></a></h4>
 
-				<p><?php echo $Lang->publishedbyview . ' ' . $User->name . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=view&category=<?php echo $Snippet->category; ?>"><?php echo $Snippet->category; ?></a></p>
-
-				<p><?php echo $Snippet->category; ?></p>
+				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=view&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
 
 				<div id="single-snippet">
 
-					<pre><?php echo $Snippet->content; ?></pre>
+					<pre><?php echo htmlspecialchars($Snippet->content); ?></pre>
 
 				</div>
 
-				<textarea name="snippet-content" id="snippet-content" ><?php echo $Snippet->content; ?></textarea>
+				<textarea name="snippet-content" id="snippet-content" ><?php echo htmlspecialchars($Snippet->content); ?></textarea>
 
 			</div>
 
@@ -40,11 +38,11 @@
 
 				<div id="action">
 
-					<input type="submit" name="edit-snippet" value="Edit" />
-					
+					<input type="submit" name="edit-snippet" value="<?php echo $Lang->editbutton; ?>" />
+
 					<div class="clear"></div>
-					
-					<input type="submit" name="delete-snippet" value="Removve" />
+
+					<input type="submit" name="delete-snippet" value="<?php echo $Lang->removebutton; ?>" />
 
 				</div>
 
@@ -54,16 +52,15 @@
 
 			<div class="tags">
 
-<?php			if (!empty($snippet->tags)) :
-					foreach($snippet->tags AS $tag) :
-?>
+				<?php if(!empty($snippet->tags)) : ?>
+
+				<?php foreach($snippet->tags AS $tag) : ?>
 
 				<a href="?action=browse&tag='<?php echo $tag; ?>'"><?php echo $tag; ?></a>
 
-<?php
-				endforeach;
-				endif;
-?>
+				<?php endforeach; ?>
+
+				<?php endif; ?>
 
 			</div>
 

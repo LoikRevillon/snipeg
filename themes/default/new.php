@@ -8,26 +8,26 @@
 
 		<h1><?php echo $Lang->addsnippetpage; ?></h1>
 
-		<form method="post" action="" id="add-snippet">
+		<form method="post" action="?action=new" id="add-snippet">
 
 			<div id="add-snippet-main" class="grid_7">
 
-				<label for id="snippet-name">Title</label>
+				<label for id="snippet-name"><?php echo $Lang->titlesnippet; ?></label>
 				<div class="clear"></div>
 				<input type="text" name="name" id="snippet-name" autofocus />
 				<div class="clear"></div>
 
-				<label for id="snippet-description">Description</label>
+				<label for id="snippet-description"><?php echo $Lang->descriptionsnippet; ?></label>
 				<div class="clear"></div>
 				<input type="text" name="description" id="snippet-description" />
 				<div class="clear"></div>
 
-				<label for id="snippet-tags">Tags (comma separated)</label>
+				<label for id="snippet-tags"><?php echo $Lang->tagssnippet; ?></label>
 				<div class="clear"></div>
 				<input type="text" name="tags" id="snippet-tags" />
 				<div class="clear"></div>
 
-				<label for="snippet-content">Code</label>
+				<label for="snippet-content"><?php echo $Lang->codesnippet; ?></label>
 				<div class="clear"></div>
 				<textarea name="content" id="snippet-content"></textarea>
 				<div class="clear"></div>
@@ -45,21 +45,19 @@
 
 				<label for="snippet-category"><?php echo $Lang->setcategorysnippet; ?></label>
 				<div class="clear"></div>
+				<!-- TODO : IMPLEMENT -->
 				<select name="category" id="snippet-category">
 					<option value="default">Default</option>
-					<option value="miscellaneous">Miscellaneous</option>
-					<option value="wordpress">Wordpress</option>
 				</select>
 				<div class="clear"></div>
 
+				<!-- NOT YET IMPLEMENTED
 				<label for="snippet-language"><?php echo $Lang->programminglangsnippet; ?></label>
 				<div class="clear"></div>
 				<select name="language" id="snippet-language">
-						<option value="html">HTML</option>
-						<option value="php">PHP</option>
-						<option value="js">Javascript</option>
+					<option value="html">HTML</option>
 				</select>
-				<div class="clear"></div>
+				<div class="clear"></div>-->
 
 				<label for="snippet-is-public"><?php echo $Lang->privacysnippet; ?></label>
 				<div class="clear"></div>
