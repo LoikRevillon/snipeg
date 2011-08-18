@@ -63,15 +63,16 @@ function instantSearch(requestPage) {
 
 				result += '<div class="result-line">';
 				result += '<div class="grid_7">';
-				result += '<h4><a href="#">' + protect(item.name) + '</a></h4>';
+				result += '<h4><a href="?action=single&id=' + item.id + '">' + protect(item.name) + '</a></h4>';
 				result += '<p>' + protect(item.comment) + '</p>';
-				result += '<p>Published on ' + update.toLocaleString() + ' in category ' + protect(item.category)  + '</p>';
+				result += '<p>Published on ' + update.toLocaleString() + ' in category <a href="?action=browse&category=' + protect(item.category) + '">' + protect(ucfirst(item.category))  + '</a></p>';
 				result += '</div>';
 				result += '<div class="prefix_1 grid_4">';
 				result += '<div class="tags">';
 
-				$.each(item.tags.split(','), function(j, itm) {
-					result += '<a href="#">' + protect(itm) + '</a>';
+				$.each(item.tags.toString().split(','), function(j, itm) {
+					if(itm != '')
+						result += '<a href="?action=browse&tags=' + protect(itm) + '">' + protect(ucfirst(itm)) + '</a>';
 				});
 
 				result += '</div>';
@@ -93,6 +94,15 @@ function instantSearch(requestPage) {
 	});
 
 };
+
+function ucfirst(str) {
+
+	if(str.length > 0)
+		return str[0].toUpperCase() + str.substring(1);
+	else
+		return str;
+ 
+}
 
 /*
  * htmlspecialchars equivalent
