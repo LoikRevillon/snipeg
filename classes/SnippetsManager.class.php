@@ -13,11 +13,34 @@ class SnippetsManager {
 
 	}
 
-	public function countOfSnippetByUser ($userId) {
+	public function countOfSnippetByUser ($userId, $conditions = false) {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT COUNT(*) AS count FROM `snippets` WHERE `id_user` = :id_user');
+			$requestString = 'SELECT COUNT(*) AS count FROM `snippets` WHERE `id_user` = :id_user';
+			
+			if (!empty($conditions)) {
+				$requestString .= ' AND `' . $conditions->field;
+				
+				if ($conditions->field === 'tags') {
+					
+					$requestString .= '` LIKE :';
+					$param = '%' . strtolower($conditions->value) . '%';
+					
+				} elseif ($conditions->field === 'category') {
+					
+					$requestString .= '` = :';
+					$param = strtolower($conditions->value);
+				}
+				$requestString .= $conditions->field;
+			
+				$request = $db->prepare($requestString);
+				$request->bindValue(':' . $conditions->field, $param, PDO::PARAM_STR);
+				
+			} else {
+				$request = $db->prepare($requestString);
+			}
+			
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->execute();
 
@@ -139,15 +162,15 @@ class SnippetsManager {
 
 	}
 
-	public function getSnippetByCategory($userId, $categoryName, $pageNumber) {
+	public function getSnippetsByCategory($userId, $categoryName, $pageNumber) {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid as id, * FROM `snippets` WHERE `id_user` = :id_user AND `category` = :category ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
-			$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
-			$request->bindParam(':category', $categoryName, PDO::PARAM_STR, 80);
-			$request->bindParam(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR, 80);
-			$request->bindParam(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR, 80);
+			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user AND `category` = :category ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
+			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
+			$request->bindValue(':category', strtolower($categoryName), PDO::PARAM_STR);
+			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
+			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
 			$request->execute();
 
 			$snippetsMatchedByCategory = array();
@@ -167,9 +190,9 @@ class SnippetsManager {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND tags LIKE :tag ORDER BY last_update DESC LIMIT :limit_down , :limit_down');
-			$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
-			$request->bindValue(':tag', '%'.$tag.'%', PDO::PARAM_STR);
+			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user AND `tags` LIKE :tag ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
+			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
+			$request->bindValue(':tag', '%' . strtolower($tag) . '%', PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
 			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
 			$request->execute();
