@@ -2,14 +2,26 @@
 
 <?php include('top.php'); ?>
 
-<?php $currentPage =(!empty($_GET['page'])) ? $_GET['page'] : 1; ?>
+<?php
+
+	$currentPage =(!empty($_GET['page'])) ? $_GET['page'] : 1;
+
+	if(!empty($_GET['tags']))
+		$extra = $Lang->tag . ' : ' . htmlspecialchars($_GET['tags']);
+	elseif(!empty($_GET['category']))
+		$extra = $Lang->category . ' : ' . htmlspecialchars($_GET['category']);
+	elseif(!empty($Pages))
+		$extra = '( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' )';
+	else
+		$extra = '';
+
+?>
 
 <div id="main" class="container_12">
 
 	<div id="browse">
 
-		<h1><?php echo $Lang->browsepage; if(!empty($Pages)) { echo ' ( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . 
-$Lang->of . ' ' . end($Pages) . ' ) '; } ?></h1>
+		<h1><?php echo $Lang->browsepage . ' '. $extra; ?></h1>
 
 		<?php foreach($Snippets as $snippet) : ?>
 
