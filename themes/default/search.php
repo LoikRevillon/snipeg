@@ -8,7 +8,7 @@
 
 				<input type="hidden" name="action" value="search" />
 
-				<input type="text" name="query" id="query" autofocus />
+				<input type="text" name="query" id="query" value="<?php remind_get('query'); ?>" autofocus />
 
 				<input type="submit" name="dosearch" value="<?php echo $Lang->searchbutton; ?>" />
 
@@ -18,7 +18,54 @@
 
 		<div class="container_12">
 
-			<div id="search-head"></div>
+			<div id="search-head">
+
+				<?php if(!empty($_GET['query'])) : ?>
+
+				<h1><?php echo $Lang->resultsfor;?> : <?php echo htmlspecialchars($_GET['query']); ?></h1>
+
+				<?php endif; ?>
+
+				<?php if(is_array($Snippets) AND !empty($Snippets)) : ?>
+
+				<?php foreach($Snippets AS $snippet) : ?>
+
+				<div class="result-line">
+
+					<div class="grid_7">
+
+						<h4><a href="?action=single&id=<?php echo htmlspecialchars($snippet->id); ?>"><?php echo htmlspecialchars($snippet->name); ?></a></h4>
+
+						<p><?php echo htmlspecialchars($snippet->comment); ?></p>
+
+						<p><?php echo $Lang->publisheddatebrowse . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->categorybrowse ; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($snippet->category); ?>"><?php echo htmlspecialchars(ucfirst($snippet->category)); ?></a></p>
+					</div>
+
+					<div class="prefix_1 grid_4">
+
+						<div class="tags">
+
+							<?php if(!empty($snippet->tags)) : ?>
+
+							<?php foreach($snippet->tags as $tag) : ?>
+
+							<a href="?action=browse&tags=<?php echo htmlspecialchars($tag); ?>"><?php echo htmlspecialchars(ucfirst($tag)); ?></a>
+
+							<?php endforeach; ?>
+
+							<?php endif; ?>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<?php endforeach; ?>
+
+				<?php endif; ?>
+
+			</div>
 
 			<div id="results"></div>
 
@@ -29,13 +76,16 @@
 				instantSearch();
 			});
 
-			function instantSearch(requestPage) {
+			function instantSearch() {
 
 				var request;
 				var requestPage = "<?php echo $Theme->location . 'instantsearch.php'; ?>";
 				var runningRequest = false;
 
 				$('input#query').keyup(function(e) {
+
+					if(e.which == 13)
+						return;
 
 					e.preventDefault();
 					var $q = $(this);
@@ -91,10 +141,6 @@
 						$('#search-head').html('<h1><?php echo $Lang->resultsfor; ?> : ' + protect($('#query').val()) + '</h1>');
 
 					}
-
-					$('form').submit(function(e){
-						e.preventDefault();
-					});
 
 				});
 

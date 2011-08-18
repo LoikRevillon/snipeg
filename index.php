@@ -45,8 +45,6 @@ if(!empty($_POST)) {
 		add_snippet();
 	elseif(array_key_exists('id', $_POST))
 		delete_snippet();
-	elseif(array_key_exists('search', $_POST))
-		do_search();
 	elseif(array_key_exists('updateaccount', $_POST))
 		update_account();
 	elseif(array_key_exists('edit-snippet', $_POST) OR array_key_exists('delete-snippet', $_POST))
@@ -65,8 +63,6 @@ if(isset($_SESSION['user'])) {
 			load_page(&$includeFile);
 		elseif(array_key_exists('delete', $_GET))
 			delete_snippet();
-		elseif(array_key_exists('search', $_GET))
-			search_snippet();
 
 	} else {
 		$includeFile = 'default';

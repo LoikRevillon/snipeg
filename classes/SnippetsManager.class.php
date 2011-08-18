@@ -234,7 +234,7 @@ class SnippetsManager {
 	public function instantSearch_GetSnippetsByCategory($userId, $keyWord, $pageNumber) {
 
 		try {
-			$db = PDOSQLite::getDBLink(true, '../../' . DB_NAME);
+			$db = PDOSQLite::getDBLink();
 			$request = $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND category LIKE :category ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':category', '%' . $keyWord . '%', PDO::PARAM_STR);
@@ -258,7 +258,7 @@ class SnippetsManager {
 	public function instantSearch_GetSnippets($userId, $keyWord, $pageNumber) {
 
 		try {
-			$db = PDOSQLite::getDBLink(true, '../../' . DB_NAME);
+			$db = PDOSQLite::getDBLink();
 			$request = $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND name LIKE :key_word ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':key_word', '%' . $keyWord . '%', PDO::PARAM_STR);

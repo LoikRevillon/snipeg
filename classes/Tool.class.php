@@ -101,7 +101,7 @@ class Tool {
 				if (!empty($tag))
 					$snippetStd->tags[] = $tag;
 			}
-			
+
 			$snippetStd->privacy = ($snippetObject->_private) ? true : false;
 
 			return $snippetStd;
@@ -119,7 +119,7 @@ class Tool {
 			$request->bindValue(':email', $email, PDO::PARAM_STR);
 
 			return $request->execute();
-			
+
 		} catch (Exception$e) {
 			return false;
 		}
