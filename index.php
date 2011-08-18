@@ -49,7 +49,8 @@ if(!empty($_POST)) {
 		do_search();
 	elseif(array_key_exists('updateaccount', $_POST))
 		update_account();
-
+	elseif(array_key_exists('edit-snippet', $_POST) OR array_key_exists('delete-snippet', $_POST))
+		update_snippet();
 }
 
 // Set Global $User
@@ -72,8 +73,8 @@ if(isset($_SESSION['user'])) {
 	}
 
 } else {
-	if(isset($_GET['id']) AND SnippetsManager::isPublic($_GET['id']))
-		$includeFile = 'single';
+	if($_GET['action'] === 'single')
+		load_page(&$includeFile);
 	else
 		$includeFile = 'login';
 }
