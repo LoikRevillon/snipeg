@@ -47,6 +47,13 @@ class Snippet {
 
 	}
 
+	public function __set($varName, $value) {
+
+		if (isset($this->{$varName}))
+			$this->{$varName} = $value;
+
+	}
+
 	public function addNewSnippet() {
 
 		try {
