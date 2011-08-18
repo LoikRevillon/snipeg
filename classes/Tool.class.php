@@ -98,7 +98,7 @@ class Tool {
 			$snippetStd->tags = array();
 			$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($snippetObject->_tags)));
 			foreach($tagsArray AS $tag) {
-				if(!empty($tag))
+				if (!empty($tag))
 					$snippetStd->tags[] = $tag;
 			}
 			
