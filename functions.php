@@ -167,6 +167,16 @@ function load_page($includeFile) {
 					$includeFile = $actionRequested;
 				}
 			}
+		} elseif ($actionRequested === 'settings') {
+			global $ThemesList;
+			$themes = Tool::getAllThemes();
+
+			foreach($themes as $theme) {
+				$ThemesList[] = $theme->dirname;
+			}
+
+			$includeFile = 'settings';
+
 		} else {
 			$includeFile = $actionRequested;
 		}
@@ -364,6 +374,7 @@ function do_search() {
 
 function update_account() {
 
+
 	global $Lang;
 	$currentUser = $_SESSION['user'];
 	$needUpdate = false;
@@ -387,7 +398,30 @@ function update_account() {
 		$langOfTheme = lang_of_theme();
 		if(in_array($_POST['language'], $langOfTheme) AND $currentUser->_language !== $_POST['language']) {
 			$currentUser->_language = $_POST['language'];
+
 			$needUpdate = true;
+		}
+	}
+
+	if (!empty($_POST['theme'])) {
+		if ($currentUser->_theme !== $_POST['theme']) {
+			$themes = Tool::getAllThemes();
+			$themesDirName= array();
+
+			foreach($themes as $themeInfos) {
+				$themesDirName[] = $themeInfos->dirname;
+			}
+
+			if (!empty($themesDirName)) {
+				if (in_array($_POST['theme'], $themesDirName)) {
+					$currentUser->_theme = $_POST['theme'];
+					$needUpdate = true;
+				} else {
+					Tool::appendMessage($Lang->error_theme_unvailable, M_ERROR);
+				}
+			} else {
+				Tool::appendMessage($Lang->error_no_theme_avaible, M_ERROR);
+			}
 		}
 	}
 

@@ -35,6 +35,8 @@
 	"error_wrong_password": "Wrong password advised.",
 	"error_email_is_not_a_valid_email": "Email is not a valid email address.",
 	"error_email_is_unavailable": "Email is not available.",
+	"error_theme_unvailable": "Selected theme is unreachable. Default theme set.",
+	"error_no_theme_avaible": "No one theme can be found. Checked if Snipeg is properly installed."
 	"error_user_locked": "You were locked. Contact your admin in order to try to fix it.",
 	"error_avatar_oversized": "Avatar file have to be smaller than 2 Mo.",
 	

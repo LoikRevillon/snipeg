@@ -16,6 +16,7 @@ Tool::preload();
 */
 
 $Theme = Tool::loadTheme();
+$ThemesList = null;
 $Lang = Tool::loadLanguage();
 $User = null;
 $Users = array();

@@ -19,9 +19,18 @@
 
 					<label id="theme-label" for="theme"><?php echo $Lang->themelabelaccount; ?></label>
 					<div class="clear"></div>
-					<!-- TODO : IMPLEMENT -->
 					<select name="theme" id="theme">
-						<option value="default">Default</option>
+<?php
+	foreach ($ThemesList as $themeDirName) :
+		$selected = '';
+		if ($User->theme == $themeDirName) {
+			$selected .= ' selected="selected"';
+		}
+?>
+						<option value="<?echo $themeDirName . '"' . $selected; ?>><?php echo ucfirst($themeDirName); ?></option>
+<?php
+	endforeach;
+?>
 					</select>
 
 					<div class="clear"></div>
