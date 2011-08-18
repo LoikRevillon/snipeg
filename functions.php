@@ -72,7 +72,6 @@ function remind_post($param) {
 }
 
 
-
 function load_page($includeFile) {
 
 	global $Lang;
@@ -89,7 +88,7 @@ function load_page($includeFile) {
 
 		$page = 1;
 		
-		if($actionRequested === 'admin')  {
+		if ($actionRequested === 'admin')  {
 			if (!is_admin()) {
 				Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 				$includeFile = 'default';
@@ -106,11 +105,34 @@ function load_page($includeFile) {
 		} elseif ($actionRequested === 'browse') {
 			
 			$manager = SnippetsManager::getReference();
-			$snippets = $manager->countOfSnippetByUser($User->id);
+			$conditions = new stdClass();
+			
+			if (!empty($_GET['category'])) {
+				$conditions->field = 'category';
+				$conditions->value = $_GET['category'];
+			} elseif (!empty($_GET['tags'])) {
+				$conditions->field = 'tags';
+				$conditions->value = $_GET['tags'];
+			} else {
+				$conditions = false;
+			}			
+			
+			$snippets = $manager->countOfSnippetByUser($User->id, $conditions);
+			$snippetsObjectInArray = array();
 			
 			create_paging($snippets->count, &$page, NUM_SNIPPET_PER_PAGE);
-					
-			$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
+
+			if (!empty($conditions)) {
+				if ($conditions->field === 'category') {
+					$snippetsObjectInArray = $manager->getSnippetsByCategory($User->id, $conditions->value, $page);
+				} elseif ($conditions->field === 'tags') {
+					$snippetsObjectInArray = $manager->getSnippetsByTag($User->id, $conditions->value, $page);
+				}
+			}
+
+			if (empty($snippetsObjectInArray))
+				$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
+			
 			foreach ($snippetsObjectInArray AS $snippet) {
 				$Snippets[] = Tool::formatSnippet($snippet);
 			}
@@ -152,7 +174,6 @@ function load_page($includeFile) {
 }
 
 
-
 function do_login() {
 
 	global $Lang;
@@ -162,7 +183,11 @@ function do_login() {
 	if(!empty($_POST['signin-login']) AND !empty($_POST['signin-password'])) {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
-			$_SESSION['user'] = $user;
+				
+			if ($user->_locked == 0)
+				$_SESSION['user'] = $user;
+			else
+				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);		
 
 		} else {
 			Tool::appendMessage($Lang->error_wrong_sign_in, Tool::M_ERROR);
@@ -235,6 +260,8 @@ function do_admin() {
 			$user->deleteUser();
 			Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
 		} else {
+			$user->_admin = 0;
+			$user->_locked = 0;
 			if(!empty($_POST['isadmin']))
 				$user->_admin = 1;
 			if(!empty($_POST['islocked']))
@@ -322,7 +349,7 @@ function do_search() {
 
 		if(isset($_GET['category']))
 			$Snippets = $manager->instantSearch_GetSnippetsByCategory($user->_id, $_SESSION['query'], $page);
-		else
+		elseif(isset($_GET['tag']))
 			$Snippets = $manager->instantSearch_GetSnippets($user->_id, $_SESSION['query'], $page);
 	}
 
