@@ -4,71 +4,72 @@
 
 <div id="main" class="container_12">
 
-	<div id="single" class="grid_9">
+	<form action="" method="post">
 
-		<h1><?php echo $Lang->snippetviewpage; ?></h1>
+		<div id="single" class="grid_9">
 
-		<div id="single-box">
+			<h1><?php echo $Lang->snippetviewpage; ?></h1>
 
-			<h4><a href="#">Enable Hidden Admin Feature displaying ALL Site Settings</a></h4>
+			<div id="single-box">
 
-			<p><?php echo $Lang->publishedbyview; ?> John <?php echo $Lang->publisheddateview; ?> <?php echo date('M d Y'); ?> <?php echo $Lang->in; ?> <a href="#">Wordpress</a></p>
+				<h4><a href="#"><?php echo $Snippet->name; ?></a></h4>
 
-			<p>This little piece of code does something pretty cool. It will add an additional option to your settings menu with a link to "all settings".</p>
+				<p><?php echo $Lang->publishedbyview . ' ' . $User->name . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=view&category=<?php echo $Snippet->category; ?>"><?php echo $Snippet->category; ?></a></p>
 
-			<div id="single-snippet">
+				<p><?php echo $Snippet->category; ?></p>
 
-<pre>&lt;ul class=&quot;tweetFavList&quot;&gt;
-	&lt;li&gt;
-		&lt;p&gt;The text of the tweet goes here&lt;/p&gt;
-		&lt;div class=&quot;info&quot;&gt;
-			&lt;a title=&quot;Go to Tutorialzine's twitter page&quot; class=&quot;user&quot; href=&quot;http://twitter.com/Tutorialzine&quot;&gt;Tutorialzine&lt;/a&gt;
-			&lt;span title=&quot;Retweet Count&quot; class=&quot;retweet&quot;&gt;19&lt;/span&gt;
-			&lt;a title=&quot;Shared 3 days ago&quot; target=&quot;_blank&quot; class=&quot;date&quot; href=&quot;http://twitter.com/Tutorialzine/status/98439169621241856&quot;&gt;3 days ago&lt;/a&gt;
-		&lt;/div&gt;
-		&lt;div class=&quot;divider&quot;&gt;&lt;/div&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;</pre>
+				<div id="single-snippet">
+
+					<pre><?php echo $Snippet->content; ?></pre>
+
+				</div>
+
+				<textarea name="snippet-content" id="snippet-content" ><?php echo $Snippet->content; ?></textarea>
 
 			</div>
 
 		</div>
 
-	</div>
+		<input type="hidden" name="snippet-id" value="<?php echo $Snippet->id; ?>" />
 
-	<div class="grid_3">
+		<div class="grid_3">
 
-		<div id="single-about">
+			<div id="single-about">
 
-			<p><img src="<?php echo DEFAULT_AVATAR; ?>" /></p>
+				<p><img src="<?php echo $User->avatar; ?>" /></p>
 
-			<div id="action">
+				<div id="action">
 
-				<input type="button" value="Edit" />
-				<div class="clear"></div>
-				
-				<input type="button" value="Remove" />
+					<input type="submit" name="edit-snippet" value="Edit" />
+					
+					<div class="clear"></div>
+					
+					<input type="submit" name="delete-snippet" value="Removve" />
+
+				</div>
+
+			</div>
+
+			<div class="clear"></div>
+
+			<div class="tags">
+
+<?php			if (!empty($snippet->tags)) :
+					foreach($snippet->tags AS $tag) :
+?>
+
+				<a href="?action=browse&tag='<?php echo $tag; ?>'"><?php echo $tag; ?></a>
+
+<?php
+				endforeach;
+				endif;
+?>
 
 			</div>
 
 		</div>
 
-		<div class="clear"></div>
-
-		<div class="tags">
-
-			<a href="#">You</a>
-			<a href="#">Are</a>
-			<a href="#">Not</a>
-			<a href="#">Alone</a>
-			<a href="#">In</a>
-			<a href="#">This</a>
-			<a href="#">Fucking</a>
-			<a href="#">World</a>
-
-		</div>
-
-	</div>
+	</form>
 
 </div>
 
