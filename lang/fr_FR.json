@@ -1,0 +1,53 @@
+{
+	"success_installation": "Installation réalisée avec succès !",
+	"success_sign_in": "La création du compte est un succès.",
+
+	"success_delete_user": "Utilisateur supprimé.",
+	"success_update_user": "Modification prise en compte.",
+
+	"success_add_snippet": "Snippet ajoutée.",
+	"success_update_snippet": "Snippet mise à jour.",
+	"success_delete_snippet": "Snippet supprimée.",
+
+	"info_install_remove_file": "Pour des raisons de sécurité, enlevez ce fichier de votre serveur s'il vous plaît.",
+	"info_reset_email_send": "Nouveau mot de passe généré. Un email a été envoyé à votre boîte email.",
+
+	"warning_no_database_initialized": "Aucune base de donnée n'a été trouvée. Pensez à installer Snipeg d'abord.",
+
+	"error_extension_gd_not_found": "Extension GD introuvable.",
+	"error_unauthorized_filetype": "Type de fichier non autorisé.",
+	"error_file_size_exceeds_php_limits": "La taille du fichier dépasse les limits fixés par PHP.",
+	"error_upload_interrupted": "L'envoi a été interrompu pendant le transfert.",
+	"error_uploaded_file_is_empty": "Le fichier envoyé est vide.",
+
+	"error_uploaded_file_not_found": "Le fichier envoyé est introuvable sur le serveur.",
+	"error_filename_is_empty": "Aucun nom de fichier n'a été défini.",
+	"error_is_not_a_valid_dir": "n'est pas un répertoire valide.",
+	"error_file_not_found": "Fichier introuvable.",
+
+	"error_not_enough_right": "Vous n'êtes pas autorisé à faire cela.",
+	"error_user_not_exists" : "Cet utilisateur n'existe pas.",
+	"error_wrong_sign_in": "Nom ou mot de passe incorrecte.",
+	"error_missing_sign_in": "Nom ou mot de passe non renseigné.",
+
+	"error_username_already_in_use": "Nom déjà utilisé.",
+	"error_password_are_different": "Les mots de passes sont différents.",
+	"error_wrong_password": "Mauvais mot de passe donné.",
+	"error_email_is_not_a_valid_email": "L'email n'est pas une adresse email valide.",
+	"error_email_is_unavailable": "Cet email n'est pas disponible.",
+	"error_no_lang_avaible": "Aucune langue n'est disponible. Vérifiez que Snipeg est installé correctement.",
+	"error_theme_unvailable": "Le thème sélectionné n'est pas disponible. Thème par défaut appliqué.",
+	"error_no_theme_avaible": "Aucun thème n'est disponible. Vérifiez que Snipeg est installé correctement.",
+	"error_user_locked": "Vous avez été bloqué. Contactez votre administrateur pour tenter de régler ça.",
+	"error_avatar_oversized": "La taille de l'avatar ne doit pas excéder 2Mo.",
+
+	"error_account_reset": "Aucune correspondance pour cet utilisateur / email.",
+	"error_all_fields_are_required": "Tous les champs sont requis.",
+
+	"error_missing_snippet_name": "Le nom du snippet est manquant.",
+	"error_delete_snippet": "Le snippet n'a pu être supprimé.",
+	"error_update_user": "Les nouvelles informations n'ont pu être sauvegardées.",
+	"error_update_snippet": "Les nouvelles informations n'ont pu être sauvegardées.",
+
+	"error_add_snippet": "Une erreur est survenue. Le snippet n'a pu être ajouté."
+}

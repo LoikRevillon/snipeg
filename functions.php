@@ -178,13 +178,23 @@ function load_page($includeFile) {
 
 		} elseif($actionRequested === 'settings') {
 			global $ThemesList;
+			global $LangsList;
+
 			$themes = Tool::getAllThemes();
+			$langs = Tool::getAllLangs();
 
 			foreach($themes as $theme) {
 				$ThemesList[] = $theme->dirname;
 			}
-
+			foreach($langs as $lang) {
+				$langObj = new stdClass();
+				if (!empty($lang->name))
+					$langObj->name = $lang->name;
+				$langObj->filename = $lang->filename;
+				$LangsList[] = $langObj;
+			}
 			$includeFile = 'settings';
+
 		} else {
 			$includeFile = $actionRequested;
 		}
@@ -214,10 +224,12 @@ function do_login() {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
 
-			if($user->_locked == 0)
+			if($user->_locked == 0) {
 				$_SESSION['user'] = $user;
-			else
+				$Lang = Tool::loadLanguage();
+			} else {
 				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);
+			}
 
 		} else {
 			Tool::appendMessage($Lang->error_wrong_sign_in, Tool::M_ERROR);
@@ -406,15 +418,6 @@ function update_account() {
 		}
 	}
 
-	if(!empty($_POST['language'])) {
-		$langOfTheme = lang_of_theme();
-		if(in_array($_POST['language'], $langOfTheme) AND $currentUser->_language !== $_POST['language']) {
-			$currentUser->_language = $_POST['language'];
-
-			$needUpdate = true;
-		}
-	}
-
 	if(!empty($_POST['theme'])) {
 		if($currentUser->_theme !== $_POST['theme']) {
 			$themes = Tool::getAllThemes();
@@ -433,6 +436,32 @@ function update_account() {
 				}
 			} else {
 				Tool::appendMessage($Lang->error_no_theme_avaible, Tool::M_ERROR);
+			}
+		}
+	}
+
+	if(!empty($_POST['language'])) {
+		global $Lang;
+		if($currentUser->_language !== $_POST['language']) {
+			$langs = Tool::getAllLangs();
+			$langFilesName= array();
+
+            if (!empty($langs)) {
+				foreach($langs as $langInfos) {
+					$langFilesName[] = $langInfos->filename;
+				}
+			}
+
+			if(!empty($langFilesName)) {
+				if(in_array($_POST['language'], $langFilesName)) {
+					$currentUser->_language = $_POST['language'];
+					$Lang = Tool::loadLanguage();
+					$needUpdate = true;
+				} else {
+					Tool::appendMessage($Lang->error_lang_unvailable, Tool::M_ERROR);
+				}
+			} else {
+				Tool::appendMessage($Lang->error_no_lang_avaible, Tool::M_ERROR);
 			}
 		}
 	}

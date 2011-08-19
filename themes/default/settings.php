@@ -17,7 +17,24 @@ foreach($ThemesList as $themeDirName) {
 	if($User->theme == $themeDirName)
 		$themeSelectOptions .= ' selected="selected"';
 
-	$themeSelectOptions .= '>' . htmlspecialchars(ucfirst($themeDirName)) . '</option>';
+	$themeSelectOptions .= '>' . htmlspecialchars(ucfirst($themeDirName)) . '</option>'."\n";
+
+}
+
+/*
+ * Language <select> content
+*/
+
+$langSelectOptions = '';
+
+foreach($LangsList as $lang) {
+
+	$langSelectOptions .= '<option value="' . $lang->filename . '"';
+
+	if($User->language == $lang->filename)
+		$langSelectOptions .= ' selected="selected"';
+
+	$langSelectOptions .= '>' . htmlspecialchars(ucfirst($lang->name)) . '</option>'."\n";
 
 }
 
@@ -66,9 +83,8 @@ foreach($ThemesList as $themeDirName) {
 
 						<label><?php echo $Lang->langaccount; ?></label>
 						<div class="clear"></div>
-						<!-- TODO : IMPLEMENT -->
-						<select name="language">
-							<option value="en_US">English</option>
+						<select name="language" id="language">
+							<?php echo $langSelectOptions; ?>
 						</select>
 						<div class="clear"></div>
 
@@ -112,7 +128,7 @@ foreach($ThemesList as $themeDirName) {
 
 			<div id="settings-second-line">
 
-				<h3><?php echo $Lang->programminglangaccount; ?></h3>
+				<h3> <?php/* echo $Lang->programminglangaccount;*/?></h3>
 
 				<div class="grid_3">
 
