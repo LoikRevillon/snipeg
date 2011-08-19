@@ -41,15 +41,15 @@ class User {
 
 	public function __get($varName) {
 
-		if (isset($this->$varName))
+		if(isset($this->$varName))
 			return $this->$varName;
 
 	}
 
 	public function __set($varName, $value) {
 
-		if (isset($this->{$varName}))
-			$this->{$varName} = $value;
+		if(isset($this->$varName))
+			$this->$varName = $value;
 
 	}
 

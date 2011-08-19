@@ -145,7 +145,7 @@ function load_page($includeFile) {
 			if(empty($snippetsObjectInArray))
 				$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
 
-			foreach ($snippetsObjectInArray AS $snippet) {
+			foreach($snippetsObjectInArray AS $snippet) {
 				$Snippets[] = Tool::formatSnippet($snippet);
 			}
 
