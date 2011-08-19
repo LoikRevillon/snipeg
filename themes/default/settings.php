@@ -23,7 +23,7 @@
 <?php
 	foreach ($ThemesList as $themeDirName) :
 		$selected = '';
-		if ($User->theme == $themeDirName) {
+		if($User->theme == $themeDirName) {
 			$selected .= ' selected="selected"';
 		}
 ?>

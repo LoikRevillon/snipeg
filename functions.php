@@ -15,14 +15,14 @@ function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 
 	$countPage = ceil ($elementCounted / $elementPerPage);
 
-	if (!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage OR intval($_GET['page']) < 1)) {
+	if(!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage OR intval($_GET['page']) < 1)) {
 		$pageRequested = intval($_GET['page']);
 	}
 
-	if ($elementCounted > $elementPerPage) {
-		if ($pageRequested > 3) {
+	if($elementCounted > $elementPerPage) {
+		if($pageRequested > 3) {
 			$Pages = array();
-			if ($pageRequested > $countPage - 3) {
+			if($pageRequested > $countPage - 3) {
 				$i = (($countPage - 4) > 1) ? $countPage - 4 : 2;
 			} else {
 				$i = $pageRequested - 2;
@@ -40,6 +40,7 @@ function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 			$Pages[] = $countPage;
 		}
 	}
+
 }
 
 function lang_of_theme() {
@@ -99,8 +100,8 @@ function load_page($includeFile) {
 
 		$page = 1;
 
-		if ($actionRequested === 'admin')  {
-			if (!is_admin()) {
+		if($actionRequested === 'admin')  {
+			if(!is_admin()) {
 				Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 				$includeFile = 'default';
 			} else {
@@ -113,15 +114,15 @@ function load_page($includeFile) {
 
 				$includeFile = $actionRequested;
 			}
-		} elseif ($actionRequested === 'browse') {
+		} elseif($actionRequested === 'browse') {
 
 			$manager = SnippetsManager::getReference();
 			$conditions = new stdClass();
 
-			if (!empty($_GET['category'])) {
+			if(!empty($_GET['category'])) {
 				$conditions->field = 'category';
 				$conditions->value = $_GET['category'];
-			} elseif (!empty($_GET['tags'])) {
+			} elseif(!empty($_GET['tags'])) {
 				$conditions->field = 'tags';
 				$conditions->value = $_GET['tags'];
 			} else {
@@ -133,15 +134,15 @@ function load_page($includeFile) {
 
 			create_paging($snippets->count, &$page, NUM_SNIPPET_PER_PAGE);
 
-			if (!empty($conditions)) {
-				if ($conditions->field === 'category') {
+			if(!empty($conditions)) {
+				if($conditions->field === 'category') {
 					$snippetsObjectInArray = $manager->getSnippetsByCategory($User->id, $conditions->value, $page);
-				} elseif ($conditions->field === 'tags') {
+				} elseif($conditions->field === 'tags') {
 					$snippetsObjectInArray = $manager->getSnippetsByTag($User->id, $conditions->value, $page);
 				}
 			}
 
-			if (empty($snippetsObjectInArray))
+			if(empty($snippetsObjectInArray))
 				$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
 
 			foreach ($snippetsObjectInArray AS $snippet) {
@@ -150,17 +151,17 @@ function load_page($includeFile) {
 
 			$includeFile = $actionRequested;
 
-		} elseif ($actionRequested === 'single') {
+		} elseif($actionRequested === 'single') {
 			$manager = SnippetsManager::getReference();
 			$Snippet = $manager->getSnippetById($_GET['id']);
 			$Snippet = Tool::formatSnippet($Snippet);
 
-			if ($Snippet->privacy) {
-				if (empty($User)) {
+			if($Snippet->privacy) {
+				if(empty($User)) {
 					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 					$includeFile = 'login';
 				} else {
-					if ($User->id !== $Snippet->idUser) {
+					if($User->id !== $Snippet->idUser) {
 						Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 						$includeFile = 'default';
 					} else {
@@ -171,11 +172,11 @@ function load_page($includeFile) {
 				$includeFile = $actionRequested;
 			}
 
-		} elseif ($actionRequested === 'search') {
+		} elseif($actionRequested === 'search') {
 			do_search();
 			$includeFile = 'search';
 
-		} elseif ($actionRequested === 'settings') {
+		} elseif($actionRequested === 'settings') {
 			global $ThemesList;
 			$themes = Tool::getAllThemes();
 
@@ -213,7 +214,7 @@ function do_login() {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
 
-			if ($user->_locked == 0)
+			if($user->_locked == 0)
 				$_SESSION['user'] = $user;
 			else
 				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);
@@ -317,7 +318,7 @@ function add_snippet() {
 		return false;
 	}
 
-	if (!empty($_POST['newcategory']))
+	if(!empty($_POST['newcategory']))
 		$category = $_POST['newcategory'];
 	else
 		$category = $_POST['category'];
@@ -386,14 +387,13 @@ function do_search() {
 
 function update_account() {
 
-
 	global $Lang;
+
 	$currentUser = $_SESSION['user'];
 	$needUpdate = false;
 
 	if(!empty($_POST['email'])) {
-
-		if (Tool::emailExistInDB($_POST['email'])) {
+		if(Tool::emailExistInDB($_POST['email'])) {
 			if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 				$currentUser->_email = $_POST['email'];
 				$needUpdate = true;
@@ -415,8 +415,8 @@ function update_account() {
 		}
 	}
 
-	if (!empty($_POST['theme'])) {
-		if ($currentUser->_theme !== $_POST['theme']) {
+	if(!empty($_POST['theme'])) {
+		if($currentUser->_theme !== $_POST['theme']) {
 			$themes = Tool::getAllThemes();
 			$themesDirName= array();
 
@@ -424,8 +424,8 @@ function update_account() {
 				$themesDirName[] = $themeInfos->dirname;
 			}
 
-			if (!empty($themesDirName)) {
-				if (in_array($_POST['theme'], $themesDirName)) {
+			if(!empty($themesDirName)) {
+				if(in_array($_POST['theme'], $themesDirName)) {
 					$currentUser->_theme = $_POST['theme'];
 					$needUpdate = true;
 				} else {
@@ -438,7 +438,7 @@ function update_account() {
 	}
 
 	if(!empty($_FILES['new-avatar']['name'])) {
-		if ($_FILES['new-avatar']['size'] <= 2 * 1024 * 1024) {
+		if($_FILES['new-avatar']['size'] <= 2 * 1024 * 1024) {
 			try {
 				$generator = new AvatarGenerator($_FILES['new-avatar'], $currentUser->_id);
 				$needUpdate = true;
@@ -451,8 +451,8 @@ function update_account() {
 		}
 	}
 
-	if (!empty($_POST['oldpassword'])) {
-		if ($currentUser->_password === hash('sha256', $_POST['oldpassword'])) {
+	if(!empty($_POST['oldpassword'])) {
+		if($currentUser->_password === hash('sha256', $_POST['oldpassword'])) {
 			if($_POST['newpassword-1'] === $_POST['newpassword-2']) {
 				$currentUser->_password = hash('sha256', $_POST['newpassword-2']);
 				$needUpdate = true;
@@ -463,17 +463,19 @@ function update_account() {
 			Tool::appendMessage($Lang->error_wrong_password, Tool::M_ERROR);
 		}
 	}
-	//if (!empty(code_geshi)) {} # FIX IT
 
-	if (!empty($needUpdate)) {
+	//if(!empty(code_geshi)) {} # FIX IT
+
+	if(!empty($needUpdate)) {
 		$manager = UsersManager::getReference();
-		if ($manager->updateUserInfos($currentUser->_id, $currentUser)) {
+		if($manager->updateUserInfos($currentUser->_id, $currentUser)) {
 			Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
 			$_SESSION['user'] = $currentUser;
 		} else {
 			Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
 		}
 	}
+
 }
 
 function update_snippet() {
@@ -481,33 +483,33 @@ function update_snippet() {
 	global $Lang;
 	global $Theme;
 
-	if (!empty($_POST['edit-snippet'])) {
+	if(!empty($_POST['edit-snippet'])) {
 
-		if (isset($_SESSION['user']))
+		if(isset($_SESSION['user']))
 			$user = $_SESSION['user'];
 
 		$manager = SnippetsManager::getReference();
 		$oldSnippet = $manager->getSnippetById($_POST['snippet-id']);
 
-		if (!empty($user) AND $oldSnippet->_idUser === $user->_id) {
+		if(!empty($user) AND $oldSnippet->_idUser === $user->_id) {
 			$oldSnippet->_content = $_POST['snippet-content'];
 
-			if ($manager->updateSnippetInfos($oldSnippet->_id, $oldSnippet))
+			if($manager->updateSnippetInfos($oldSnippet->_id, $oldSnippet))
 				Tool::appendMessage($Lang->success_update_snippet, Tool::M_SUCCESS);
 			else
 				Tool::appendMessage($Lang->error_update_snippet, Tool::M_ERROR);
 		} else {
 			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 		}
-	} elseif (!empty($_POST['delete-snippet'])) {
-		if (isset($_SESSION['user']))
+	} elseif(!empty($_POST['delete-snippet'])) {
+		if(isset($_SESSION['user']))
 			$user = $_SESSION['user'];
 
 		$manager = SnippetsManager::getReference();
 		$oldSnippet = $manager->getSnippetById($_POST['snippet-id']);
 
-		if (!empty($user) AND $oldSnippet->_idUser === $user->_id) {
-			if ($oldSnippet->deleteSnippet())
+		if(!empty($user) AND $oldSnippet->_idUser === $user->_id) {
+			if($oldSnippet->deleteSnippet())
 				Tool::appendMessage($Lang->success_delete_snippet, Tool::M_SUCCESS);
 			else
 				Tool::appendMessage($Lang->error_delete_snippet, Tool::M_ERROR);
@@ -515,4 +517,5 @@ function update_snippet() {
 			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 		}
 	}
+
 }

@@ -44,7 +44,7 @@ class UsersManager {
 		try {
 			$db = PDOSQLite::getDBLink();
 
-			if (empty($dropThisUserId)) {
+			if(empty($dropThisUserId)) {
 
 				$request = $db->query('SELECT COUNT(*) AS count FROM `users`');
 
@@ -67,22 +67,22 @@ class UsersManager {
 			$db = PDOSQLite::getDBLink();
 			$requestString = 'SELECT `rowid` AS id, * FROM `users`';
 
-			if (!empty($dropThisUserId))
+			if(!empty($dropThisUserId))
 				$requestString .= ' WHERE `rowid` != :id';
 
 			$requestString .= ' ORDER BY `name` ASC';
 
-			if (!empty($pageNumber))
+			if(!empty($pageNumber))
 				$requestString .= ' LIMIT :limit_down, :limit_up';
 
 			$request = $db->prepare($requestString);
 
-			if (!empty($pageNumber) OR !empty($dropThisUserId)) {
+			if(!empty($pageNumber) OR !empty($dropThisUserId)) {
 
-				if (!empty($dropThisUserId))
+				if(!empty($dropThisUserId))
 					$request->bindValue(':id', $dropThisUserId, PDO::PARAM_INT);
 
-				if (!empty($pageNumber)) {
+				if(!empty($pageNumber)) {
 					$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_USER_PER_PAGE, PDO::PARAM_INT);
 					$request->bindValue(':limit_up', $pageNumber * NUM_USER_PER_PAGE, PDO::PARAM_INT);
 				}

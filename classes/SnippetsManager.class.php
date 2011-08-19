@@ -19,15 +19,15 @@ class SnippetsManager {
 			$db = PDOSQLite::getDBLink();
 			$requestString = 'SELECT COUNT(*) AS count FROM `snippets` WHERE `id_user` = :id_user';
 
-			if (!empty($conditions)) {
+			if(!empty($conditions)) {
 				$requestString .= ' AND `' . $conditions->field;
 
-				if ($conditions->field === 'tags') {
+				if($conditions->field === 'tags') {
 
 					$requestString .= '` LIKE :';
 					$param = '%' . strtolower($conditions->value) . '%';
 
-				} elseif ($conditions->field === 'category') {
+				} elseif($conditions->field === 'category') {
 
 					$requestString .= '` = :';
 					$param = strtolower($conditions->value);

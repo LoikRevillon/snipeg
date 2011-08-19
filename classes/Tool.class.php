@@ -61,7 +61,7 @@ class Tool {
 
 	public static function formatUser($userObject) {
 
-		if (!empty($userObject)) {
+		if(!empty($userObject)) {
 
 			$userStd = new stdClass();
 
@@ -83,7 +83,7 @@ class Tool {
 
 	public static function formatSnippet($snippetObject) {
 
-		if (!empty($snippetObject)) {
+		if(!empty($snippetObject)) {
 
 			$snippetStd = new stdClass();
 
@@ -98,7 +98,7 @@ class Tool {
 			$snippetStd->tags = array();
 			$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($snippetObject->_tags)));
 			foreach($tagsArray AS $tag) {
-				if (!empty($tag))
+				if(!empty($tag))
 					$snippetStd->tags[] = $tag;
 			}
 
