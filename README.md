@@ -2,15 +2,15 @@
 
 ## About Snipeg
 
-Version
+### Version
 
 * 0.1 pre-alpha
 
-Website
+### Website
 
 * http://ghislainphu.fr/snipeg/
 
-Wiki and Source code are available on us GitHub repository
+### Wiki and Source code are available on us GitHub repository
 
 * https://github.com/GhislainPhu/Snipeg
 
@@ -56,7 +56,9 @@ See "About Security" Wiki for details
 
 ## Setup
 
-* Extract the Snipeg archive in a repository on your server.
+Getting started :
+
+* Extract archive on your server.
 
 * Run install.php
 
