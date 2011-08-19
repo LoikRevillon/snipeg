@@ -2,6 +2,27 @@
 
 <?php include ('top.php'); ?>
 
+<?php
+
+/*
+ * Theme <select> content
+*/
+
+$themeSelectOptions = '';
+
+foreach($ThemesList as $themeDirName) {
+
+	$themeSelectOptions .= '<option value="' . $themeDirName . '"';
+
+	if($User->theme == $themeDirName)
+		$themeSelectOptions .= ' selected="selected"';
+
+	$themeSelectOptions .= '>' . htmlspecialchars(ucfirst($themeDirName)) . '</option>';
+
+}
+
+?>
+
 <div id="main" class="container_12">
 
 	<div id="settings">
@@ -20,17 +41,7 @@
 					<label id="theme-label" for="theme"><?php echo $Lang->themelabelaccount; ?></label>
 					<div class="clear"></div>
 					<select name="theme" id="theme">
-<?php
-	foreach ($ThemesList as $themeDirName) :
-		$selected = '';
-		if($User->theme == $themeDirName) {
-			$selected .= ' selected="selected"';
-		}
-?>
-						<option value="<?echo $themeDirName . '"' . $selected; ?>><?php echo ucfirst($themeDirName); ?></option>
-<?php
-	endforeach;
-?>
+						<?php echo $themeSelectOptions; ?>
 					</select>
 
 					<div class="clear"></div>
