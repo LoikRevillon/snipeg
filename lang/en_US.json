@@ -22,7 +22,6 @@
 	"error_uploaded_file_is_empty": "Uploaded file is empty.",
 
 	"error_uploaded_file_not_found": "Uploaded file not found in server.",
-	"error_filename_is_empty": "No filename specified.",
 	"error_is_not_a_valid_dir": "Is not a valid directory.",
 	"error_file_not_found": "File not found.",
 
@@ -41,7 +40,7 @@
 	"error_theme_unvailable": "Selected theme is unreachable. Default theme set.",
 	"error_no_theme_avaible": "No one theme can be found. Checked if Snipeg is properly installed.",
 	"error_user_locked": "You were locked. Contact your admin in order to try to fix it.",
-	"error_avatar_oversized": "Avatar file have to be smaller than 2 Mo.",
+	"error_avatar_oversized": "Uploaded file is oversized, please trying with a smaller picture.",
 
 	"error_account_reset": "No matching found for this username / email.",
 	"error_all_fields_are_required": "All fields are required.",
