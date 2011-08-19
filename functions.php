@@ -71,6 +71,13 @@ function remind_post($param) {
 
 }
 
+function remind_get($param) {
+
+	if(!empty($_GET) AND isset($_GET[$param]))
+		echo htmlspecialchars($_GET[$param]);
+
+}
+
 /*
  * Page loader
  * -------------------------------------------------------------------------------------
@@ -148,25 +155,26 @@ function load_page($includeFile) {
 			$Snippet = $manager->getSnippetById($_GET['id']);
 			$Snippet = Tool::formatSnippet($Snippet);
 
-			if (empty($Snippet->id)) {
-				$includeFile = 'default';
-			} else {
-				if ($Snippet->privacy) {
-					if (empty($User)) {
-						Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-						$includeFile = 'login';
-					} else {
-						if ($User->id !== $Snippet->idUser) {
-							Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-							$includeFile = 'default';
-						} else {
-							$includeFile = $actionRequested;
-						}
-					}
+			if ($Snippet->privacy) {
+				if (empty($User)) {
+					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+					$includeFile = 'login';
 				} else {
-					$includeFile = $actionRequested;
+					if ($User->id !== $Snippet->idUser) {
+						Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+						$includeFile = 'default';
+					} else {
+						$includeFile = $actionRequested;
+					}
 				}
+			} else {
+				$includeFile = $actionRequested;
 			}
+
+		} elseif ($actionRequested === 'search') {
+			do_search();
+			$includeFile = 'search';
+
 		} elseif ($actionRequested === 'settings') {
 			global $ThemesList;
 			$themes = Tool::getAllThemes();
@@ -176,7 +184,6 @@ function load_page($includeFile) {
 			}
 
 			$includeFile = 'settings';
-
 		} else {
 			$includeFile = $actionRequested;
 		}
@@ -361,14 +368,19 @@ function do_search() {
 	global $Snippets;
 	global $User;
 
-	$page = (empty($_GET['page']) OR !is_numeric($_GET['page'])) ? 1 : intval($_GET['page']);
+	if(!isset($_GET['query']) AND empty($_GET['query']))
+		return;
 
+	$page = (empty($_GET['page']) OR !is_numeric($_GET['page'])) ? 1 : intval($_GET['page']);
 	$manager = SnippetsManager::getReference();
 
 	if(!empty($_GET['category']))
-		$Snippets = $manager->instantSearch_GetSnippetsByCategory($User->id, $_GET['query'], $page);
+		$Snippets = $manager->instantSearch_GetSnippetsByCategory($User->id, $_GET['category'], $page);
 	else
 		$Snippets = $manager->instantSearch_GetSnippets($User->id, $_GET['query'], $page);
+
+	if(!empty($Snippets))
+		$Snippets = array_map(function($s) { return Tool::formatSnippet($s); }, $Snippets);
 
 }
 

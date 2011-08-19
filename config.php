@@ -8,7 +8,7 @@
 define('ROOT', __DIR__ . '/');
 define('HTTP_ROOT', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
 define('PHP_CHARSET', 'utf-8');
-define('DB_NAME', 'snipeg.sqlite');
+define('DB_NAME', ROOT . 'snipeg.sqlite');
 
 /*
  * Themes
