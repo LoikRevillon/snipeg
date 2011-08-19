@@ -429,10 +429,10 @@ function update_account() {
 					$currentUser->_theme = $_POST['theme'];
 					$needUpdate = true;
 				} else {
-					Tool::appendMessage($Lang->error_theme_unvailable, M_ERROR);
+					Tool::appendMessage($Lang->error_theme_unvailable, Tool::M_ERROR);
 				}
 			} else {
-				Tool::appendMessage($Lang->error_no_theme_avaible, M_ERROR);
+				Tool::appendMessage($Lang->error_no_theme_avaible, Tool::M_ERROR);
 			}
 		}
 	}
