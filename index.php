@@ -33,6 +33,10 @@ if(!file_exists(DB_NAME) OR is_dir(DB_NAME))
  * -------------------------------------------------------------------------------------
 */
 
+// Set Global $User
+if(!empty($_SESSION['user']))
+	$User = Tool::formatUser($_SESSION['user']);
+
 if(!empty($_POST)) {
 
 	if(array_key_exists('dologin', $_POST))
@@ -52,10 +56,6 @@ if(!empty($_POST)) {
 	elseif(array_key_exists('edit-snippet', $_POST) OR array_key_exists('delete-snippet', $_POST))
 		update_snippet();
 }
-
-// Set Global $User
-if(!empty($_SESSION['user']))
-	$User = Tool::formatUser($_SESSION['user']);
 
 if(isset($_SESSION['user'])) {
 

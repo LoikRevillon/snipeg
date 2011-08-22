@@ -216,6 +216,7 @@ function load_page($includeFile) {
 
 function do_login() {
 
+    global $User;
 	global $Lang;
 
 	$manager = UsersManager::getReference();
@@ -226,6 +227,7 @@ function do_login() {
 
 			if($user->_locked == 0) {
 				$_SESSION['user'] = $user;
+				$User = Tool::formatUser($user);
 				$Lang = Tool::loadLanguage();
 			} else {
 				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);
@@ -295,7 +297,12 @@ function do_admin() {
 	$manager = UsersManager::getReference();
 	$user = $manager->getUserInformations($_POST['id']);
 
-	if(is_admin() AND !empty($user)) {
+/*
+	var_dump($User);
+	var_dump($user);
+*/
+
+	if(is_admin() AND empty($user)) {
 		Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 	} else {
 		if(!empty($_POST['delete'])) {

@@ -14,7 +14,7 @@
 
 				<h4><a href="#"><?php echo htmlspecialchars($Snippet->name); ?></a></h4>
 
-				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=view&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
+				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
 
 				<!-- TODO : REIMPLEMENT CLEANLY
 				<div id="single-snippet">
