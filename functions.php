@@ -297,11 +297,6 @@ function do_admin() {
 	$manager = UsersManager::getReference();
 	$user = $manager->getUserInformations($_POST['id']);
 
-/*
-	var_dump($User);
-	var_dump($user);
-*/
-
 	if(is_admin() AND empty($user)) {
 		Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 	} else {
@@ -406,6 +401,7 @@ function do_search() {
 
 function update_account() {
 
+    global $User;
 	global $Lang;
 
 	$currentUser = $_SESSION['user'];
@@ -477,8 +473,8 @@ function update_account() {
 		if($_FILES['new-avatar']['size'] <= 2 * 1024 * 1024) {
 			try {
 				$generator = new AvatarGenerator($_FILES['new-avatar'], $currentUser->_id);
-				$needUpdate = true;
 				$currentUser->_avatar = 1;
+				$needUpdate = true;
 			} catch(AvatarGeneratorException $e) {
 				Tool::appendMessage($e, Tool::M_ERROR);
 			}
@@ -507,6 +503,7 @@ function update_account() {
 		if($manager->updateUserInfos($currentUser->_id, $currentUser)) {
 			Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
 			$_SESSION['user'] = $currentUser;
+			$User = Tool::formatUser($currentUser);
 		} else {
 			Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
 		}
