@@ -58,7 +58,7 @@
 
 				<?php foreach($Snippet->tags AS $tag) : ?>
 
-				<a href="?action=browse&tag=<?php echo htmlspecialchars($tag); ?>"><?php echo htmlspecialchars($tag); ?></a>
+				<a href="?action=browse&tags=<?php echo htmlspecialchars($tag); ?>"><?php echo htmlspecialchars($tag); ?></a>
 
 				<?php endforeach; ?>
 
