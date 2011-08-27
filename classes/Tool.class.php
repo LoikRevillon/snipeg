@@ -227,4 +227,13 @@ class Tool {
 		return $listOfLangs;
 
 	}
+
+	public static function linkify($string, $newtab = true) {
+
+		if($newtab)
+			return preg_replace('!(http://[a-z0-9_./?=&-]+)!i', '<a href="$1" onclick="window.open(this.href); return false;">$1</a> ', $string . ' ');
+		else
+			return preg_replace('!(http://[a-z0-9_./?=&-]+)!i', '<a href="$1">$1</a> ', $string . ' ');
+
+	}
 }

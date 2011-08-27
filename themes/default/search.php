@@ -36,7 +36,7 @@
 
 						<h4><a href="?action=single&id=<?php echo htmlspecialchars($snippet->id); ?>"><?php echo htmlspecialchars($snippet->name); ?></a></h4>
 
-						<p><?php echo htmlspecialchars($snippet->comment); ?></p>
+						<p><?php echo Tool::linkify(htmlspecialchars($snippet->comment)); ?></p>
 
 						<p><?php echo $Lang->publisheddatebrowse . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->categorybrowse ; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($snippet->category); ?>"><?php echo htmlspecialchars(ucfirst($snippet->category)); ?></a></p>
 					</div>

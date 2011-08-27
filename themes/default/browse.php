@@ -30,7 +30,7 @@
 			<div class="grid_7">
 
 				<h4><a href="?action=single&id=<?php echo $snippet->id; ?>"><?php echo htmlspecialchars($snippet->name); ?></a></h4>
-				<p><?php echo htmlspecialchars($snippet->comment); ?></p>
+				<p><?php echo Tool::linkify(htmlspecialchars($snippet->comment)); ?></p>
 				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' <a href="?action=browse&category=' . htmlspecialchars($snippet->category) . '">' .
 htmlspecialchars(ucfirst($snippet->category)) . '</a>';?></p>
 
