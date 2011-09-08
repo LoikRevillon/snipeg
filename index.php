@@ -62,7 +62,7 @@ if(isset($_SESSION['user'])) {
 	if(!empty($_GET)) {
 
 		if(array_key_exists('action', $_GET))
-			load_page(&$includeFile);
+			$includeFile = load_page();
 		elseif(array_key_exists('delete', $_GET))
 			delete_snippet();
 
@@ -72,7 +72,7 @@ if(isset($_SESSION['user'])) {
 
 } else {
 	if(isset($_GET['action']) AND $_GET['action'] === 'single')
-		load_page(&$includeFile);
+		$includeFile = load_page();
 	else
 		$includeFile = 'login';
 }

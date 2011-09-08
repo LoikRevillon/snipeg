@@ -9,7 +9,7 @@ function __autoload($className) {
 
 }
 
-function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
+function create_paging($elementCounted,  $elementPerPage) {
 
 	global $Pages;
 
@@ -40,6 +40,11 @@ function create_paging($elementCounted, $pageRequested,  $elementPerPage) {
 			$Pages[] = $countPage;
 		}
 	}
+
+	if (!empty($pageRequested))
+		return $pageRequested;
+	else
+		return 1;
 
 }
 
@@ -84,7 +89,7 @@ function remind_get($param) {
  * -------------------------------------------------------------------------------------
 */
 
-function load_page($includeFile) {
+function load_page() {
 
 	global $Lang;
 	global $Theme;
@@ -108,7 +113,7 @@ function load_page($includeFile) {
 				$manager = UsersManager::getReference();
 				$users = $manager->countOfUsers($User->id);
 
-				create_paging($users->count, &$page, NUM_USER_PER_PAGE);
+				$page = create_paging($users->count, NUM_USER_PER_PAGE);
 
 				$Users = $manager->getAllUsers($page, $User->id);
 
@@ -132,7 +137,7 @@ function load_page($includeFile) {
 			$snippets = $manager->countOfSnippetByUser($User->id, $conditions);
 			$snippetsObjectInArray = array();
 
-			create_paging($snippets->count, &$page, NUM_SNIPPET_PER_PAGE);
+			$page = create_paging($snippets->count, NUM_SNIPPET_PER_PAGE);
 
 			if(!empty($conditions)) {
 				if($conditions->field === 'category') {
@@ -206,6 +211,8 @@ function load_page($includeFile) {
 		Tool::appendMessage($Lang->error_file_not_found . ' : ' . $actionRequested , Tool::M_ERROR);
 		$includeFile = 'default';
 	}
+
+	return $includeFile;
 
 }
 
