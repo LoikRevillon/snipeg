@@ -304,27 +304,30 @@ function do_admin() {
 	$manager = UsersManager::getReference();
 	$user = $manager->getUserInformations($_POST['id']);
 
-	if(is_admin() AND empty($user)) {
-		Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
-	} else {
-		if(!empty($_POST['delete'])) {
-			$user->deleteUser();
-			Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
+	if(is_admin()) {
+		if (empty($user)) {
+			Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 		} else {
-			$user->_admin = 0;
-			$user->_locked = 0;
-			if(!empty($_POST['isadmin']))
-				$user->_admin = 1;
-			if(!empty($_POST['islocked']))
-				$user->_locked = 1;
+			if(!empty($_POST['delete'])) {
+				$user->deleteUser();
+				Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
+			} else {
+				$user->_admin = 0;
+				$user->_locked = 0;
+				if(!empty($_POST['isadmin']))
+					$user->_admin = 1;
+				if(!empty($_POST['islocked']))
+					$user->_locked = 1;
 
-			if($manager->updateUserInfos($user->_id, $user))
-				Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
-			else
-				Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
+				if($manager->updateUserInfos($user->_id, $user))
+					Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
+				else
+					Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
+			}
 		}
+	} else {
+		Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
 	}
-
 }
 
 function add_snippet() {
