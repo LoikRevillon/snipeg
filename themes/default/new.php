@@ -45,10 +45,21 @@
 
 				<label for="snippet-category"><?php echo $Lang->setcategorysnippet; ?></label>
 				<div class="clear"></div>
-				<!-- TODO : IMPLEMENT -->
 				<select name="category" id="snippet-category">
+
+				<?php if (!empty($Categories)) :
+					foreach($Categories as $category) : ?>
+
+					<option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars(ucfirst($category)); ?></option>
+
+				<?php endforeach;
+				else : ?>
+
 					<option value="default">Default</option>
-				</select>
+
+				<?php endif; ?>
+
+                </select>
 				<div class="clear"></div>
 
 				<!-- NOT YET IMPLEMENTED

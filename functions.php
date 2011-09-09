@@ -97,9 +97,9 @@ function load_page() {
 	global $Users;
 	global $Snippet;
 	global $Snippets;
+	global $Categories;
 
 	$actionRequested = $_GET['action'];
-
 
 	if(!empty($Theme->$actionRequested)) {
 
@@ -199,6 +199,12 @@ function load_page() {
 				$LangsList[] = $langObj;
 			}
 			$includeFile = 'settings';
+
+		} elseif ($actionRequested === 'new'){
+			$userCategories = SnippetsManager::getReference();
+			$Categories = $userCategories->getAllCategories($User->id);
+
+			$includeFile = 'new';
 
 		} else {
 			$includeFile = $actionRequested;
