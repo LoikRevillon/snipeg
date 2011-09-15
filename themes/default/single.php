@@ -40,7 +40,7 @@
 
 				<div id="action">
 
-					<input type="submit" name="edit-snippet" value="<?php echo $Lang->editbutton; ?>" />
+					<a id="edit" href="?action=edit&id=<?php echo htmlspecialchars($Snippet->id); ?>"><?php echo $Lang->editbutton; ?></a>
 
 					<div class="clear"></div>
 

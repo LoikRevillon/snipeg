@@ -200,7 +200,12 @@ function load_page() {
 			}
 			$includeFile = 'settings';
 
-		} elseif ($actionRequested === 'new'){
+		} elseif ($actionRequested === 'new' OR $actionRequested === 'edit') {
+			if (!empty($_GET['id']) AND $actionRequested === 'edit') {
+				$manager = SnippetsManager::getReference();
+				$snippet = $manager->getSnippetById($_GET['id']);
+				$Snippet = Tool::formatSnippet($snippet);
+            }
 			$userCategories = SnippetsManager::getReference();
 			$Categories = $userCategories->getAllCategories($User->id);
 
@@ -210,7 +215,7 @@ function load_page() {
 			$includeFile = $actionRequested;
 		}
 
-	} elseif($actionRequested === 'logout'){
+	} elseif($actionRequested === 'logout') {
 		session_destroy();
 		$includeFile = 'login';
 	} else {
@@ -340,36 +345,53 @@ function add_snippet() {
 
 	global $Lang;
 
-	$currentUser = $_SESSION['user'];
-	$snippetArray = array();
+	if (!empty($_SESSION['user'])) {
+		$currentUser = $_SESSION['user'];
+		$snippetArray = array();
 
-	if(empty($_POST['name'])) {
-		Tool::appendMessage($Lang->error_missing_snippet_name, Tool::M_ERROR);
-		return false;
+		if(empty($_POST['name'])) {
+			Tool::appendMessage($Lang->error_missing_snippet_name, Tool::M_ERROR);
+			return false;
+		}
+
+		if(!empty($_POST['newcategory']))
+			$category = $_POST['newcategory'];
+		else
+			$category = $_POST['category'];
+
+		$snippetArray['name'] = $_POST['name'];
+		$snippetArray['id_user'] = $currentUser->_id;
+		$snippetArray['last_update'] = time();
+		$snippetArray['content'] = $_POST['content'];
+		$snippetArray['language'] = (intval(!empty($_POST['language']))) ? $_POST['language'] : 0;  ## FIX IT (geshi codes)
+		$snippetArray['comment'] = $_POST['description'];
+		$snippetArray['category'] = $category;
+		$snippetArray['tags'] = $_POST['tags'];
+		$snippetArray['private'] = $_POST['private'];
+
+		$snippet = new Snippet($snippetArray);
+
+		if (!empty($_GET['id'])) {
+			$manager = SnippetsManager::getReference();
+			$oldSnippet = $manager->getSnippetById($_GET['id']);
+
+			if(!empty($currentUser) AND $oldSnippet->_idUser === $currentUser->_id) {
+
+				if($manager->updateSnippetInfos($oldSnippet->_id, $snippet))
+					Tool::appendMessage($Lang->success_update_snippet, Tool::M_SUCCESS);
+				else
+					Tool::appendMessage($Lang->error_update_snippet, Tool::M_ERROR);
+
+			} else {
+				Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+			}
+		} else {
+			if($snippet->addNewSnippet())
+				Tool::appendMessage($Lang->success_add_snippet, Tool::M_SUCCESS);
+			else
+				Tool::appendMessage($Lang->error_add_snippet, Tool::M_ERROR);
+		}
 	}
-
-	if(!empty($_POST['newcategory']))
-		$category = $_POST['newcategory'];
-	else
-		$category = $_POST['category'];
-
-	$snippetArray['name'] = $_POST['name'];
-	$snippetArray['id_user'] = $currentUser->_id;
-	$snippetArray['last_update'] = time();
-	$snippetArray['content'] = $_POST['content'];
-	$snippetArray['language'] = (intval(!empty($_POST['language']))) ? $_POST['language'] : 0;  ## FIX IT (geshi codes)
-	$snippetArray['comment'] = $_POST['description'];
-	$snippetArray['category'] = $category;
-	$snippetArray['tags'] = $_POST['tags'];
-	$snippetArray['private'] = $_POST['private'];
-
-	$snippet = new Snippet($snippetArray);
-
-	if($snippet->addNewSnippet())
-		Tool::appendMessage($Lang->success_add_snippet, Tool::M_SUCCESS);
-	else
-		Tool::appendMessage($Lang->error_add_snippet, Tool::M_ERROR);
-
 }
 
 function delete_snippet() {
@@ -532,24 +554,10 @@ function update_snippet() {
 	global $Lang;
 	global $Theme;
 
-	if(!empty($_POST['edit-snippet'])) {
+	if(array_key_exists('edit-snippet', $_POST)) {
+		add_snippet();
+		$includeFile = 'new';
 
-		if(isset($_SESSION['user']))
-			$user = $_SESSION['user'];
-
-		$manager = SnippetsManager::getReference();
-		$oldSnippet = $manager->getSnippetById($_POST['snippet-id']);
-
-		if(!empty($user) AND $oldSnippet->_idUser === $user->_id) {
-			$oldSnippet->_content = $_POST['snippet-content'];
-
-			if($manager->updateSnippetInfos($oldSnippet->_id, $oldSnippet))
-				Tool::appendMessage($Lang->success_update_snippet, Tool::M_SUCCESS);
-			else
-				Tool::appendMessage($Lang->error_update_snippet, Tool::M_ERROR);
-		} else {
-			Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-		}
 	} elseif(!empty($_POST['delete-snippet'])) {
 		if(isset($_SESSION['user']))
 			$user = $_SESSION['user'];
