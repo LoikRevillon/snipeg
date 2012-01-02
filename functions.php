@@ -313,12 +313,14 @@ function do_admin() {
 
 	$manager = UsersManager::getReference();
 	$user = $manager->getUserInformations($_POST['id']);
+	$manager = SnippetsManager::getReference();
 
 	if(is_admin()) {
 		if (empty($user)) {
 			Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 		} else {
 			if(!empty($_POST['delete'])) {
+				$manager->deleteSnippetsOfUser( $user->_id );
 				$user->deleteUser();
 				Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
 			} else {

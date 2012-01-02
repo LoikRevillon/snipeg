@@ -319,6 +319,25 @@ class SnippetsManager {
 
 	}
 
+	public function deleteSnippetsOfUser( $idUser ) {
+
+		if ( empty( $idUser ) )
+			return false;
+
+		try {
+
+			$db = PDOSQLite::getDBLink();
+			$request = $db->prepare( 'DELETE FROM snippets WHERE id_user = :id' );
+			$request->bindParam( ':id', $idUser, PDO::PARAM_INT);
+
+			return $request->execute();
+
+		} catch( Exception $e ) {
+
+			return false;
+		}
+	}
+
 	private function __construct() {}
 
 }
