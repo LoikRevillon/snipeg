@@ -45,6 +45,7 @@
 	"error_account_reset": "No matching found for this username / email.",
 	"error_all_fields_are_required": "All fields are required.",
 
+	"error_snippet_not_exist": "This snippet does not exist.",
 	"error_missing_snippet_name": "Snippet name is missing.",
 	"error_delete_snippet": "Snippet could not be deleted.",
 	"error_update_user": "New informations couldn't be saved.",

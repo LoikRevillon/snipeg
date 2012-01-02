@@ -45,6 +45,7 @@
 	"error_account_reset": "Aucune correspondance n'a été trouvée pour ce couple utilisateur / email.",
 	"error_all_fields_are_required": "Tous les champs sont requis.",
 
+	"error_snippet_not_exist": "Ce snippet n'existe pas.",
 	"error_missing_snippet_name": "Le nom du snippet est manquant.",
 	"error_delete_snippet": "Le snippet n'a pu être supprimé.",
 	"error_update_user": "Les nouvelles informations n'ont pu être sauvegardées.",
