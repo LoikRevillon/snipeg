@@ -83,7 +83,7 @@ class Tool {
 
 	public static function formatSnippet($snippetObject) {
 
-		if(!empty($snippetObject)) {
+		if(!empty($snippetObject->_id)) {
 
 			$snippetStd = new stdClass();
 

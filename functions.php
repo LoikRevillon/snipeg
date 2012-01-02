@@ -158,23 +158,22 @@ function load_page() {
 
 		} elseif($actionRequested === 'single') {
 			$manager = SnippetsManager::getReference();
-			$Snippet = $manager->getSnippetById($_GET['id']);
-			$Snippet = Tool::formatSnippet($Snippet);
+			$snippet = $manager->getSnippetById($_GET['id']);
+			$Snippet = Tool::formatSnippet($snippet);
 
-			if($Snippet->privacy) {
-				if(empty($User)) {
-					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-					$includeFile = 'login';
-				} else {
-					if($User->id !== $Snippet->idUser) {
-						Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-						$includeFile = 'default';
-					} else {
-						$includeFile = $actionRequested;
-					}
-				}
+			if ( ! empty( $Snippet ) &&
+				(( ! empty( $User ) && ( $User->id === $Snippet->idUser ) ) || ( empty( $Snippet->privacy ) )) ) {
+
+					$includeFile = $actionRequested;
+
 			} else {
-				$includeFile = $actionRequested;
+
+				if ( empty( $Snippet ) )
+					Tool::appendMessage($Lang->error_snippet_not_exist, Tool::M_ERROR);
+				else
+					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+
+				$includeFile = ( empty( $User ) ) ? 'login' : 'default';
 			}
 
 		} elseif($actionRequested === 'search') {
