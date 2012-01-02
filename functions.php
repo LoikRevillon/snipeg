@@ -168,10 +168,13 @@ function load_page() {
 
 			} else {
 
-				if ( empty( $Snippet ) )
-					Tool::appendMessage($Lang->error_snippet_not_exist, Tool::M_ERROR);
-				else
+				if ( empty( $Snippet ) ) {
+					if ( empty ( $_SESSION['messages'][Tool::M_SUCCESS] ) ||
+					! in_array( $Lang->success_delete_snippet, $_SESSION['messages'][Tool::M_SUCCESS] ) )
+						Tool::appendMessage($Lang->error_snippet_not_exist, Tool::M_ERROR);
+				} else {
 					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
+				}
 
 				$includeFile = ( empty( $User ) ) ? 'login' : 'default';
 			}
