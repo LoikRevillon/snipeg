@@ -150,16 +150,15 @@ function load_page() {
 			if(empty($snippetsObjectInArray))
 				$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
 
-			foreach($snippetsObjectInArray AS $snippet) {
-				$Snippets[] = Tool::formatSnippet($snippet);
-			}
+			foreach($snippetsObjectInArray AS $snippet)
+				$Snippets[] = $snippet->toStdObject();
 
 			$includeFile = $actionRequested;
 
 		} elseif($actionRequested === 'single') {
 			$manager = SnippetsManager::getReference();
 			$snippet = $manager->getSnippetById($_GET['id']);
-			$Snippet = Tool::formatSnippet($snippet);
+			$Snippet = $snippet->toStdObject();
 
 			if ( ! empty( $Snippet ) &&
 				(( ! empty( $User ) && ( $User->id === $Snippet->idUser ) ) || ( empty( $Snippet->privacy ) )) ) {
@@ -206,7 +205,8 @@ function load_page() {
 			if (!empty($_GET['id']) AND $actionRequested === 'edit') {
 				$manager = SnippetsManager::getReference();
 				$snippet = $manager->getSnippetById($_GET['id']);
-				$Snippet = Tool::formatSnippet($snippet);
+				//~ $Snippet = Tool::formatSnippet($snippet);
+				$Snippet = $snippet->toStdObject();
             }
 			$userCategories = SnippetsManager::getReference();
 			$Categories = $userCategories->getAllCategories($User->id);
@@ -247,7 +247,7 @@ function do_login() {
 
 			if($user->_locked == 0) {
 				$_SESSION['user'] = $user;
-				$User = Tool::formatUser($user);
+				$User = $user->toStdObject();
 				$Lang = Tool::loadLanguage();
 			} else {
 				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);
@@ -437,7 +437,7 @@ function do_search() {
 		$Snippets = $manager->instantSearch_GetSnippets($User->id, $_GET['query'], $page);
 
 	if(!empty($Snippets))
-		$Snippets = array_map(function($s) { return Tool::formatSnippet($s); }, $Snippets);
+		$Snippets = array_map(function($s) { return $s->toStdObject(); }, $Snippets);
 
 }
 
@@ -545,7 +545,7 @@ function update_account() {
 		if($manager->updateUserInfos($currentUser->_id, $currentUser)) {
 			Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
 			$_SESSION['user'] = $currentUser;
-			$User = Tool::formatUser($currentUser);
+			$User = $currentUser->toStdObject();
 		} else {
 			Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
 		}

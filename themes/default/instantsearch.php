@@ -15,7 +15,7 @@ $Snippets = null;
 
 // Set Global $User
 if(!empty($_SESSION['user']))
-	$User = Tool::formatUser($_SESSION['user']);
+	$User = $_SESSION['user']->toStdObject();
 
 if(!empty($User)) {
 
@@ -30,7 +30,7 @@ if(!empty($User)) {
 		else
 			$Snippets = $manager->instantSearch_GetSnippets($User->id, $_GET['query'], $page);
 
-		$Snippets = array_map(function($s){ return Tool::formatSnippet($s); }, $Snippets);
+		$Snippets = array_map(function($s){ return $s->toStdObject(); }, $Snippets);
 
 	}
 

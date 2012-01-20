@@ -53,6 +53,28 @@ class User {
 
 	}
 
+	public function toStdObject() {
+
+		$userStd = new stdClass();
+
+		$userStd->id = intval($this->_id);
+		$userStd->isadmin = ($this->_admin == 1);
+		$userStd->name = $this->_name;
+		$userStd->email = $this->_email;
+		$userStd->avatar = ($this->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $this->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
+		$userStd->islocked = ($this->_locked == 1);
+		$userStd->theme = $this->_theme;
+		$userStd->language = $this->_language;
+		$userStd->favorite_lang = $this->_favoriteLang;
+
+		return $userStd;
+	}
+
+	public function is_admin() {
+
+		return $this->_admin;
+	}
+
 	public function addNewUser() {
 
 		$manager = UsersManager::getReference();

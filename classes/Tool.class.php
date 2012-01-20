@@ -59,57 +59,6 @@ class Tool {
 
 	}
 
-	public static function formatUser($userObject) {
-
-		if(!empty($userObject)) {
-
-			$userStd = new stdClass();
-
-			$userStd->id = intval($userObject->_id);
-			$userStd->isadmin = ($userObject->_admin == 1);
-			$userStd->name = $userObject->_name;
-			$userStd->email = $userObject->_email;
-			$userStd->avatar = ($userObject->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $userStd->id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
-			$userStd->islocked = ($userObject->_locked == 1);
-			$userStd->theme = $userObject->_theme;
-			$userStd->language = $userObject->_language;
-			$userStd->favorite_lang = $userObject->_favoriteLang;
-
-			return $userStd;
-		} else {
-			return false;
-		}
-	}
-
-	public static function formatSnippet($snippetObject) {
-
-		if( $snippetObject->_id !== false ) {
-
-			$snippetStd = new stdClass();
-
-			$snippetStd->id = intval($snippetObject->_id);
-			$snippetStd->name = $snippetObject->_name;
-			$snippetStd->idUser = intval($snippetObject->_idUser);
-			$snippetStd->lastUpdate = $snippetObject->_lastUpdate;
-			$snippetStd->content = $snippetObject->_content;
-			$snippetStd->language = intval($snippetObject->_language);		## FIX IT : with Geshi codes.
-			$snippetStd->comment = $snippetObject->_comment;
-			$snippetStd->category = $snippetObject->_category;
-			$snippetStd->tags = array();
-			$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($snippetObject->_tags)));
-			foreach($tagsArray AS $tag) {
-				if(!empty($tag))
-					$snippetStd->tags[] = $tag;
-			}
-
-			$snippetStd->privacy = ($snippetObject->_private) ? true : false;
-
-			return $snippetStd;
-		} else {
-			return false;
-		}
-	}
-
 	public static function emailExistInDB($email) {
 
 		try {
@@ -129,12 +78,10 @@ class Tool {
 
 		global $Theme;
 
-		/*
-		 * Have to fix followed conditions.
-		 * empty($_SESSION['user']->_language tell 'true', he's a liar ! x_x
-		*/
+		if ( isset ( $_SESSION['user'] ) )
+			$shownLang = $_SESSION['user']->_language;
 
-		$langCode = !empty($_SESSION['user']) ? $_SESSION['user']->_language : DEFAULT_LANG;
+		$langCode = ( !empty( $shownLang ) ) ? $_SESSION['user']->_language : DEFAULT_LANG;
 
 		if(!empty($_SESSION['lang'])) {
 			if(!empty($_SESSION['user']) AND $_SESSION['user']->_language == $_SESSION['lang']->langcode) {

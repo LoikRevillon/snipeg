@@ -55,6 +55,30 @@ class Snippet {
 
 	}
 
+	public function toStdObject() {
+
+		$snippetStd = new stdClass();
+
+		$snippetStd->id = intval($this->_id);
+		$snippetStd->name = $this->_name;
+		$snippetStd->idUser = intval($this->_idUser);
+		$snippetStd->lastUpdate = $this->_lastUpdate;
+		$snippetStd->content = $this->_content;
+		$snippetStd->language = intval($this->_language);		## FIX IT : with Geshi codes.
+		$snippetStd->comment = $this->_comment;
+		$snippetStd->category = $this->_category;
+		$snippetStd->tags = array();
+		$tagsArray = explode(',', preg_replace('# *, *#', ',', strtolower($this->_tags)));
+		foreach($tagsArray AS $tag) {
+			if(!empty($tag))
+				$snippetStd->tags[] = $tag;
+		}
+
+		$snippetStd->privacy = ($this->_private) ? true : false;
+
+		return $snippetStd;
+	}
+
 	public function addNewSnippet() {
 
 		try {

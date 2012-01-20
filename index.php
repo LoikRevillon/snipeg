@@ -36,7 +36,7 @@ if(!file_exists(DB_NAME) OR is_dir(DB_NAME))
 
 // Set Global $User
 if(!empty($_SESSION['user']))
-	$User = Tool::formatUser($_SESSION['user']);
+	$User = $_SESSION['user']->toStdObject();
 
 if(!empty($_POST)) {
 
