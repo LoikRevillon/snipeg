@@ -14,6 +14,7 @@ function create_paging($elementCounted,  $elementPerPage) {
 	global $Pages;
 
 	$countPage = ceil ($elementCounted / $elementPerPage);
+	$pageRequested = 1;
 
 	if(!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage OR intval($_GET['page']) < 1)) {
 		$pageRequested = intval($_GET['page']);
@@ -91,142 +92,35 @@ function remind_get($param) {
 
 function load_page() {
 
-	global $Lang;
-	global $Theme;
-	global $User;
-	global $Users;
+	global $Categories;
+	global $LangsList;
 	global $Snippet;
 	global $Snippets;
-	global $Categories;
+	global $ThemesList;
+	global $Users;
 
-	$actionRequested = $_GET['action'];
+	$pageLoader = new PageLoader( $_GET['action'] );
 
-	if(!empty($Theme->$actionRequested)) {
+	if ( array_key_exists( 'category', $_GET ) )
+		$pageLoader->setCategory( $_GET['category'] );
+	if ( array_key_exists( 'tags', $_GET ) )
+		$pageLoader->setCategory( $_GET['tags'] );
+	if ( array_key_exists( 'id', $_GET ) )
+		$pageLoader->setSnippetId( $_GET['id'] );
 
-		$page = 1;
+	$pageInfos = $pageLoader->getPageInfos();
 
-		if($actionRequested === 'admin')  {
-			if(!is_admin()) {
-				Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-				$includeFile = 'default';
-			} else {
-				$manager = UsersManager::getReference();
-				$users = $manager->countOfUsers($User->id);
+	$Categories = $pageInfos->categories;
+	$LangsList = $pageInfos->langs;
+	$ThemesList = $pageInfos->themes;
 
-				$page = create_paging($users->count, NUM_USER_PER_PAGE);
+	if ( is_array( $pageInfos->snippets ) )
+		$Snippets = $pageInfos->snippets;
+	else
+		$Snippet = $pageInfos->snippets;
+	$Users = $pageInfos->users;
 
-				$Users = $manager->getAllUsers($page, $User->id);
-
-				$includeFile = $actionRequested;
-			}
-		} elseif($actionRequested === 'browse') {
-
-			$manager = SnippetsManager::getReference();
-			$conditions = new stdClass();
-
-			if(!empty($_GET['category'])) {
-				$conditions->field = 'category';
-				$conditions->value = $_GET['category'];
-			} elseif(!empty($_GET['tags'])) {
-				$conditions->field = 'tags';
-				$conditions->value = $_GET['tags'];
-			} else {
-				$conditions = false;
-			}
-
-			$snippets = $manager->countOfSnippetByUser($User->id, $conditions);
-			$snippetsObjectInArray = array();
-
-			$page = create_paging($snippets->count, NUM_SNIPPET_PER_PAGE);
-
-			if(!empty($conditions)) {
-				if($conditions->field === 'category') {
-					$snippetsObjectInArray = $manager->getSnippetsByCategory($User->id, $conditions->value, $page);
-				} elseif($conditions->field === 'tags') {
-					$snippetsObjectInArray = $manager->getSnippetsByTag($User->id, $conditions->value, $page);
-				}
-			}
-
-			if(empty($snippetsObjectInArray))
-				$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
-
-			foreach($snippetsObjectInArray AS $snippet)
-				$Snippets[] = $snippet->toStdObject();
-
-			$includeFile = $actionRequested;
-
-		} elseif($actionRequested === 'single') {
-			$manager = SnippetsManager::getReference();
-			$snippet = $manager->getSnippetById($_GET['id']);
-			$Snippet = $snippet->toStdObject();
-
-			if ( ! empty( $Snippet ) &&
-				(( ! empty( $User ) && ( $User->id === $Snippet->idUser ) ) || ( empty( $Snippet->privacy ) )) ) {
-
-					$includeFile = $actionRequested;
-
-			} else {
-
-				if ( empty( $Snippet ) ) {
-					if ( empty ( $_SESSION['messages'][Tool::M_SUCCESS] ) ||
-					! in_array( $Lang->success_delete_snippet, $_SESSION['messages'][Tool::M_SUCCESS] ) )
-						Tool::appendMessage($Lang->error_snippet_not_exist, Tool::M_ERROR);
-				} else {
-					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-				}
-
-				$includeFile = ( empty( $User ) ) ? 'login' : 'default';
-			}
-
-		} elseif($actionRequested === 'search') {
-			do_search();
-			$includeFile = 'search';
-
-		} elseif($actionRequested === 'settings') {
-			global $ThemesList;
-			global $LangsList;
-
-			$themes = Tool::getAllThemes();
-			$langs = Tool::getAllLangs();
-
-			foreach($themes as $theme) {
-				$ThemesList[] = $theme->dirname;
-			}
-			foreach($langs as $lang) {
-				$langObj = new stdClass();
-				if (!empty($lang->name))
-					$langObj->name = $lang->name;
-				$langObj->filename = $lang->filename;
-				$LangsList[] = $langObj;
-			}
-			$includeFile = 'settings';
-
-		} elseif ($actionRequested === 'new' OR $actionRequested === 'edit') {
-			if (!empty($_GET['id']) AND $actionRequested === 'edit') {
-				$manager = SnippetsManager::getReference();
-				$snippet = $manager->getSnippetById($_GET['id']);
-				//~ $Snippet = Tool::formatSnippet($snippet);
-				$Snippet = $snippet->toStdObject();
-            }
-			$userCategories = SnippetsManager::getReference();
-			$Categories = $userCategories->getAllCategories($User->id);
-
-			$includeFile = 'new';
-
-		} else {
-			$includeFile = $actionRequested;
-		}
-
-	} elseif($actionRequested === 'logout') {
-		session_destroy();
-		$includeFile = 'login';
-	} else {
-		Tool::appendMessage($Lang->error_file_not_found . ' : ' . $actionRequested , Tool::M_ERROR);
-		$includeFile = 'default';
-	}
-
-	return $includeFile;
-
+	return $pageInfos->fileName;
 }
 
 /*
@@ -316,13 +210,13 @@ function do_admin() {
 
 	$manager = UsersManager::getReference();
 	$user = $manager->getUserInformations($_POST['id']);
-	$manager = SnippetsManager::getReference();
 
 	if(is_admin()) {
 		if (empty($user)) {
 			Tool::appendMessage($Lang->error_user_not_exists, Tool::M_ERROR);
 		} else {
 			if(!empty($_POST['delete'])) {
+				$manager = SnippetsManager::getReference();
 				$manager->deleteSnippetsOfUser( $user->_id );
 				$user->deleteUser();
 				Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
