@@ -49,21 +49,6 @@ function create_paging($elementCounted,  $elementPerPage) {
 
 }
 
-function lang_of_theme() {
-
-	global $Theme;
-
-	$listLang = array();
-	$languagesFiles = glob(ROOT . $Theme->dirname . LANGUAGE_DIR . '*.json');
-
-	foreach($languagesFiles as $languageFile) {
-		$listLang[] = pathinfo($languageFile, PATHINFO_FILENAME);
-	}
-
-	return $listLang;
-
-}
-
 function is_admin() {
 
 	global $User;
@@ -196,9 +181,27 @@ function do_reset() {
 	if(!$user = $manager->userExistInDB($_POST['reset-login']) OR $user->_email !== $_POST['reset-email']) {
 		Tool::appendMessage($Lang->error_account_reset, Tool::M_ERROR);
 	} else {
-		$newPassword = Tool::generatePassword(8);
-		$mail = $Lang->emailreset; // FIX IT
-		Tool::appendMessage($Lang->info_reset_email_send, ToolM_INFO);
+
+		try {
+			$user->_password = Tool::generatePassword(8);
+
+			$email = new PasswordEmailer();
+			$email->setReceiver( $user->_email );
+			$email->setUser( $user->_name );
+			if ( !empty( $Lang->emailreset ) )
+				$email->setContent( $Lang->emailreset );
+			$email->setNewPassord( $user->_password );
+			$email->send();
+
+			$user->_password = hash('sha256', $user->_password );
+			$manager = UsersManager::getReference();
+			$manager->updateUserInfos( $user->_id, $user );
+
+			Tool::appendMessage($Lang->info_reset_email_send, Tool::M_INFO);
+
+		} catch( PasswordEmailerException $pee ) {
+			Tool::appendMessage( $pee->getMessage(), Tool::M_ERROR );
+		}
 	}
 
 }

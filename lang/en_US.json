@@ -21,6 +21,12 @@
 	"error_upload_interrupted": "Upload interrupted during transfer.",
 	"error_uploaded_file_is_empty": "Uploaded file is empty.",
 
+	"error_email_receiver": "Receiver's email address is not valid.",
+	"error_email_subject": "Email subject is undefined.",
+	"error_email_content": "Email content is not valid.",
+	"error_email_sender": "Sender's email address is not valid.",
+	"error_email_sending": "An error occured during sending. Email could not be send",
+
 	"error_uploaded_file_not_found": "Uploaded file not found in server.",
 	"error_is_not_a_valid_dir": "Is not a valid directory.",
 	"error_file_not_found": "File not found.",

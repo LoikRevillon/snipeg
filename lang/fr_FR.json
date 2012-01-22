@@ -21,6 +21,12 @@
 	"error_upload_interrupted": "L'envoi du fichier a été interrompu pendant le transfert.",
 	"error_uploaded_file_is_empty": "Le fichier reçu est vide.",
 
+	"error_email_receiver": "L'adresse email du destinaire est invalide.",
+	"error_email_subject": "Le sujet de l'email n'est pas défini.",
+	"error_email_content": "Le contenu de l'email n'est pas valide.",
+	"error_email_sender": "L'addresse email de l'expéditeur est invalide.",
+	"error_email_sending": "Une erreur est survenue durant l'envoi de l'email. L'envoi est un échec.",
+
 	"error_uploaded_file_not_found": "Le fichier reçu est introuvable sur le serveur.",
 	"error_is_not_a_valid_dir": "Répertoire invalide.",
 	"error_file_not_found": "Fichier introuvable.",
