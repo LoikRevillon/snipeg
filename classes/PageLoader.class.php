@@ -19,12 +19,9 @@ class PageLoader {
 	private $_themes;
 	private $_users;
 
-	public function __construct( $req_type ) {
-
-		$this->_theme = Tool::loadTheme();
-
-		//~ if ( ! empty( $this->_theme->$req_type ) OR $req_type === 'logout' )
-			$this->_request = $req_type;
+	public function __construct( $req_type )
+	{
+		$this->_request = $req_type;
 
 		if ( !empty( $category ) )
 			$this->_category = $category;
@@ -32,29 +29,30 @@ class PageLoader {
 		if ( !empty( $tag ) )
 			$this->_tag = $tag;
 
+		$this->_theme = Tool::loadTheme();
 		$this->_lang = Tool::loadLanguage();
 	}
 
-	public function setCategory( $category ) {
-
+	public function setCategory( $category )
+	{
 		if ( !empty( $category ) )
 			$this->_category;
 	}
 
-	public function setTag( $tag ) {
-
+	public function setTag( $tag )
+	{
 		if ( !empty( $tag ) )
 			$this->_tag;
 	}
 
-	public function setSnippetId( $id ) {
-
+	public function setSnippetId( $id )
+	{
 		if ( !empty( $id ) )
 			$this->_snippetId = $id;
 	}
 
-	public function getPageInfos() {
-
+	public function getPageInfos()
+	{
 		$page = new stdClass();
 
 		$this->get_page_by_request();
@@ -70,8 +68,8 @@ class PageLoader {
 		return $page;
 	}
 
-	private function get_page_by_request() {
-
+	private function get_page_by_request()
+	{
 		$req = $this->_request;
 		if ( !empty( $_SESSION['user'] ) )
 			$currentUser = $_SESSION['user']->toStdObject();
@@ -163,6 +161,13 @@ class PageLoader {
 					$this->_file = 'new';
 				}
 			}
+			elseif ( $this->_request === 'new' )
+			{
+				$userCategories = SnippetsManager::getReference();
+				$this->_categories = $userCategories->getAllCategories( $currentUser->id );
+
+				$this->_file = 'new';
+			}
 			elseif ( $this->_request === 'search' )
 			{
 				do_search();
@@ -189,20 +194,11 @@ class PageLoader {
 					$this->_langs[] = $langObj;
 				}
 			}
-			elseif ( $this->_request === 'new' )
-			{
-				$userCategories = SnippetsManager::getReference();
-				$this->_categories = $userCategories->getAllCategories( $currentUser->id );
-
-				$this->_file = 'new';
-			}
 			elseif ( $this->_request === 'single' )
 			{
 				$manager = SnippetsManager::getReference();
 				$snippet = $manager->getSnippetById( $this->_snippetId );
 				$this->_snippets = $snippet->toStdObject();
-
-				var_dump( $this->_snippets );
 
 				if ( empty( $this->_snippets->id ) )
 				{
