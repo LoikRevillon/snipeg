@@ -10,7 +10,7 @@
 
 				<input type="text" name="query" id="query" value="<?php remind_get('query'); ?>" autofocus />
 
-				<input type="submit" name="dosearch" value="<?php echo $Lang->searchbutton; ?>" />
+				<input type="submit" value="<?php echo $Lang->searchbutton; ?>" />
 
 			</form>
 
@@ -38,7 +38,7 @@
 
 						<p><?php echo Tool::linkify(htmlspecialchars($snippet->comment)); ?></p>
 
-						<p><?php echo $Lang->publisheddatebrowse . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->categorybrowse ; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($snippet->category); ?>"><?php echo htmlspecialchars(ucfirst($snippet->category)); ?></a></p>
+						<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($snippet->owner) . ' ' . $Lang->publisheddatebrowse . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->categorybrowse ; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($snippet->category); ?>"><?php echo htmlspecialchars(ucfirst($snippet->category)); ?></a></p>
 					</div>
 
 					<div class="prefix_1 grid_4">
@@ -62,6 +62,50 @@
 				</div>
 
 				<?php endforeach; ?>
+
+				<?php if(!empty($Pages)) : ?>
+
+				<div class="clear"></div>
+
+				<div id="paging">
+
+					<?php if ( isset( $_GET['query'] ) ) : ?>
+
+						<a href="?action=search&query=<?php echo htmlspecialchars( $_GET['query'] ); ?>&page=1"><?php echo $Lang->first; ?></a>
+
+						<?php foreach($Pages AS $key => $numPage) : ?>
+
+							<?php if($key < count($Pages) - 1) : ?>
+
+								<a href="?action=search&query=<?php echo htmlspecialchars( $_GET['query'] ); ?>&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>
+
+							<?php endif; ?>
+
+						<?php endforeach; ?>
+
+						<a href="?action=search&query=<?php echo htmlspecialchars( $_GET['query'] ); ?>&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+
+					<?php elseif ( isset( $_GET['category'] ) ) : ?>
+
+						<a href="?action=search&category=<?php echo htmlspecialchars( $_GET['category'] ); ?>&page=1"><?php echo $Lang->first; ?></a>
+
+						<?php foreach($Pages AS $key => $numPage) : ?>
+
+							<?php if($key < count($Pages) - 1) : ?>
+
+								<a href="?action=search&category=<?php echo htmlspecialchars( $_GET['category'] ); ?>&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>
+
+							<?php endif; ?>
+
+						<?php endforeach; ?>
+
+						<a href="?action=search&category=<?php echo htmlspecialchars( $_GET['category'] ); ?>&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+
+					<?php endif; ?>
+
+				</div>
+
+				<?php endif; ?>
 
 				<?php endif; ?>
 
@@ -100,7 +144,7 @@
 						request.abort();
 
 					runningRequest = true;
-					request = $.getJSON(requestPage, { 'dosearch': '', 'query': $q.val() }, function(data) {
+					request = $.getJSON(requestPage, { 'query': $q.val() }, function(data) {
 						if(data != null)
 							showResults(data, $q.val());
 						runningRequest = false;
@@ -120,7 +164,7 @@
 							result += '<div class="grid_7">';
 							result += '<h4><a href="?action=single&id=' + item.id + '">' + protect(item.name) + '</a></h4>';
 							result += '<p>' + protect(item.comment) + '</p>';
-							result += '<p><?php echo $Lang->publisheddatebrowse; ?> ' + update.toLocaleString() + ' <?php echo $Lang->categorybrowse; ?> <a href="?action=browse&category=' + protect(item.category) + '">' + protect(ucfirst(item.category))  + '</a></p>';
+							result += '<p><?php echo $Lang->publishedbyview; ?> ' + protect(item.owner) + ' <?php echo $Lang->publisheddateview; ?> ' + update.toLocaleString() + ' <?php echo $Lang->categorybrowse; ?> <a href="?action=browse&category=' + protect(item.category) + '">' + protect(ucfirst(item.category))  + '</a></p>';
 							result += '</div>';
 							result += '<div class="prefix_1 grid_4">';
 							result += '<div class="tags">';

@@ -17,7 +17,7 @@ class SnippetsManager {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$requestString = 'SELECT COUNT(*) AS count FROM `snippets` WHERE `id_user` = :id_user';
+			$requestString = 'SELECT COUNT(*) AS count FROM `snippets` WHERE ( `id_user` = :id_user OR `private` = 0 )';
 
 			if(!empty($conditions)) {
 				$requestString .= ' AND `' . $conditions->field;
@@ -55,7 +55,7 @@ class SnippetsManager {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
+			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE ( `id_user` = :id_user OR `private` = 0 ) ORDER BY `last_update` DESC LIMIT :limit_down, :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
@@ -166,7 +166,7 @@ class SnippetsManager {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user AND `category` = :category ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
+			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE ( `id_user` = :id_user OR `private` = 0 ) AND `category` = :category ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':category', strtolower($categoryName), PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
@@ -190,7 +190,7 @@ class SnippetsManager {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user AND `tags` LIKE :tag ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
+			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE ( `id_user` = :id_user OR `private` = 0 ) AND `tags` LIKE :tag ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':tag', '%' . strtolower($tag) . '%', PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
@@ -231,13 +231,42 @@ class SnippetsManager {
 
 	}
 
-	public function instantSearch_GetSnippetsByCategory($userId, $keyWord, $pageNumber) {
+	public function instantSearch_countOfSnippets( $userId, $query, $category = false ) {
+
+		try
+		{
+			$db = PDOSQLite::getDBLink();
+			$requestString = 'SELECT COUNT(*) AS count FROM `snippets` WHERE ( `id_user` = :id_user OR `private` = 0 )';
+
+			if ( !empty( $category ) )
+				$requestString .= ' AND `category` = :category';
+
+			$requestString .= ' AND `name` LIKE :keyword';
+
+			$request = $db->prepare( $requestString );
+			$request->bindValue( ':id_user', $userId, PDO::PARAM_INT );
+			$request->bindValue( ':keyword', '%' . $query . '%', PDO::PARAM_STR );
+			if ( !empty( $category ) )
+				$request->bindValue( ':category', $category, PDO::PARAM_STR );
+
+			$request->execute();
+
+			return $request->fetch( PDO::FETCH_OBJ );
+		}
+		catch ( Exception $e )
+		{
+			return false;
+		}
+	}
+
+	public function instantSearch_GetSnippetsByCategory($userId, $keyWord, $category, $pageNumber) {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND category LIKE :category ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
+			$request = $db->prepare('SELECT `rowid` AS `id`, * FROM snippets WHERE ( `id_user` = :id_user OR `private` = 0 ) AND `category` = :category AND `name` LIKE :keyword ORDER BY `id_user` ASC, `last_update` DESC LIMIT :limit_down, :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
-			$request->bindValue(':category', '%' . $keyWord . '%', PDO::PARAM_STR);
+			$request->bindValue(':category', $category, PDO::PARAM_STR);
+			$request->bindValue(':keyword', '%' . $keyWord . '%', PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
@@ -259,7 +288,7 @@ class SnippetsManager {
 
 		try {
 			$db = PDOSQLite::getDBLink();
-			$request = $db->prepare('SELECT rowid AS id, * FROM snippets WHERE id_user = :id_user AND name LIKE :key_word ORDER BY last_update DESC LIMIT :limit_down, :limit_up');
+			$request = $db->prepare('SELECT `rowid` AS `id`, * FROM `snippets` WHERE ( `id_user` = :id_user OR `private` = 0 ) AND `name` LIKE :key_word ORDER BY `id_user` ASC, `last_update` DESC LIMIT :limit_down, :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':key_word', '%' . $keyWord . '%', PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber -1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
