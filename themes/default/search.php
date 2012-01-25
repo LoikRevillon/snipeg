@@ -12,6 +12,24 @@
 
 				<input type="submit" value="<?php echo $Lang->searchbutton; ?>" />
 
+				<div class="clear"></div>
+
+				<div class="alpha grid_6">
+
+					<input type="checkbox" id="filterByCategory" />
+
+					<label id="category-label" for="filterByCategory" ><?php echo $Lang->categoryfilter;?></label>
+
+					<select name="category" id="category">
+
+						<?php foreach( $Categories as $cat ) : ?>
+						<option value="<?php echo htmlspecialchars( $cat );?>"><?php echo ucfirst( htmlspecialchars( $cat ) );?></option>
+						<?php endforeach; ?>
+
+					</select>
+
+				</div>
+
 			</form>
 
 		</div>
@@ -118,6 +136,7 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				instantSearch();
+				filterByCategory();
 			});
 
 			function instantSearch() {
@@ -133,6 +152,9 @@
 
 					e.preventDefault();
 					var $q = $(this);
+					var $c = ( undefined !== typeof $( 'select[name="category"]' ) ) ?
+						$('select[name="category"] option').filter(':selected').val() :
+						'';
 
 					if($q.val() == ''){
 						$('div#results').html('');
@@ -144,7 +166,7 @@
 						request.abort();
 
 					runningRequest = true;
-					request = $.getJSON(requestPage, { 'query': $q.val() }, function(data) {
+					request = $.getJSON(requestPage, { 'query': $q.val(), 'category' : $c }, function(data) {
 						if(data != null)
 							showResults(data, $q.val());
 						runningRequest = false;
@@ -188,6 +210,29 @@
 
 				});
 
+			};
+
+			function filterByCategory()
+			{
+				$( '#filterByCategory' ).css( 'margin-top : 10px' );
+				<?php if ( in_array( 'category', $_GET ) ) : ?>
+					$( '#filterByCategory').attr( 'checked', 'checked' );
+				<?php else : ?>
+					$( '#category' ).attr( 'name', '' ).parent( 'div' ).hide();
+				<?php endif; ?>
+
+				$( '#filterByCategory' ).click( function( e )
+				{
+					if ( $( this ).attr( 'checked' ) )
+						$( '#category' ).attr( 'name', 'category' ).parent( 'div' ).fadeIn( 'fast' );
+
+					else
+						$( '#category' ).attr( 'name', '' ).parent( 'div' ).fadeOut( 'fast' )
+
+					$( 'input#query' ).trigger( 'keyup' );
+				} );
+
+				$( '#category' ).click( function() { $( 'input#query' ).trigger( 'keyup' ); } );
 			};
 		</script>
 	</body>

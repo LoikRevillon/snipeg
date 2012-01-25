@@ -227,6 +227,8 @@ class PageLoader {
 						}
 					}
 				}
+				$manager = SnippetsManager::getReference();
+				$this->_categories = $manager->getAllCategories( $currentUser->id );
 			}
 			elseif ( $this->_request === 'settings' )
 			{

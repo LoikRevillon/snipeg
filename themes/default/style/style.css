@@ -502,6 +502,10 @@ blockquote p {
 	width: 368px;
 }
 
+#category-label{
+	width: 348px;
+}
+
 /*
  * Login
  * -------------------------------------------------------------------------------------
@@ -774,7 +778,7 @@ div.checker, div.checker input, div.checker span, div.radio, div.radio input, di
 	height: 17px;
 }
 
-.button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span, div.button, div.button span, div.selector, div.selector span, input[type=text], input[type=password], img, blockquote {
+#category-label, .button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span, div.button, div.button span, div.selector, div.selector span, input[type=text], input[type=password], img, blockquote {
 	display: inline-block;
 }
 
