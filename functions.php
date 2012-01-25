@@ -89,9 +89,11 @@ function load_page() {
 	if ( array_key_exists( 'category', $_GET ) )
 		$pageLoader->setCategory( $_GET['category'] );
 	if ( array_key_exists( 'tags', $_GET ) )
-		$pageLoader->setCategory( $_GET['tags'] );
+		$pageLoader->setTag( $_GET['tags'] );
 	if ( array_key_exists( 'id', $_GET ) )
 		$pageLoader->setSnippetId( $_GET['id'] );
+	if ( array_key_exists( 'query', $_GET ) )
+		$pageLoader->setQuery( $_GET['query'] );
 
 	$pageInfos = $pageLoader->getPageInfos();
 
@@ -314,27 +316,6 @@ function delete_snippet() {
 	} else {
 		Tool::appendMessage($Lang->error_delete_snippet, Tool::M_ERROR);
 	}
-
-}
-
-function do_search() {
-
-	global $Snippets;
-	global $User;
-
-	if(!isset($_GET['query']) AND empty($_GET['query']))
-		return;
-
-	$page = (empty($_GET['page']) OR !is_numeric($_GET['page'])) ? 1 : intval($_GET['page']);
-	$manager = SnippetsManager::getReference();
-
-	if(!empty($_GET['category']))
-		$Snippets = $manager->instantSearch_GetSnippetsByCategory($User->id, $_GET['category'], $page);
-	else
-		$Snippets = $manager->instantSearch_GetSnippets($User->id, $_GET['query'], $page);
-
-	if(!empty($Snippets))
-		$Snippets = array_map(function($s) { return $s->toStdObject(); }, $Snippets);
 
 }
 

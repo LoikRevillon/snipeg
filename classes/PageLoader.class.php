@@ -5,6 +5,8 @@ class PageLoader {
 	// Internal use
 	private $_category;
 	private $_lang;
+	private $_query;
+	private $_paging;
 	private $_request;
 	private $_snippetId;
 	private $_tag;
@@ -14,7 +16,6 @@ class PageLoader {
 	private $_categories;
 	private $_file;
 	private $_langs;
-	private $_page;
 	private $_snippets;
 	private $_themes;
 	private $_users;
@@ -36,19 +37,25 @@ class PageLoader {
 	public function setCategory( $category )
 	{
 		if ( !empty( $category ) )
-			$this->_category;
+			$this->_category = $category;
 	}
 
-	public function setTag( $tag )
+	public function setQuery( $query )
 	{
-		if ( !empty( $tag ) )
-			$this->_tag;
+		if ( !empty( $query ) )
+			$this->_query = $query;
 	}
 
 	public function setSnippetId( $id )
 	{
 		if ( !empty( $id ) )
 			$this->_snippetId = $id;
+	}
+
+	public function setTag( $tag )
+	{
+		if ( !empty( $tag ) )
+			$this->_tag = $tag;
 	}
 
 	public function getPageInfos()
@@ -60,7 +67,7 @@ class PageLoader {
 		$page->categories = $this->_categories;
 		$page->fileName = $this->_file;
 		$page->langs = $this->_langs;
-		$page->paging = $this->_page;
+		$page->paging = $this->_paging;
 		$page->snippets = $this->_snippets;
 		$page->themes = $this->_themes;
 		$page->users = $this->_users;
@@ -90,8 +97,8 @@ class PageLoader {
 					$manager = UsersManager::getReference();
 					$users = $manager->countOfUsers( $currentUser->id );
 
-					$this->_page = create_paging($users->count, NUM_USER_PER_PAGE);
-					$this->_users = $manager->getAllUsers($this->_page, $currentUser->id);
+					$this->_paging = create_paging($users->count, NUM_USER_PER_PAGE);
+					$this->_users = $manager->getAllUsers($this->_paging, $currentUser->id);
 				}
 				else
 				{
@@ -101,9 +108,10 @@ class PageLoader {
 			}
 			elseif ( $this->_request === 'browse' )
 			{
+				$this->_snippets = array();
 				$manager = SnippetsManager::getReference();
 				$conditions = new stdClass();
-				$this->_snippets = array();
+				$snippetsObjectInArray = array();
 
 				if ( !empty( $this->_category ) )
 				{
@@ -121,25 +129,34 @@ class PageLoader {
 				}
 
 				$nb_snippets = $manager->countOfSnippetByUser( $currentUser->id, $conditions );
-				$snippetsObjectInArray = array();
-				$this->_snippets = array();
-
-				$this->_page = create_paging( $nb_snippets->count, NUM_SNIPPET_PER_PAGE );
+				$this->_paging = create_paging( $nb_snippets->count, NUM_SNIPPET_PER_PAGE );
 
 				if ( !empty( $conditions ) )
 				{
 					if ( $conditions->field === 'category' )
-						$snippetsObjectInArray = $manager->getSnippetsByCategory( $currentUser->id, $conditions->value, $this->_page );
+						$snippetsObjectInArray = $manager->getSnippetsByCategory( $currentUser->id, $conditions->value, $this->_paging );
 
 					elseif ( $conditions->field === 'tags' )
-						$snippetsObjectInArray = $manager->getSnippetsByTag( $currentUser->id, $conditions->value, $this->_page );
+						$snippetsObjectInArray = $manager->getSnippetsByTag( $currentUser->id, $conditions->value, $this->_paging );
 				}
 
 				if( empty( $snippetsObjectInArray ) )
-					$snippetsObjectInArray = $manager->getSnippetsByUser( $currentUser->id, $this->_page );
+					$snippetsObjectInArray = $manager->getSnippetsByUser( $currentUser->id, $this->_paging );
 
-				foreach($snippetsObjectInArray AS $snippet)
-					$this->_snippets[] = $snippet->toStdObject();
+				$this->_snippets = array_map( function( $snippet ) { return $snippet->toStdObject(); }, $snippetsObjectInArray );
+
+				$lastId = 0;
+				$manager = UsersManager::getReference();
+
+				foreach( $this->_snippets as $snippet )
+				{
+					if ( empty( $lastId ) OR $lastId !== $snippet->idUser )
+					{
+						$lastId = $snippet->idUser;
+						$userFromDB = $manager->getUserInformations( $lastId );
+					}
+					$snippet->owner = $userFromDB->_name;
+				}
 			}
 			elseif ( $this->_request === 'edit' )
 			{
@@ -170,7 +187,46 @@ class PageLoader {
 			}
 			elseif ( $this->_request === 'search' )
 			{
-				do_search();
+				if ( !empty( $this->_query ) )
+				{
+					$manager = SnippetsManager::getReference();
+					$this->_snippets = array();
+
+					$page = ( empty( $_GET['page'] ) OR !is_numeric( $_GET['page'] ) ) ? 1 : intval( $_GET['page'] );
+
+					if( !empty( $this->_category ) )
+					{
+						$snippets = $manager->instantSearch_countOfSnippets( $currentUser->id, $this->_query, $this->_category );
+						$this->_paging = create_paging( $snippets->count, NUM_SNIPPET_PER_PAGE );
+
+						$this->_snippets = $manager->instantSearch_GetSnippetsByCategory( $currentUser->id, $this->_query, $this->_category, $this->_paging );
+					}
+					else
+					{
+						$snippets = $manager->instantSearch_countOfSnippets( $currentUser->id, $this->_query );
+						$this->_paging = create_paging( $snippets->count, NUM_SNIPPET_PER_PAGE );
+
+						$this->_snippets = $manager->instantSearch_GetSnippets($currentUser->id, $this->_query, $this->_paging);
+					}
+
+					if( !empty( $this->_snippets ) )
+					{
+						$this->_snippets = array_map( function( $snippet ) { return $snippet->toStdObject(); }, $this->_snippets );
+
+						$lastId	= 0;
+						$manager = UsersManager::getReference();
+
+						foreach( $this->_snippets as $snippet )
+						{
+							if ( empty( $lastId ) OR $lastId !== $snippet->idUser )
+							{
+								$lastId = $snippet->idUser;
+								$userFromDB = $manager->getUserInformations( $lastId );
+							}
+							$snippet->owner = $userFromDB->_name;
+						}
+					}
+				}
 			}
 			elseif ( $this->_request === 'settings' )
 			{
