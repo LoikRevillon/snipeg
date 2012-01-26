@@ -78,13 +78,27 @@
                 </select>
 				<div class="clear"></div>
 
-				<!-- NOT YET IMPLEMENTED
-				<label for="snippet-language"><?php /* echo $Lang->programminglangsnippet; */ ?></label>
+				<label for="snippet-language"><?php echo $Lang->programminglangsnippet; ?></label>
+
 				<div class="clear"></div>
+
 				<select name="language" id="snippet-language">
-					<option value="html">HTML</option>
+
+					<?php foreach( $Geshi_codes as $code => $lang_name ) :	?>
+
+					<?php if ( !empty( $Snippet ) AND $Snippet->language === $code ) : ?>
+
+					<option value="<?php echo $code;?>" selected="selected"><?php echo htmlspecialchars( ucfirst( $lang_name ) );?></option>
+
+					<?php endif; ?>
+
+					<option value="<?php echo $code;?>"><?php echo htmlspecialchars( ucfirst( $lang_name ) );?></option>
+
+					<?php endforeach; ?>
+
 				</select>
-				<div class="clear"></div>-->
+
+				<div class="clear"></div>
 
 				<label for="snippet-is-public"><?php echo $Lang->privacysnippet; ?></label>
 				<div class="clear"></div>

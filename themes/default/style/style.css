@@ -365,6 +365,8 @@ blockquote p {
 	font-family: monospace;
 	letter-spacing: 1px;
 	line-height: 18px;
+	max-height: 200px;
+	max-width: 516px;
 }
 
 /*
@@ -566,7 +568,7 @@ blockquote p {
 	width: 516px;
 }
 
-#add-snippet-main textarea, #single textarea {
+#add-snippet-main textarea, #single textarea, #single-snippet {
 	min-height: 220px;
 }
 
@@ -741,6 +743,14 @@ div.button input {
 }
 
 div.button #edit {
+	height: 32px;
+	border: none;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+div.button #toogle-show {
 	height: 32px;
 	border: none;
 	left: 0;

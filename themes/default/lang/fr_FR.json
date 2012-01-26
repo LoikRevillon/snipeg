@@ -58,6 +58,7 @@
 	"searchbutton":"Recherche",
 	"setcategorysnippet":"Ou choisissez une catégorie existante",
 	"show":"Montrer",
+	"showsnippetbutton": "Montrer les sources / le snippet",
 	"snippetviewpage":"Aperçu du snippet",
 	"tag":"tag",
 	"tagssnippet":"Tags ( séparés par des virgules )",

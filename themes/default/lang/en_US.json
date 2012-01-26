@@ -58,6 +58,7 @@
 	"searchbutton":"Search",
 	"setcategorysnippet":"Or choose existing category",
 	"show":"Show",
+	"showsnippetbutton": "Show sources / snippet",
 	"snippetviewpage":"Snippet View",
 	"tag":"tag",
 	"tagssnippet":"Tags (comma separated)",
