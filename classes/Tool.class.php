@@ -138,6 +138,13 @@ class Tool {
 
 	}
 
+	public static function loadGeshiCodes() {
+
+		$geshi_assoc = file_get_contents( GESHI_ASSOC_PATH );
+
+		return explode( ',', $geshi_assoc );
+	}
+
 	public static function getAllThemes() {
 
 		$themesPlace = THEME_PATH;

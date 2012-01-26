@@ -458,3 +458,18 @@ function update_snippet() {
 	}
 
 }
+
+
+/*
+ * Geshi highlight code functions
+ * ----------------------------------------------------------------------------------
+*/
+
+function show_highlighted_snippet( $snippetObject ) {
+
+	global $Geshi_codes;
+
+	$geshiObj = new Geshi( $snippetObject->content, $Geshi_codes[$snippetObject->language] );
+
+	echo $geshiObj->parse_code();
+}
