@@ -94,7 +94,7 @@ if(isset($_POST['init'])) {
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Stanislas UI Design</title>
+		<title>Snipeg Project</title>
 		<meta charset="<?php echo PHP_CHARSET; ?>"/>
 		<link rel="stylesheet" href="<?php echo $Theme->location;?>style/style.css" />
 		<script src="<?php echo $Theme->location;?>js/jquery-1.6.2.min.js"></script>
