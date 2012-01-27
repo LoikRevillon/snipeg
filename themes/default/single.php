@@ -22,7 +22,7 @@
 
 				</div>
 
-				<textarea name="snippet-content" id="snippet-content" ><?php echo htmlspecialchars($Snippet->content); ?></textarea>
+				<textarea name="snippet-content" id="snippet-content" style="display:none" ><?php echo htmlspecialchars($Snippet->content); ?></textarea>
 
 			</div>
 
