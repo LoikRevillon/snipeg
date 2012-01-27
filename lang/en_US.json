@@ -40,7 +40,7 @@
 	"error_password_are_different": "Passwords are different.",
 	"error_wrong_password": "Wrong password advised.",
 	"error_email_is_not_a_valid_email": "Email is not a valid email address.",
-	"error_email_is_unavailable": "Email is not available.",
+	"error_email_is_unavailable": "Email address already in use.",
 	"error_lang_unvailable": "Selected language is unreachable. Default language set.",
 	"error_no_lang_avaible": "No one language can be found. Checked if Snipeg is properly installed.",
 	"error_theme_unvailable": "Selected theme is unreachable. Default theme set.",

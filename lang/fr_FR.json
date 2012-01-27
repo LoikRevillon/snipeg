@@ -40,7 +40,7 @@
 	"error_password_are_different": "Les mots de passe sont différents.",
 	"error_wrong_password": "Le mot de passe est incorrect.",
 	"error_email_is_not_a_valid_email": "L'email renseigné n'est pas une adresse email valide.",
-	"error_email_is_unavailable": "Cet email est déjà utilisé.",
+	"error_email_is_unavailable": "Cette adresse email est déjà utilisée.",
 	"error_lang_unvailable": "La langue choisie n'est pas disponible. La langue par défaut va être utilisée.",
 	"error_no_lang_avaible": "Aucune langue n'est disponible. Vérifiez que Snipeg est installé correctement.",
 	"error_theme_unvailable": "Le thème sélectionné n'est pas disponible. Le thème par défaut va être appliqué.",
