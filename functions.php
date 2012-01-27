@@ -16,7 +16,7 @@ function create_paging($elementCounted,  $elementPerPage) {
 	$countPage = ceil ($elementCounted / $elementPerPage);
 	$pageRequested = 1;
 
-	if(!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage OR intval($_GET['page']) < 1)) {
+	if(!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage AND intval($_GET['page']) >= 1)) {
 		$pageRequested = intval($_GET['page']);
 	}
 
@@ -38,7 +38,7 @@ function create_paging($elementCounted,  $elementPerPage) {
 			for ($j = 0, $i = 2; $i < $countPage AND $j <= 3; $i++, $j++) {
 				$Pages[] = $i;
 			}
-			$Pages[] = $countPage;
+			$Pages[] = intval( $countPage );
 		}
 	}
 
