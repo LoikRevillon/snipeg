@@ -58,7 +58,7 @@ class SnippetsManager {
 			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE ( `id_user` = :id_user OR `private` = 0 ) ORDER BY `last_update` DESC LIMIT :limit_down, :limit_up');
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
-			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
+			$request->bindValue(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
 
 			$allSnippetOfUser = array();
@@ -98,7 +98,7 @@ class SnippetsManager {
 			$request = $db->prepare('SELECT rowid AS id, * FROM `snippets` WHERE `id_user` = :id_user AND `private` = 0 ORDER BY `last_update` DESC LIMIT :limit_down , :limit_up');
 			$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
 			$request->bindParam(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
-			$request->bindParam(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
+			$request->bindParam(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
 
 			$publicSnippets = array();
@@ -122,7 +122,7 @@ class SnippetsManager {
 			$request->bindValue(':id_user', $idUser, PDO::PARAM_INT);
 			$request->bindValue(':name', $snippetName, PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
-			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
+			$request->bindValue(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
 
 			$snippetsMatchedByName = array();
@@ -146,7 +146,7 @@ class SnippetsManager {
 			$request->bindParam(':id_user', $userId, PDO::PARAM_INT, 1);
 			$request->bindParam(':timestamp', $timestamp, PDO::PARAM_INT, 32);
 			$request->bindParam(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT, 32);
-			$request->bindParam(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT, 32);
+			$request->bindParam(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT, 32);
 			$request->execute();
 
 			$youngerSnippet = array();
@@ -170,7 +170,7 @@ class SnippetsManager {
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':category', strtolower($categoryName), PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
-			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
+			$request->bindValue(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
 			$request->execute();
 
 			$snippetsMatchedByCategory = array();
@@ -194,7 +194,7 @@ class SnippetsManager {
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':tag', '%' . strtolower($tag) . '%', PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
-			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
+			$request->bindValue(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_STR);
 			$request->execute();
 
 			$snippetsMatchedByTag = array();
@@ -268,7 +268,7 @@ class SnippetsManager {
 			$request->bindValue(':category', $category, PDO::PARAM_STR);
 			$request->bindValue(':keyword', '%' . $keyWord . '%', PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber - 1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
-			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
+			$request->bindValue(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
 
 			$arrayOfSnippetsByCategory = array();
@@ -292,7 +292,7 @@ class SnippetsManager {
 			$request->bindValue(':id_user', $userId, PDO::PARAM_INT);
 			$request->bindValue(':key_word', '%' . $keyWord . '%', PDO::PARAM_STR);
 			$request->bindValue(':limit_down', ($pageNumber -1) * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
-			$request->bindValue(':limit_up', $pageNumber * NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
+			$request->bindValue(':limit_up', NUM_SNIPPET_PER_PAGE, PDO::PARAM_INT);
 			$request->execute();
 
 			$arrayOfSnippets = array();
