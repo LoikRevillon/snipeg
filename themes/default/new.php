@@ -83,19 +83,14 @@
 				<div class="clear"></div>
 
 				<select name="language" id="snippet-language">
-
-					<?php foreach( $Geshi_codes as $code => $lang_name ) :	?>
-
+					<?php $favorite_language = array_intersect( $Geshi_codes, $User->favorite_lang ); ?>
+					<?php foreach( $favorite_language as $code => $lang_name ) : ?>
 					<?php if ( !empty( $Snippet ) AND $Snippet->language === $code ) : ?>
-
 					<option value="<?php echo $code;?>" selected="selected"><?php echo htmlspecialchars( ucfirst( $lang_name ) );?></option>
-
-					<?php endif; ?>
-
+					<?php else : ?>
 					<option value="<?php echo $code;?>"><?php echo htmlspecialchars( ucfirst( $lang_name ) );?></option>
-
+					<?php endif; ?>
 					<?php endforeach; ?>
-
 				</select>
 
 				<div class="clear"></div>

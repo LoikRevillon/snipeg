@@ -15,6 +15,7 @@ class PageLoader {
 	// Return of getPage()
 	private $_categories;
 	private $_file;
+	private $_geshi_codes;
 	private $_langs;
 	private $_snippets;
 	private $_themes;
@@ -66,6 +67,7 @@ class PageLoader {
 
 		$page->categories = $this->_categories;
 		$page->fileName = $this->_file;
+		$page->geshi_codes = $this->_geshi_codes;
 		$page->langs = $this->_langs;
 		$page->paging = $this->_paging;
 		$page->snippets = $this->_snippets;
@@ -165,6 +167,7 @@ class PageLoader {
 					$manager = SnippetsManager::getReference();
 					$snippets = $manager->getSnippetById( $this->_snippetId );
 					$this->_snippets = $snippets->toStdObject();
+					$this->_geshi_codes = Tool::loadGeshiCodes();
 	            }
 	            if ( $this->_snippets->idUser !== $currentUser->id )
 	            {
@@ -182,6 +185,7 @@ class PageLoader {
 			{
 				$userCategories = SnippetsManager::getReference();
 				$this->_categories = $userCategories->getAllCategories( $currentUser->id );
+				$this->_geshi_codes = Tool::loadGeshiCodes();;
 
 				$this->_file = 'new';
 			}
@@ -234,9 +238,11 @@ class PageLoader {
 			{
 				$this->_themes = array();
 				$this->_langs = array();
+				$this->_geshi_codes = Tool::loadGeshiCodes();
 
 				$themes = Tool::getAllThemes();
 				$langs = Tool::getAllLangs();
+
 
 				foreach($themes as $theme)
 					$this->_themes[] = $theme->dirname;
@@ -256,6 +262,7 @@ class PageLoader {
 			{
 				$manager = SnippetsManager::getReference();
 				$snippet = $manager->getSnippetById( $this->_snippetId );
+				$this->_geshi_codes = Tool::loadGeshiCodes();
 				$this->_snippets = $snippet->toStdObject();
 
 				if ( empty( $this->_snippets->id ) )

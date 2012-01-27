@@ -65,7 +65,7 @@ class User {
 		$userStd->islocked = ($this->_locked == 1);
 		$userStd->theme = $this->_theme;
 		$userStd->language = $this->_language;
-		$userStd->favorite_lang = $this->_favoriteLang;
+		$userStd->favorite_lang = ( !empty( $this->_favoriteLang ) ) ? explode( ',', $this->_favoriteLang ) : array();
 
 		return $userStd;
 	}

@@ -124,25 +124,23 @@ foreach($LangsList as $lang) {
 
 			</div>
 
-			<!-- NOT YET IMPLEMENTED
-
 			<div id="settings-second-line">
 
-				<h3> <?php/* echo $Lang->programminglangaccount;*/?></h3>
+				<h3><?php echo $Lang->programminglangaccount;?></h3>
 
-				<div class="grid_3">
-
-					<input name="actionscript" type="checkbox" id="actionscript">
-					<label for="actionscript">ActionScript</label>
-					<div class="clear"></div>
-
-					!!! 20 checkboxes by column (grid_3)
-
-				</div>
-
+					<?php foreach( $Geshi_codes as $code => $value ) : ?>
+						<?php if ( $code !== 0 ) : ?>
+					<div class="grid_3">
+						<?php if ( in_array( $value, $User->favorite_lang ) ) : ?>
+					<input name="<?php echo htmlspecialchars( $code );?>" type="checkbox" id="<?php echo htmlspecialchars( $code );?>" checked="checked">
+						<?php else : ?>
+					<input name="<?php echo htmlspecialchars( $code );?>" type="checkbox" id="<?php echo htmlspecialchars( $code );?>">
+						<?php endif; ?>
+					<label for="<?php echo htmlspecialchars( $code );?>"><?php echo htmlspecialchars( ucfirst( $value ) );?></label>
+					</div>
+						<?php endif; ?>
+					<?php endforeach; ?>
 			</div>
-
-			-->
 
 		</form>
 

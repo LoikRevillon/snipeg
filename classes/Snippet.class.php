@@ -64,7 +64,7 @@ class Snippet {
 		$snippetStd->idUser = intval($this->_idUser);
 		$snippetStd->lastUpdate = $this->_lastUpdate;
 		$snippetStd->content = $this->_content;
-		$snippetStd->language = intval($this->_language);		## FIX IT : with Geshi codes.
+		$snippetStd->language = intval($this->_language);
 		$snippetStd->comment = $this->_comment;
 		$snippetStd->category = $this->_category;
 		$snippetStd->tags = array();

@@ -78,6 +78,7 @@ function remind_get($param) {
 function load_page() {
 
 	global $Categories;
+	global $Geshi_codes;
 	global $LangsList;
 	global $Snippet;
 	global $Snippets;
@@ -98,6 +99,7 @@ function load_page() {
 	$pageInfos = $pageLoader->getPageInfos();
 
 	$Categories = $pageInfos->categories;
+	$Geshi_codes = $pageInfos->geshi_codes;
 	$LangsList = $pageInfos->langs;
 	$ThemesList = $pageInfos->themes;
 
@@ -321,8 +323,9 @@ function delete_snippet() {
 
 function update_account() {
 
-    global $User;
+	global $Geshi_codes;
 	global $Lang;
+    global $User;
 
 	$currentUser = $_SESSION['user'];
 	$needUpdate = false;
@@ -416,7 +419,11 @@ function update_account() {
 		}
 	}
 
-	//if(!empty(code_geshi)) {} # FIX IT
+	if ( $matched_keys = array_intersect_key( $Geshi_codes, $_POST ) )
+	{
+		$currentUser->_favoriteLang = implode( ',', $matched_keys );
+		$needUpdate = true;
+	}
 
 	if(!empty($needUpdate)) {
 		$manager = UsersManager::getReference();

@@ -25,7 +25,7 @@ $Snippet = null;
 $Snippets = array();
 $Pages = array();
 $Categories = array();
-$Geshi_codes = Tool::loadGeshiCodes();
+$Geshi_codes = array();
 
 if(!file_exists(DB_NAME) OR is_dir(DB_NAME))
 	Tool::appendMessage($Lang->warning_no_database_initialized, Tool::M_WARNING);
