@@ -68,3 +68,9 @@ define('EMAIL_SENDER', 'not-reply.Snipeg@' . $_SERVER['HTTP_HOST'] );
 define('EMAIL_SIGNATURE', '<br />    --------------------------------------------------    <br />    Sending by Snipeg Project, hosting by' . HTTP_ROOT );
 define('EMAIL_SUBJECT', 'New password asked for your Snipeg\'s account.' );
 define('EMAIL_CONTENT', 'Hello __USERNAME__.<br /><br />Snipeg can not beleive it ! ( Don\'t be surprise, Snipeg\'s living and thinking, more than talk about him to third pers. He\'s Marvin\'s cousin ;) ).<br />Really, How could you forgot it ? Shame on you.<br />Anyway, you go to be glad in addition to be thanksful, because Snipeg provide you a new password. So, stop to pray Jesus for a while, and show to his creators your plaisure to use them app, by making us a donation, just an example. c(=<br />May your admin could override this damn message.<br /><br />Your new password is the following one:<br /><strong>__NEWPASSWORD__</strong><br /><br />Please do not respond to this.<br />Over.<br />' );
+
+/*
+ * Geshi Codes
+ * -------------------------------------------------------------------------------------
+*/
+define('GESHI_ASSOC_PATH', ROOT . 'geshi_assoc' );
