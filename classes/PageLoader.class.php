@@ -156,8 +156,11 @@ class PageLoader {
 					{
 						$lastId = $snippet->idUser;
 						$userFromDB = $manager->getUserInformations( $lastId );
+						$userFromDB = $userFromDB->toStdObject();
 					}
-					$snippet->owner = $userFromDB->_name;
+					$snippet->owner = new stdClass();
+					$snippet->owner->name = $userFromDB->name;
+					$snippet->owner->avatar = $userFromDB->avatar;
 				}
 			}
 			elseif ( $this->_request === 'edit' )
@@ -265,8 +268,13 @@ class PageLoader {
 				$this->_geshi_codes = Tool::loadGeshiCodes();
 				$this->_snippets = $snippet->toStdObject();
 
-				$userCategories = SnippetsManager::getReference();
-				$this->_categories = $userCategories->getAllCategories( $currentUser->id );
+				$manager = UsersManager::getReference();
+				$userFromDB = $manager->getUserInformations( $this->_snippets->idUser );
+				$userFromDB = $userFromDB->toStdObject();
+
+				$this->_snippets->owner = new stdClass();
+				$this->_snippets->owner->name = $userFromDB->name;
+				$this->_snippets->owner->avatar = $userFromDB->avatar;
 
 				if ( empty( $this->_snippets->id ) )
 				{

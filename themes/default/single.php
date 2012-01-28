@@ -14,7 +14,7 @@
 
 				<h4><a href="#"><?php echo htmlspecialchars($Snippet->name); ?></a></h4>
 
-				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
+				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($Snippet->owner->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
 
 				<div id="single-snippet">
 
@@ -36,7 +36,7 @@
 
 			<div id="single-about">
 
-				<p><img src="<?php echo $User->avatar; ?>" /></p>
+				<p><img src="<?php echo $Snippet->owner->avatar; ?>" /></p>
 
 				<div id="action">
 

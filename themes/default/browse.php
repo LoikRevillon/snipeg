@@ -30,7 +30,7 @@
 
 				<h4><a href="?action=single&id=<?php echo $snippet->id; ?>"><?php echo htmlspecialchars($snippet->name); ?></a></h4>
 				<p><?php echo Tool::linkify(htmlspecialchars($snippet->comment)); ?></p>
-				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($snippet->owner) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' <a href="?action=browse&category=' . htmlspecialchars($snippet->category) . '">' .
+				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($snippet->owner->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' <a href="?action=browse&category=' . htmlspecialchars($snippet->category) . '">' .
 htmlspecialchars(ucfirst($snippet->category)) . '</a>';?></p>
 
 			</div>
