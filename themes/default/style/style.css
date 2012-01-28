@@ -365,8 +365,12 @@ blockquote p {
 	font-family: monospace;
 	letter-spacing: 1px;
 	line-height: 18px;
-	max-height: 200px;
-	max-width: 516px;
+	max-height: 300px;
+	max-width: 640px;
+	word-spacing: 2px;
+}
+#single-snippet li {
+	margin-bottom : 6px;
 }
 
 /*
@@ -417,7 +421,7 @@ blockquote p {
 }
 
 #single-snippet {
-	overflow-x: scroll;
+	overflow-x: hidden;
 }
 
 /*

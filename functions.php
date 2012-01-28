@@ -473,11 +473,29 @@ function update_snippet() {
  * ----------------------------------------------------------------------------------
 */
 
-function show_highlighted_snippet( $snippetObject ) {
+function show_highlighted_snippet( $snippet_object, $enable_classes = false) {
 
 	global $Geshi_codes;
 
-	$geshiObj = new Geshi( $snippetObject->content, $Geshi_codes[$snippetObject->language] );
+	$geshiObj = new Geshi( wordwrap( $snippet_object->content , 100 ), $Geshi_codes[$snippet_object->language] );
+
+	$geshiObj->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
+	$geshiObj->set_header_type( GESHI_HEADER_NONE );
+	if ( !empty( $enable_classes ) )
+		$geshiObj->enable_classes();
+
+	$geshiObj->set_keyword_group_style( 1, 'color: green' );
+	$geshiObj->set_keyword_group_style( 2, 'color: #709CCD' );
+	$geshiObj->set_keyword_group_style( 3, 'color: yellow' );
+	$geshiObj->set_keyword_group_style( 4, 'color: yellow' );
+
+	$geshiObj->set_tab_width( 2 );
+
+	$geshiObj->set_comments_style( 0, 'color: gray' );
+	$geshiObj->set_strings_style( 'color: pink' );
+	$geshiObj->set_numbers_style( 'color: red' );
+	$geshiObj->set_methods_style( 2, 'color: purple' );
+	$geshiObj->set_symbols_style( 'color: orange' );
 
 	echo $geshiObj->parse_code();
 }
