@@ -83,6 +83,7 @@
 				<div class="clear"></div>
 
 				<select name="language" id="snippet-language">
+					<option value="0" selected="selected">None</option>
 					<?php $favorite_language = array_intersect( $Geshi_codes, $User->favorite_lang ); ?>
 					<?php foreach( $favorite_language as $code => $lang_name ) : ?>
 					<?php if ( !empty( $Snippet ) AND $Snippet->language === $code ) : ?>

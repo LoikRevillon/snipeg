@@ -265,6 +265,9 @@ class PageLoader {
 				$this->_geshi_codes = Tool::loadGeshiCodes();
 				$this->_snippets = $snippet->toStdObject();
 
+				$userCategories = SnippetsManager::getReference();
+				$this->_categories = $userCategories->getAllCategories( $currentUser->id );
+
 				if ( empty( $this->_snippets->id ) )
 				{
 					if ( empty ( $_SESSION['messages'][Tool::M_SUCCESS] ) ||
