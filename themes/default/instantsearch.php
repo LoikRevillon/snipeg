@@ -11,8 +11,9 @@ require '../../classes/Tool.class.php';
 
 Tool::preload();
 
-$User = null;
+$Pages = null;
 $Snippets = null;
+$User = null;
 
 // Set Global $User
 if(!empty($_SESSION['user']))
@@ -51,8 +52,11 @@ if(!empty($User)) {
 			}
 			$snippet->owner = $userFromDB->_name;
 		}
+		$infos = new stdClass();
+		$infos->snippets = $Snippets;
+		$infos->page = $Pages;
 	}
 
-	echo json_encode($Snippets);
+	echo json_encode($infos);
 
 }

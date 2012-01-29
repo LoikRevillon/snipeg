@@ -81,11 +81,19 @@
 
 				<?php endforeach; ?>
 
-				<?php if(!empty($Pages)) : ?>
+				<?php endif; ?>
+
+			</div>
+
+			<div id="contents">
+
+				<div id="results"></div>
 
 				<div class="clear"></div>
 
 				<div id="paging">
+
+					<?php if(!empty($Pages)) : ?>
 
 					<?php if ( isset( $_GET['query'] ) ) : ?>
 
@@ -121,15 +129,11 @@
 
 					<?php endif; ?>
 
+					<?php endif; ?>
+
 				</div>
 
-				<?php endif; ?>
-
-				<?php endif; ?>
-
 			</div>
-
-			<div id="results"></div>
 
 		</div>
 
@@ -141,24 +145,48 @@
 
 			function instantSearch() {
 
+				var page = { first : '<?php echo $Lang->first;?>', last : '<?php echo $Lang->last;?>' };
+
 				var request;
 				var requestPage = "<?php echo $Theme->location . 'instantsearch.php'; ?>";
 				var runningRequest = false;
+				var $q = false;
+				var $c = false;
+				var $p = false;
 
-				$('input#query').keyup(function(e) {
+				$('#paging a').click( handler_pageButton );
+
+				function handler_pageButton(e)
+				{
+					e.preventDefault();
+
+					requestedPage = this.href.substr( this.href.lastIndexOf( "=" ) + 1 );
+					requestedPage = parseInt ( requestedPage );
+
+					$('input#query').triggerHandler( 'keyup', requestedPage );
+				}
+
+				$('input#query').keyup( function(e, requestedPage) {
 
 					if(e.which == 13)
 						return;
 
 					e.preventDefault();
-					var $q = $(this);
-					var $c = ( undefined !== typeof $( 'select[name="category"]' ) ) ?
+					$q = $.trim( $('input#query').val() );
+					$c = ( undefined !== typeof $( 'select[name="category"]' ) ) ?
 						$('select[name="category"] option').filter(':selected').val() :
 						'';
+					$p = ( undefined !== requestedPage ) ? requestedPage : 1;
 
-					if($q.val() == ''){
-						$('div#results').html('');
-						$('#search-head').html('');
+					category = ( $c ) ? $c : false;
+
+					if($q == ''){
+						$('div#contents').fadeOut('fast',function()
+						{
+							$('div#results').html('');
+							$('div#search-head').html('');
+							$('div#paging').html('');
+						} );
 						return false;
 					}
 
@@ -166,50 +194,91 @@
 						request.abort();
 
 					runningRequest = true;
-					request = $.getJSON(requestPage, { 'query': $q.val(), 'category' : $c }, function(data) {
+					request = $.getJSON(requestPage, { 'query': $q, 'category' : $c, 'page' : $p }, function(data) {
 						if(data != null)
-							showResults(data, $q.val());
+							showResults(data, $q);
 						runningRequest = false;
 					});
+				} );
 
-					function showResults(data) {
+				function showResults(data) {
 
-						var result = '';
+					/*
+					 * Snippets
+					*/
+					var result = '';
 
-						$.each(data, function(i, item){
+					$.each(data.snippets, function(i, item){
 
-							// PHP timestamp : seconds, Javascript timestamp : milliseconds
-							var update = new Date();
-							update.setTime(item.lastUpdate * 1000);
+						// PHP timestamp : seconds, Javascript timestamp : milliseconds
+						var update = new Date();
+						update.setTime(item.lastUpdate * 1000);
 
-							result += '<div class="result-line">';
-							result += '<div class="grid_7">';
-							result += '<h4><a href="?action=single&id=' + item.id + '">' + protect(item.name) + '</a></h4>';
-							result += '<p>' + protect(item.comment) + '</p>';
-							result += '<p><?php echo $Lang->publishedbyview; ?> ' + protect(item.owner) + ' <?php echo $Lang->publisheddateview; ?> ' + update.toLocaleString() + ' <?php echo $Lang->categorybrowse; ?> <a href="?action=browse&category=' + protect(item.category) + '">' + protect(ucfirst(item.category))  + '</a></p>';
-							result += '</div>';
-							result += '<div class="prefix_1 grid_4">';
-							result += '<div class="tags">';
+						result += '<div class="result-line">';
+						result += '<div class="grid_7">';
+						result += '<h4><a href="?action=single&id=' + item.id + '">' + protect(item.name) + '</a></h4>';
+						result += '<p>' + protect(item.comment) + '</p>';
+						result += '<p><?php echo $Lang->publishedbyview; ?> ' + protect(item.owner) + ' <?php echo $Lang->publisheddateview; ?> ' + update.toLocaleString() + ' <?php echo $Lang->categorybrowse; ?> <a href="?action=browse&category=' + protect(item.category) + '">' + protect(ucfirst(item.category))  + '</a></p>';
+						result += '</div>';
+						result += '<div class="prefix_1 grid_4">';
+						result += '<div class="tags">';
 
-							$.each(item.tags.toString().split(','), function(j, itm) {
-								if(itm != '')
-									result += '<a href="?action=browse&tags=' + protect(itm) + '">' + protect(ucfirst(itm)) + '</a>';
-							});
-
-							result += '</div>';
-							result += '</div>';
-							result += '</div>';
-
+						$.each(item.tags.toString().split(','), function(j, itm) {
+							if(itm != '')
+								result += '<a href="?action=browse&tags=' + protect(itm) + '">' + protect(ucfirst(itm)) + '</a>';
 						});
 
-						$('div#results').html(result);
+						result += '</div>';
+						result += '</div>';
+						result += '</div>';
 
-						$('#search-head').html('<h1><?php echo $Lang->resultsfor; ?> : ' + protect($('#query').val()) + '</h1>');
+					});
 
+					/*
+					 * Paging
+					*/
+
+					var pagesBuilding = '';
+
+					if ( null !== data.page )
+					{
+						pagesBuilding += '<a href="?action=search&query=' + protect( $q );
+						if ( undefined !== $c )
+							pagesBuilding += '&category=' + protect( $c );
+						pagesBuilding += '&page=1">' + protect( page.first ) + '</a>';
+
+						$.each(data.page, function(k, pageNumber)
+						{
+							if ( k === data.page.length - 1 )
+							{
+								pagesBuilding += '<a href="?action=search&query=' + protect($q);
+								if ( undefined !== $c )
+									pagesBuilding += '&category=' + protect( $c );
+								pagesBuilding += '&page=' + parseInt(pageNumber) + '">' + protect(page.last) + '</a>';
+							}
+							else
+							{
+								pagesBuilding += '<a href="?action=search&query=' + protect( $q );
+								if ( undefined !== $c )
+									pagesBuilding += '&category=' + protect( $c );
+								pagesBuilding += '&page=' + parseInt(pageNumber) + '">' + parseInt(pageNumber) + '</a>';
+							}
+						} );
 					}
 
-				});
+					$('div#contents').fadeOut( 'fast', function()
+					{
+						$('#search-head').html('<h1><?php echo $Lang->resultsfor; ?> : ' + protect($q) + '</h1>');
+						$('div#results').html(result);
+						$('div#paging').html(pagesBuilding);
 
+						$( this ).fadeIn('fast');
+						$('div#paging a').bind( 'click', handler_pageButton );
+
+					});
+
+
+				}
 			};
 
 			function filterByCategory()
