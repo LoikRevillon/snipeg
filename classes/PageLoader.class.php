@@ -165,9 +165,9 @@ class PageLoader {
 			}
 			elseif ( $this->_request === 'edit' )
 			{
+				$manager = SnippetsManager::getReference();
 				if ( !empty( $this->_snippetId ) AND $this->_request === 'edit' )
 				{
-					$manager = SnippetsManager::getReference();
 					$snippets = $manager->getSnippetById( $this->_snippetId );
 					$this->_snippets = $snippets->toStdObject();
 					$this->_geshi_codes = Tool::loadGeshiCodes();
@@ -175,6 +175,8 @@ class PageLoader {
 	            if ( $this->_snippets->idUser !== $currentUser->id )
 	            {
 					Tool::appendMessage( $this->_lang->error_not_enough_right, Tool::M_ERROR );
+
+					$this->_categories = $manager->getAllCategories( $currentUser->id );
 					$this->_file = ( empty( $_SESSION['user'] ) ) ? 'login' : 'default';
 				}
 				else
@@ -265,16 +267,7 @@ class PageLoader {
 			{
 				$manager = SnippetsManager::getReference();
 				$snippet = $manager->getSnippetById( $this->_snippetId );
-				$this->_geshi_codes = Tool::loadGeshiCodes();
 				$this->_snippets = $snippet->toStdObject();
-
-				$manager = UsersManager::getReference();
-				$userFromDB = $manager->getUserInformations( $this->_snippets->idUser );
-				$userFromDB = $userFromDB->toStdObject();
-
-				$this->_snippets->owner = new stdClass();
-				$this->_snippets->owner->name = $userFromDB->name;
-				$this->_snippets->owner->avatar = $userFromDB->avatar;
 
 				if ( empty( $this->_snippets->id ) )
 				{
@@ -282,13 +275,31 @@ class PageLoader {
 					! in_array( $this->_lang->success_delete_snippet, $_SESSION['messages'][Tool::M_SUCCESS] ) )
 						Tool::appendMessage( $this->_lang->error_snippet_not_exist, Tool::M_ERROR );
 
+					$this->_categories = $manager->getAllCategories( $currentUser->id );
 					$this->_file = ( empty( $_SESSION['user'] ) ) ? 'login' : 'default';
 				}
-				else if (( empty( $currentUser ) OR $currentUser->id !== $this->_snippets->idUser ) AND
-						!empty( $this->_snippets->privacy ))
+				else
 				{
-					Tool::appendMessage( $this->_lang->error_not_enough_right, Tool::M_ERROR );
-					$this->_file = ( empty( $_SESSION['user'] ) ) ? 'login' : 'default';
+
+					$this->_geshi_codes = Tool::loadGeshiCodes();
+
+					$manager = UsersManager::getReference();
+					$userFromDB = $manager->getUserInformations( $this->_snippets->idUser );
+					$userFromDB = $userFromDB->toStdObject();
+
+					$this->_snippets->owner = new stdClass();
+					$this->_snippets->owner->name = $userFromDB->name;
+					$this->_snippets->owner->avatar = $userFromDB->avatar;
+
+					if (( empty( $currentUser ) OR $currentUser->id !== $this->_snippets->idUser ) AND
+						!empty( $this->_snippets->privacy ))
+					{
+						Tool::appendMessage( $this->_lang->error_not_enough_right, Tool::M_ERROR );
+
+						$manager = SnippetsManager::getReference();
+						$this->_categories = $manager->getAllCategories( $currentUser->id );
+						$this->_file = ( empty( $_SESSION['user'] ) ) ? 'login' : 'default';
+					}
 				}
 			}
 		}
