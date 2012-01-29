@@ -226,7 +226,8 @@ function do_admin() {
 			if(!empty($_POST['delete'])) {
 				$manager = SnippetsManager::getReference();
 				$manager->deleteSnippetsOfUser( $user->_id );
-				unlink( AVATAR_DIR . $user->_id . '.png' );
+				if ( file_exists( AVATAR_DIR . $user->_id . '.png' ) )
+					unlink( AVATAR_DIR . $user->_id . '.png' );
 				$user->deleteUser();
 				Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
 			} else {
