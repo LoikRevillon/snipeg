@@ -41,6 +41,7 @@ define('DEFAULT_LANG', 'en_US');
 */
 
 define('DEFAULT_THEME', 'default');
+define('THEME_FUNCTIONS', '' ); // TODO : finish writing theme_functions.php and include it
 
 /*
  * Avatars

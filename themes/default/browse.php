@@ -4,14 +4,12 @@
 
 <?php
 
-	$currentPage =(!empty($_GET['page'])) ? $_GET['page'] : 1;
-
 	if(!empty($_GET['tags']))
 		$extra = $Lang->tag . ' : ' . htmlspecialchars($_GET['tags']);
 	elseif(!empty($_GET['category']))
 		$extra = $Lang->category . ' : ' . htmlspecialchars($_GET['category']);
 	elseif(!empty($Pages))
-		$extra = '( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' )';
+		$extra = '( ' . $Lang->pagenumberbeginbrowse . $RequestedPage . ' ' . $Lang->of . ' ' . end($Pages) . ' )';
 	else
 		$extra = '';
 ?>
