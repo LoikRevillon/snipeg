@@ -66,8 +66,9 @@ class Tool {
 			$db = PDOSQLite::getDBLink();
 			$request = $db->prepare('SELECT * FROM `users` WHERE `email` = :email');
 			$request->bindValue(':email', $email, PDO::PARAM_STR);
+			$request->execute();
 
-			return $request->execute();
+			return $request->fetch();
 
 		} catch (Exception$e) {
 			return false;
