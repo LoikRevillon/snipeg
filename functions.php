@@ -331,6 +331,7 @@ function update_account() {
     global $User;
 
 	$currentUser = $_SESSION['user'];
+	$Geshi_codes = Tool::loadGeshiCodes();
 	$needUpdate = false;
 
 	if(!empty($_POST['email'])) {
