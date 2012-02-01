@@ -2,13 +2,11 @@
 
 <?php include('top.php'); ?>
 
-<?php $currentPage =(!empty($_GET['page'])) ? $_GET['page'] : 1; ?>
-
 <div id="main" class="container_12">
 
 	<div id="admin" class="prefix_1 grid_10">
 
-		<h1><?php echo $Lang->adminpage; if(!empty($Pages)) { echo '( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' ) '; } ?></h1>
+		<h1><?php echo $Lang->adminpage; if(!empty($Pages)) { echo '( ' . $Lang->pagenumberbeginbrowse . $RequestedPage . ' ' . $Lang->of . ' ' . end($Pages) . ' ) '; } ?></h1>
 
 		<?php foreach($Users AS $user) : ?>
 

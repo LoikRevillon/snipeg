@@ -50,6 +50,6 @@ function protect(string) {
 
 $(document).ready(function() {
 
-	$('select, input:checkbox, input:radio, input:submit, input:button, #edit').uniform();
+	$('select, input:checkbox, input:radio, input:submit, input:button, #edit, #toogle-show').uniform();
 
 });

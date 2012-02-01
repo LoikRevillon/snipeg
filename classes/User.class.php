@@ -39,6 +39,11 @@ class User {
 
 	}
 
+	public function __isset($varName){
+
+		return isset($this->$varName);
+	}
+
 	public function __get($varName) {
 
 		if(isset($this->$varName))
@@ -51,6 +56,28 @@ class User {
 		if(isset($this->$varName))
 			$this->$varName = $value;
 
+	}
+
+	public function toStdObject() {
+
+		$userStd = new stdClass();
+
+		$userStd->id = intval($this->_id);
+		$userStd->isadmin = ($this->_admin == 1);
+		$userStd->name = $this->_name;
+		$userStd->email = $this->_email;
+		$userStd->avatar = ($this->_avatar == 1) ? HTTP_ROOT . AVATAR_DIR . $this->_id . '.png' : HTTP_ROOT . DEFAULT_AVATAR;
+		$userStd->islocked = ($this->_locked == 1);
+		$userStd->theme = $this->_theme;
+		$userStd->language = $this->_language;
+		$userStd->favorite_lang = ( !empty( $this->_favoriteLang ) ) ? explode( ',', $this->_favoriteLang ) : array();
+
+		return $userStd;
+	}
+
+	public function is_admin() {
+
+		return $this->_admin;
 	}
 
 	public function addNewUser() {

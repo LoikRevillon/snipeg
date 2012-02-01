@@ -14,19 +14,19 @@
 
 				<h4><a href="#"><?php echo htmlspecialchars($Snippet->name); ?></a></h4>
 
-				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
+				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($Snippet->owner->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $Snippet->lastUpdate) . ' ' . $Lang->in; ?> <a href="?action=browse&category=<?php echo htmlspecialchars($Snippet->category); ?>"><?php echo htmlspecialchars($Snippet->category); ?></a></p>
 
-				<!-- TODO : REIMPLEMENT CLEANLY
 				<div id="single-snippet">
 
-					<pre><?php /* echo htmlspecialchars($Snippet->content); */ ?></pre>
+					<?php show_highlighted_snippet( $Snippet ); ?>
 
 				</div>
-				-->
 
-				<textarea name="snippet-content" id="snippet-content" ><?php echo htmlspecialchars($Snippet->content); ?></textarea>
+				<textarea name="snippet-content" id="snippet-content" style="display:none" ><?php echo htmlspecialchars($Snippet->content); ?></textarea>
 
 			</div>
+
+			<a id="toogle-show" href="#"><?php echo $Lang->showsnippetbutton;?></a>
 
 		</div>
 
@@ -36,7 +36,7 @@
 
 			<div id="single-about">
 
-				<p><img src="<?php echo $User->avatar; ?>" /></p>
+				<p><img src="<?php echo $Snippet->owner->avatar; ?>" /></p>
 
 				<div id="action">
 
@@ -71,5 +71,43 @@
 	</form>
 
 </div>
+
+<?php if ( !empty( $Snippet->language ) ) : ?>
+
+<script type="text/javascript">
+
+	$( document ).ready( function()
+	{
+		var snippetCode = $( '#snippet-content' );
+		var snippetHighlight = $( '#single-snippet' );
+
+		snippetCode.hide();
+
+		$( '#toogle-show' ).click( function( e )
+		{
+			if ( snippetCode.is( ':hidden' ) )
+			{
+				$( this ).html( '<?php echo $Lang->showsnippethighlight;?>' );
+				snippetHighlight.fadeOut( 'fast', function()
+				{
+					snippetCode.fadeIn( 'fast' );
+				} );
+			}
+			else
+			{
+				$( this ).html( '<?php echo $Lang->showsnippetsource;?>' );
+				snippetCode.fadeOut( 'fast', function()
+				{
+					snippetHighlight.fadeIn( 'fast' );
+				} );
+			}
+
+			e.preventDefault();
+		} );
+	} );
+
+</script>
+
+<?php endif; ?>
 
 <?php include('footer.php'); ?>

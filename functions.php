@@ -14,8 +14,9 @@ function create_paging($elementCounted,  $elementPerPage) {
 	global $Pages;
 
 	$countPage = ceil ($elementCounted / $elementPerPage);
+	$pageRequested = 1;
 
-	if(!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage OR intval($_GET['page']) < 1)) {
+	if(!empty($_GET['page']) AND (intval($_GET['page']) <= $countPage AND intval($_GET['page']) >= 1)) {
 		$pageRequested = intval($_GET['page']);
 	}
 
@@ -37,7 +38,7 @@ function create_paging($elementCounted,  $elementPerPage) {
 			for ($j = 0, $i = 2; $i < $countPage AND $j <= 3; $i++, $j++) {
 				$Pages[] = $i;
 			}
-			$Pages[] = $countPage;
+			$Pages[] = intval( $countPage );
 		}
 	}
 
@@ -48,25 +49,10 @@ function create_paging($elementCounted,  $elementPerPage) {
 
 }
 
-function lang_of_theme() {
-
-	global $Theme;
-
-	$listLang = array();
-	$languagesFiles = glob(ROOT . $Theme->dirname . LANGUAGE_DIR . '*.json');
-
-	foreach($languagesFiles as $languageFile) {
-		$listLang[] = pathinfo($languageFile, PATHINFO_FILENAME);
-	}
-
-	return $listLang;
-
-}
-
 function is_admin() {
 
 	global $User;
-	return $User->isadmin;
+	return (!empty( $User->isadmin )) ? true : false;
 
 }
 
@@ -91,142 +77,39 @@ function remind_get($param) {
 
 function load_page() {
 
-	global $Lang;
-	global $Theme;
-	global $User;
-	global $Users;
+	global $Categories;
+	global $Geshi_codes;
+	global $LangsList;
 	global $Snippet;
 	global $Snippets;
-	global $Categories;
+	global $ThemesList;
+	global $Users;
 
-	$actionRequested = $_GET['action'];
+	$pageLoader = new PageLoader( $_GET['action'] );
 
-	if(!empty($Theme->$actionRequested)) {
+	if ( array_key_exists( 'category', $_GET ) )
+		$pageLoader->setCategory( $_GET['category'] );
+	if ( array_key_exists( 'tags', $_GET ) )
+		$pageLoader->setTag( $_GET['tags'] );
+	if ( array_key_exists( 'id', $_GET ) )
+		$pageLoader->setSnippetId( $_GET['id'] );
+	if ( array_key_exists( 'query', $_GET ) )
+		$pageLoader->setQuery( $_GET['query'] );
 
-		$page = 1;
+	$pageInfos = $pageLoader->getPageInfos();
 
-		if($actionRequested === 'admin')  {
-			if(!is_admin()) {
-				Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-				$includeFile = 'default';
-			} else {
-				$manager = UsersManager::getReference();
-				$users = $manager->countOfUsers($User->id);
+	$Categories = $pageInfos->categories;
+	$Geshi_codes = $pageInfos->geshi_codes;
+	$LangsList = $pageInfos->langs;
+	$ThemesList = $pageInfos->themes;
 
-				$page = create_paging($users->count, NUM_USER_PER_PAGE);
+	if ( is_array( $pageInfos->snippets ) )
+		$Snippets = $pageInfos->snippets;
+	else
+		$Snippet = $pageInfos->snippets;
+	$Users = $pageInfos->users;
 
-				$Users = $manager->getAllUsers($page, $User->id);
-
-				$includeFile = $actionRequested;
-			}
-		} elseif($actionRequested === 'browse') {
-
-			$manager = SnippetsManager::getReference();
-			$conditions = new stdClass();
-
-			if(!empty($_GET['category'])) {
-				$conditions->field = 'category';
-				$conditions->value = $_GET['category'];
-			} elseif(!empty($_GET['tags'])) {
-				$conditions->field = 'tags';
-				$conditions->value = $_GET['tags'];
-			} else {
-				$conditions = false;
-			}
-
-			$snippets = $manager->countOfSnippetByUser($User->id, $conditions);
-			$snippetsObjectInArray = array();
-
-			$page = create_paging($snippets->count, NUM_SNIPPET_PER_PAGE);
-
-			if(!empty($conditions)) {
-				if($conditions->field === 'category') {
-					$snippetsObjectInArray = $manager->getSnippetsByCategory($User->id, $conditions->value, $page);
-				} elseif($conditions->field === 'tags') {
-					$snippetsObjectInArray = $manager->getSnippetsByTag($User->id, $conditions->value, $page);
-				}
-			}
-
-			if(empty($snippetsObjectInArray))
-				$snippetsObjectInArray = $manager->getSnippetsByUser($User->id, $page);
-
-			foreach($snippetsObjectInArray AS $snippet) {
-				$Snippets[] = Tool::formatSnippet($snippet);
-			}
-
-			$includeFile = $actionRequested;
-
-		} elseif($actionRequested === 'single') {
-			$manager = SnippetsManager::getReference();
-			$snippet = $manager->getSnippetById($_GET['id']);
-			$Snippet = Tool::formatSnippet($snippet);
-
-			if ( ! empty( $Snippet ) &&
-				(( ! empty( $User ) && ( $User->id === $Snippet->idUser ) ) || ( empty( $Snippet->privacy ) )) ) {
-
-					$includeFile = $actionRequested;
-
-			} else {
-
-				if ( empty( $Snippet ) ) {
-					if ( empty ( $_SESSION['messages'][Tool::M_SUCCESS] ) ||
-					! in_array( $Lang->success_delete_snippet, $_SESSION['messages'][Tool::M_SUCCESS] ) )
-						Tool::appendMessage($Lang->error_snippet_not_exist, Tool::M_ERROR);
-				} else {
-					Tool::appendMessage($Lang->error_not_enough_right, Tool::M_ERROR);
-				}
-
-				$includeFile = ( empty( $User ) ) ? 'login' : 'default';
-			}
-
-		} elseif($actionRequested === 'search') {
-			do_search();
-			$includeFile = 'search';
-
-		} elseif($actionRequested === 'settings') {
-			global $ThemesList;
-			global $LangsList;
-
-			$themes = Tool::getAllThemes();
-			$langs = Tool::getAllLangs();
-
-			foreach($themes as $theme) {
-				$ThemesList[] = $theme->dirname;
-			}
-			foreach($langs as $lang) {
-				$langObj = new stdClass();
-				if (!empty($lang->name))
-					$langObj->name = $lang->name;
-				$langObj->filename = $lang->filename;
-				$LangsList[] = $langObj;
-			}
-			$includeFile = 'settings';
-
-		} elseif ($actionRequested === 'new' OR $actionRequested === 'edit') {
-			if (!empty($_GET['id']) AND $actionRequested === 'edit') {
-				$manager = SnippetsManager::getReference();
-				$snippet = $manager->getSnippetById($_GET['id']);
-				$Snippet = Tool::formatSnippet($snippet);
-            }
-			$userCategories = SnippetsManager::getReference();
-			$Categories = $userCategories->getAllCategories($User->id);
-
-			$includeFile = 'new';
-
-		} else {
-			$includeFile = $actionRequested;
-		}
-
-	} elseif($actionRequested === 'logout') {
-		session_destroy();
-		$includeFile = 'login';
-	} else {
-		Tool::appendMessage($Lang->error_file_not_found . ' : ' . $actionRequested , Tool::M_ERROR);
-		$includeFile = 'default';
-	}
-
-	return $includeFile;
-
+	return $pageInfos->fileName;
 }
 
 /*
@@ -245,9 +128,9 @@ function do_login() {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
 
-			if($user->_locked == 0) {
+			if(empty($user->_locked)) {
 				$_SESSION['user'] = $user;
-				$User = Tool::formatUser($user);
+				$User = $user->toStdObject();
 				$Lang = Tool::loadLanguage();
 			} else {
 				Tool::appendMessage($Lang->error_user_locked, Tool::M_ERROR);
@@ -268,12 +151,14 @@ function do_sign_up() {
 
 	$manager = UsersManager::getReference();
 
-	if($manager->userExistInDB($_POST['signup-login'])) {
+	if($user=$manager->userExistInDB($_POST['signup-login'])) {
 		Tool::appendMessage($Lang->error_username_already_in_use . ' : ' . $_POST['signup-login'], Tool::M_ERROR);
 	} elseif($_POST['signup-password-1'] !== $_POST['signup-password-2']) {
 		Tool::appendMessage($Lang->error_password_are_different, Tool::M_ERROR);
-	} elseif(!filter_var($_POST['signup-email'], FILTER_VALIDATE_EMAIL)) { // TODO : Check if email already in use
+	} elseif(!filter_var($_POST['signup-email'], FILTER_VALIDATE_EMAIL)) {
 		Tool::appendMessage($Lang->error_email_is_not_a_valid_email, Tool::M_ERROR);
+	} elseif( Tool::emailExistInDB($_POST['signup-email'])) {
+		Tool::appendMessage($Lang->error_email_is_unavailable, Tool::M_ERROR);
 	} else {
 		$userInformations = array();
 		$userInformations['admin'] = 0;
@@ -290,7 +175,6 @@ function do_sign_up() {
 		if($newUser->addNewUser())
 			Tool::appendMessage($Lang->success_sign_in, Tool::M_SUCCESS);
 	}
-
 }
 
 function do_reset() {
@@ -302,9 +186,27 @@ function do_reset() {
 	if(!$user = $manager->userExistInDB($_POST['reset-login']) OR $user->_email !== $_POST['reset-email']) {
 		Tool::appendMessage($Lang->error_account_reset, Tool::M_ERROR);
 	} else {
-		$newPassword = Tool::generatePassword(8);
-		$mail = $Lang->emailreset; // FIX IT
-		Tool::appendMessage($Lang->info_reset_email_send, ToolM_INFO);
+
+		try {
+			$user->_password = Tool::generatePassword(8);
+
+			$email = new PasswordEmailer();
+			$email->setReceiver( $user->_email );
+			$email->setUser( $user->_name );
+			if ( !empty( $Lang->emailreset ) )
+				$email->setContent( $Lang->emailreset );
+			$email->setNewPassord( $user->_password );
+			$email->send();
+
+			$user->_password = hash('sha256', $user->_password );
+			$manager = UsersManager::getReference();
+			$manager->updateUserInfos( $user->_id, $user );
+
+			Tool::appendMessage($Lang->info_reset_email_send, Tool::M_INFO);
+
+		} catch( PasswordEmailerException $pee ) {
+			Tool::appendMessage( $pee->getMessage(), Tool::M_ERROR );
+		}
 	}
 
 }
@@ -324,6 +226,8 @@ function do_admin() {
 			if(!empty($_POST['delete'])) {
 				$manager = SnippetsManager::getReference();
 				$manager->deleteSnippetsOfUser( $user->_id );
+				if ( file_exists( AVATAR_DIR . $user->_id . '.png' ) )
+					unlink( AVATAR_DIR . $user->_id . '.png' );
 				$user->deleteUser();
 				Tool::appendMessage($Lang->success_delete_user, Tool::M_SUCCESS);
 			} else {
@@ -367,7 +271,7 @@ function add_snippet() {
 		$snippetArray['id_user'] = $currentUser->_id;
 		$snippetArray['last_update'] = time();
 		$snippetArray['content'] = $_POST['content'];
-		$snippetArray['language'] = (intval(!empty($_POST['language']))) ? $_POST['language'] : 0;  ## FIX IT (geshi codes)
+		$snippetArray['language'] = (intval(!empty($_POST['language']))) ? $_POST['language'] : 0;
 		$snippetArray['comment'] = $_POST['description'];
 		$snippetArray['category'] = $category;
 		$snippetArray['tags'] = $_POST['tags'];
@@ -420,37 +324,18 @@ function delete_snippet() {
 
 }
 
-function do_search() {
-
-	global $Snippets;
-	global $User;
-
-	if(!isset($_GET['query']) AND empty($_GET['query']))
-		return;
-
-	$page = (empty($_GET['page']) OR !is_numeric($_GET['page'])) ? 1 : intval($_GET['page']);
-	$manager = SnippetsManager::getReference();
-
-	if(!empty($_GET['category']))
-		$Snippets = $manager->instantSearch_GetSnippetsByCategory($User->id, $_GET['category'], $page);
-	else
-		$Snippets = $manager->instantSearch_GetSnippets($User->id, $_GET['query'], $page);
-
-	if(!empty($Snippets))
-		$Snippets = array_map(function($s) { return Tool::formatSnippet($s); }, $Snippets);
-
-}
-
 function update_account() {
 
-    global $User;
+	global $Geshi_codes;
 	global $Lang;
+    global $User;
 
 	$currentUser = $_SESSION['user'];
+	$Geshi_codes = Tool::loadGeshiCodes();
 	$needUpdate = false;
 
 	if(!empty($_POST['email'])) {
-		if(Tool::emailExistInDB($_POST['email'])) {
+		if(!Tool::emailExistInDB($_POST['email'])) {
 			if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
 				$currentUser->_email = $_POST['email'];
 				$needUpdate = true;
@@ -538,14 +423,18 @@ function update_account() {
 		}
 	}
 
-	//if(!empty(code_geshi)) {} # FIX IT
+	if ( $matched_keys = array_intersect_key( $Geshi_codes, $_POST ) )
+	{
+		$currentUser->_favoriteLang = implode( ',', $matched_keys );
+		$needUpdate = true;
+	}
 
 	if(!empty($needUpdate)) {
 		$manager = UsersManager::getReference();
 		if($manager->updateUserInfos($currentUser->_id, $currentUser)) {
 			Tool::appendMessage($Lang->success_update_user, Tool::M_SUCCESS);
 			$_SESSION['user'] = $currentUser;
-			$User = Tool::formatUser($currentUser);
+			$User = $currentUser->toStdObject();
 		} else {
 			Tool::appendMessage($Lang->error_update_user, Tool::M_ERROR);
 		}
@@ -553,7 +442,7 @@ function update_account() {
 
 }
 
-function update_snippet() {
+function update_snippet() { // TODO : set file inclusion work into PageLoader, among other things
 
 	global $Lang;
 	global $Theme;
@@ -579,4 +468,36 @@ function update_snippet() {
 		}
 	}
 
+}
+
+/*
+ * Geshi highlight code functions
+ * ----------------------------------------------------------------------------------
+*/
+
+function show_highlighted_snippet( $snippet_object, $enable_classes = false) {
+
+	global $Geshi_codes;
+
+	$geshiObj = new Geshi( wordwrap( $snippet_object->content , 100 ), $Geshi_codes[$snippet_object->language] );
+
+	$geshiObj->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
+	$geshiObj->set_header_type( GESHI_HEADER_NONE );
+	if ( !empty( $enable_classes ) )
+		$geshiObj->enable_classes();
+
+	$geshiObj->set_keyword_group_style( 1, 'color: green' );
+	$geshiObj->set_keyword_group_style( 2, 'color: #709CCD' );
+	$geshiObj->set_keyword_group_style( 3, 'color: yellow' );
+	$geshiObj->set_keyword_group_style( 4, 'color: yellow' );
+
+	$geshiObj->set_tab_width( 2 );
+
+	$geshiObj->set_comments_style( 0, 'color: gray' );
+	$geshiObj->set_strings_style( 'color: pink' );
+	$geshiObj->set_numbers_style( 'color: red' );
+	$geshiObj->set_methods_style( 2, 'color: purple' );
+	$geshiObj->set_symbols_style( 'color: orange' );
+
+	echo $geshiObj->parse_code();
 }

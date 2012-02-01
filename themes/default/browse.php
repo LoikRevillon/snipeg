@@ -4,17 +4,14 @@
 
 <?php
 
-	$currentPage =(!empty($_GET['page'])) ? $_GET['page'] : 1;
-
 	if(!empty($_GET['tags']))
 		$extra = $Lang->tag . ' : ' . htmlspecialchars($_GET['tags']);
 	elseif(!empty($_GET['category']))
 		$extra = $Lang->category . ' : ' . htmlspecialchars($_GET['category']);
 	elseif(!empty($Pages))
-		$extra = '( ' . $Lang->pagenumberbeginbrowse . $currentPage . ' ' . $Lang->of . ' ' . end($Pages) . ' )';
+		$extra = '( ' . $Lang->pagenumberbeginbrowse . $RequestedPage . ' ' . $Lang->of . ' ' . end($Pages) . ' )';
 	else
 		$extra = '';
-
 ?>
 
 <div id="main" class="container_12">
@@ -31,7 +28,7 @@
 
 				<h4><a href="?action=single&id=<?php echo $snippet->id; ?>"><?php echo htmlspecialchars($snippet->name); ?></a></h4>
 				<p><?php echo Tool::linkify(htmlspecialchars($snippet->comment)); ?></p>
-				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($User->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' <a href="?action=browse&category=' . htmlspecialchars($snippet->category) . '">' .
+				<p><?php echo $Lang->publishedbyview . ' ' . htmlspecialchars($snippet->owner->name) . ' ' . $Lang->publisheddateview . ' ' . date('M d Y', $snippet->lastUpdate) . ' ' . $Lang->in . ' <a href="?action=browse&category=' . htmlspecialchars($snippet->category) . '">' .
 htmlspecialchars(ucfirst($snippet->category)) . '</a>';?></p>
 
 			</div>
@@ -62,25 +59,73 @@ htmlspecialchars(ucfirst($snippet->category)) . '</a>';?></p>
 
 	<?php if(!empty($Pages)) : ?>
 
-	<div class="clear"></div>
+		<?php if ( isset( $_GET['tags'] ) ) : ?>
 
-	<div id="paging">
+		<div class="clear"></div>
 
-		<a href="?action=browse&page=1"><?php echo $Lang->first; ?></a>
+		<div id="paging">
 
-		<?php foreach($Pages AS $key => $numPage) : ?>
+			<a href="?action=browse&tags=<?php echo htmlspecialchars( $_GET['tags'] );?>&page=1"><?php echo $Lang->first; ?></a>
 
-			<?php if($key < count($Pages) - 1) : ?>
+			<?php foreach($Pages AS $key => $numPage) : ?>
 
-				<a href="?action=browse&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>
+				<?php if($key < count($Pages) - 1) : ?>
 
-			<?php endif; ?>
+					<a href="?action=browse&tags=<?php echo htmlspecialchars( $_GET['tags'] );?>&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>
 
-		<?php endforeach; ?>
+				<?php endif; ?>
 
-		<a href="?action=browse&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+			<?php endforeach; ?>
 
-	</div>
+			<a href="?action=browse&tags=<?php echo htmlspecialchars( $_GET['tags'] );?>&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+
+		</div>
+
+		<?php elseif ( isset ( $_GET['category'] ) ) : ?>
+
+		<div class="clear"></div>
+
+		<div id="paging">
+
+			<a href="?action=browse&category=<?php echo htmlspecialchars( $_GET['category'] );?>&page=1"><?php echo $Lang->first; ?></a>
+
+			<?php foreach($Pages AS $key => $numPage) : ?>
+
+				<?php if($key < count($Pages) - 1) : ?>
+
+					<a href="?action=browse&category=<?php echo htmlspecialchars( $_GET['category'] );?>&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>
+
+				<?php endif; ?>
+
+			<?php endforeach; ?>
+
+			<a href="?action=browse&category=<?php echo htmlspecialchars( $_GET['category'] );?>&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+
+		</div>
+
+		<?php else : ?>
+
+		<div class="clear"></div>
+
+		<div id="paging">
+
+			<a href="?action=browse&page=1"><?php echo $Lang->first; ?></a>
+
+			<?php foreach($Pages AS $key => $numPage) : ?>
+
+				<?php if($key < count($Pages) - 1) : ?>
+
+					<a href="?action=browse&page=<?php echo $numPage; ?>"><?php echo $numPage ?></a>
+
+				<?php endif; ?>
+
+			<?php endforeach; ?>
+
+			<a href="?action=browse&page=<?php echo end($Pages); ?>"><?php echo $Lang->last; ?></a>
+
+		</div>
+
+		<?php endif; ?>
 
 	<?php endif; ?>
 

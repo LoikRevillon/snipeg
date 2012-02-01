@@ -25,6 +25,8 @@ $Snippet = null;
 $Snippets = array();
 $Pages = array();
 $Categories = array();
+$Geshi_codes = array();
+$RequestedPage = ( !empty( $_GET['page'] ) ) ? intval( $_GET['page'] ) : 1;
 
 if(!file_exists(DB_NAME) OR is_dir(DB_NAME))
 	Tool::appendMessage($Lang->warning_no_database_initialized, Tool::M_WARNING);
@@ -36,7 +38,7 @@ if(!file_exists(DB_NAME) OR is_dir(DB_NAME))
 
 // Set Global $User
 if(!empty($_SESSION['user']))
-	$User = Tool::formatUser($_SESSION['user']);
+	$User = $_SESSION['user']->toStdObject();
 
 if(!empty($_POST)) {
 

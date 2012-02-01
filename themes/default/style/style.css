@@ -365,6 +365,12 @@ blockquote p {
 	font-family: monospace;
 	letter-spacing: 1px;
 	line-height: 18px;
+	max-height: 300px;
+	max-width: 640px;
+	word-spacing: 2px;
+}
+#single-snippet li {
+	margin-bottom : 6px;
 }
 
 /*
@@ -415,7 +421,7 @@ blockquote p {
 }
 
 #single-snippet {
-	overflow-x: scroll;
+	overflow-x: hidden;
 }
 
 /*
@@ -502,6 +508,10 @@ blockquote p {
 	width: 368px;
 }
 
+#category-label{
+	width: 348px;
+}
+
 /*
  * Login
  * -------------------------------------------------------------------------------------
@@ -562,7 +572,7 @@ blockquote p {
 	width: 516px;
 }
 
-#add-snippet-main textarea, #single textarea {
+#add-snippet-main textarea, #single textarea, #single-snippet {
 	min-height: 220px;
 }
 
@@ -744,6 +754,14 @@ div.button #edit {
 	top: 0;
 }
 
+div.button #toogle-show {
+	height: 32px;
+	border: none;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
 div.selector span, div.button span {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -774,7 +792,7 @@ div.checker, div.checker input, div.checker span, div.radio, div.radio input, di
 	height: 17px;
 }
 
-.button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span, div.button, div.button span, div.selector, div.selector span, input[type=text], input[type=password], img, blockquote {
+#category-label, .button, .checker, .radio, .selector, div.checker input, div.checker span, div.radio input, div.radio span, div.button, div.button span, div.selector, div.selector span, input[type=text], input[type=password], img, blockquote {
 	display: inline-block;
 }
 
