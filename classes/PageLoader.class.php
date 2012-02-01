@@ -94,7 +94,7 @@ class PageLoader {
 
 			if ( $this->_request === 'admin' )
 			{
-				if ( $currentUser->isadmin )
+				if ( !empty( $currentUser->isadmin ) )
 				{
 					$manager = UsersManager::getReference();
 					$users = $manager->countOfUsers( $currentUser->id );
@@ -280,7 +280,6 @@ class PageLoader {
 				}
 				else
 				{
-
 					$this->_geshi_codes = Tool::loadGeshiCodes();
 
 					$manager = UsersManager::getReference();
@@ -291,7 +290,7 @@ class PageLoader {
 					$this->_snippets->owner->name = $userFromDB->name;
 					$this->_snippets->owner->avatar = $userFromDB->avatar;
 
-					if (( empty( $currentUser ) OR $currentUser->id !== $this->_snippets->idUser ) AND
+					if (( empty( $currentUser->id ) OR $currentUser->id !== $this->_snippets->idUser ) AND
 						!empty( $this->_snippets->privacy ))
 					{
 						Tool::appendMessage( $this->_lang->error_not_enough_right, Tool::M_ERROR );

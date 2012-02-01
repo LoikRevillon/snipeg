@@ -39,6 +39,11 @@ class User {
 
 	}
 
+	public function __isset($varName){
+
+		return isset($this->$varName);
+	}
+
 	public function __get($varName) {
 
 		if(isset($this->$varName))

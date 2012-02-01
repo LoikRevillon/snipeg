@@ -52,7 +52,7 @@ function create_paging($elementCounted,  $elementPerPage) {
 function is_admin() {
 
 	global $User;
-	return $User->isadmin;
+	return (!empty( $User->isadmin )) ? true : false;
 
 }
 
@@ -128,7 +128,7 @@ function do_login() {
 		if($user = $manager->userExistinDB($_POST['signin-login'])
 			AND $user->_password === hash('sha256', $_POST['signin-password'])) {
 
-			if($user->_locked == 0) {
+			if(empty($user->_locked)) {
 				$_SESSION['user'] = $user;
 				$User = $user->toStdObject();
 				$Lang = Tool::loadLanguage();
@@ -271,7 +271,7 @@ function add_snippet() {
 		$snippetArray['id_user'] = $currentUser->_id;
 		$snippetArray['last_update'] = time();
 		$snippetArray['content'] = $_POST['content'];
-		$snippetArray['language'] = (intval(!empty($_POST['language']))) ? $_POST['language'] : 0;  ## FIX IT (geshi codes)
+		$snippetArray['language'] = (intval(!empty($_POST['language']))) ? $_POST['language'] : 0;
 		$snippetArray['comment'] = $_POST['description'];
 		$snippetArray['category'] = $category;
 		$snippetArray['tags'] = $_POST['tags'];
@@ -442,7 +442,7 @@ function update_account() {
 
 }
 
-function update_snippet() {
+function update_snippet() { // TODO : set file inclusion work into PageLoader, among other things
 
 	global $Lang;
 	global $Theme;
