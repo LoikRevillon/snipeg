@@ -70,7 +70,7 @@ class Tool {
 
 			return $request->fetch();
 
-		} catch (Exception$e) {
+		} catch (Exception $e) {
 			return false;
 		}
 	}
