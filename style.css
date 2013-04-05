@@ -1,0 +1,199 @@
+/*
+ * Reset
+ * -------------------------------------------------------------------------------------
+*/
+
+html, body, div, span, blockquote, p, a, h1, h2, h3, h4, img, ul, ol, li {
+	border: 0 none;
+	font: inherit;
+	font-size: 100%;
+	font-weight: normal;
+	line-height: 1;
+	margin: 0;
+	padding: 0;
+	outline: 0 none;
+	vertical-align: baseline;
+	list-style-type: none;
+}
+
+/*
+ * Fonts
+ * -------------------------------------------------------------------------------------
+*/
+
+@font-face {
+	font-family: 'PT Sans';
+	font-style: normal;
+	font-weight: normal;
+	src: local('PT Sans'), local('PTSans-Regular'), url('PTSans-Regular.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'PT Sans';
+	font-style: normal;
+	font-weight: bold;
+	src: local('PT Sans Bold'), local('PTSans-Bold'), url('PTSans-Bold.woff') format('woff');
+}
+
+/*
+ * Global
+ * -------------------------------------------------------------------------------------
+*/
+
+html {
+	background-color: #F1F1F1;
+}
+
+body {
+	margin-top: 36px;
+	font-family: 'PT Sans', "Helvetica Neue", Helvetica, sans;
+	overflow-x: hidden;
+}
+
+/*
+ * Content
+ * -------------------------------------------------------------------------------------
+*/
+
+#main, #main p, h1, h2 {
+	color: #282D34;
+}
+
+h1 {
+	font-weight: bold;
+	letter-spacing: 1px;
+	line-height: 36px;
+	font-size: 30px;
+}
+
+h1, h2, h3, h4 {
+	margin-bottom: 18px;
+	text-shadow: 0 1px 1px #EEE;
+	font-family: 'PT Sans', "Helvetica Neue", Helvetica, sans;
+}
+
+h2, h3, h4, p, blockquote {
+	line-height: 18px;
+}
+
+h2, h3, h4 {
+	font-size: 18px;
+}
+
+#main > h2 {
+	margin-bottom: 42px;
+}
+
+p, blockquote {
+	font-size: 12px;
+	margin-bottom: 18px;
+	text-align: justify;
+}
+
+#first-screen {
+	margin-bottom: 37px;
+}
+
+.center {
+	text-align: center;
+}
+
+blockquote {
+	color: #666;
+	padding-left: 10px;
+	border-left: 2px solid #D5D5D5;
+}
+
+#main a, #main a:visited {
+	color: #577A99;
+}
+
+#main a:hover {
+	color: #7CAFDA;
+}
+
+img {
+	opacity: .92;
+	-webkit-transition: opacity 600ms ease-in-out;
+	-moz-transition: opacity 600ms ease-in-out;
+	-o-transition: opacity 600ms ease-in-out;
+	transition: opacity 600ms ease-in-out;
+}
+
+img:hover {
+	opacity: 1;
+	-webkit-transition: opacity 600ms ease-in-out;
+	-moz-transition: opacity 600ms ease-in-out;
+	-o-transition: opacity 600ms ease-in-out;
+	transition: opacity 600ms ease-in-out;
+}
+
+/*
+ * Footer
+ * -------------------------------------------------------------------------------------
+*/
+
+#footer {
+	color: #FFF;
+	background-color: #282D34;
+	margin-top: 37px;
+	padding-bottom: 36px;
+	padding-top: 36px;
+	width: 100%;
+}
+
+#footer h4 {
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+#footer a, #footer a:visited {
+	color: #7CAFDA;
+}
+
+#footer a:hover {
+	color: white;
+}
+
+/*
+ * Grille
+ * -------------------------------------------------------------------------------------
+*/
+
+.container_12 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 960px;
+}
+
+.grid_4, .grid_8 {
+	display: inline;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.container_12 .grid_4 {
+	width: 300px;
+}
+
+.container_12 .grid_8 {
+	width: 620px;
+}
+
+.container_12:before, .container_12:after {
+	content: '.';
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	font-size: 0;
+	line-height: 0;
+	width: 0;
+	height: 0;
+}
+.container_12:after {
+	clear: both;
+}
+
+.container_12{
+	zoom: 1;
+}
