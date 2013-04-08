@@ -8,7 +8,7 @@
 
 ### Website
 
-* http://ghislainphu.github.com/Snipeg
+* http://ghislainphu.github.io/Snipeg
 
 ### Wiki and Source code are available on us GitHub repository
 
