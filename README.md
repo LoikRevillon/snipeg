@@ -8,11 +8,11 @@
 
 ### Website
 
-* http://ghislainphu.github.io/Snipeg
+* http://ghislainphu.github.io/snipeg
 
 ### Wiki and Source code are available on us GitHub repository
 
-* https://github.com/GhislainPhu/Snipeg
+* https://github.com/GhislainPhu/snipeg
 
 ## About Licence
 
@@ -52,7 +52,7 @@ An other way, whether you won't use apache, could be to configure your server/pr
 
 See "About Security" Wiki for details
 
-* https://github.com/GhislainPhu/Snipeg/wiki/About-Security
+* https://github.com/GhislainPhu/snipeg/wiki/About-Security
 
 ## Setup
 
