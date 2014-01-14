@@ -6,7 +6,8 @@
 */
 
 define('ROOT', __DIR__ . '/');
-define('HTTP_ROOT', str_replace('index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
+define('HTTP_SCHEME', !empty($_SERVER['HTTPS']) ? 'https' : 'http');
+define('HTTP_ROOT', str_replace('index.php', '', HTTP_SCHEME . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']));
 define('PHP_CHARSET', 'utf-8');
 define('DB_NAME', ROOT . 'snipeg.sqlite');
 

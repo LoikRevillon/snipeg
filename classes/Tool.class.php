@@ -120,9 +120,12 @@ class Tool {
 		$dirname = !empty($_SESSION['user']->_theme) ? $_SESSION['user']->_theme : DEFAULT_THEME;
 
 		if(!empty($_SESSION['theme']->dirname)) {
-			if(!isset($_SESSION['user'])
-				OR (isset($_SESSION['theme']->dirname) AND $_SESSION['user']->theme == $_SESSION['theme']->dirname)) {
-				return $_SESSION['theme'];
+			if(substr($_SESSION['theme']->location, 0, strlen(HTTP_SCHEME) + 1) == HTTP_SCHEME . ':') {
+				if(!isset($_SESSION['user'])
+					OR (isset($_SESSION['theme']->dirname)
+						AND $_SESSION['user']->theme == $_SESSION['theme']->dirname)) {
+					return $_SESSION['theme'];
+				}
 			}
 		}
 
