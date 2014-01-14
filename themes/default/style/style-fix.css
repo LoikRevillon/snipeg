@@ -11,11 +11,11 @@ div.button span, div.selector span {
 	background-position: right -32px;
 }
 
-div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.selector:hover, div.selector.hover {
+div.button:focus, div.button.focus, div.button:hover, div.button.hover, div.selector:focus, div.selector.focus, div.selector:hover, div.selector.hover {
 	background-position: 0 -66px;
 }
 
-div.button:focus span, div.button.focus span, div.button:hover span, div.button.hover span, div.selector:hover span, div.selector.hover span, div {
+div.button:focus span, div.button.focus span, div.button:hover span, div.button.hover span, div.selector:focus span, div.selector.focus span, div.selector:hover span, div.selector.hover span {
 	background-position: right -66px;
 }
 
@@ -25,6 +25,14 @@ div.button:active, div.button.active, div.selector:active, div.selector.active {
 
 div.button:active span, div.button.active span, div.selector:active span, div.selector.active span {
 	background-position: right -100px;
+}
+
+div.checker span {
+	background-position: 0 0;
+}
+
+div.checker span.checked {
+	background-position: -17px 0;
 }
 
 div.radio span {
