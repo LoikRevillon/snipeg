@@ -1,0 +1,61 @@
+{ 
+	"success_installation": "Initialisierung war erfolgreich!",
+	"success_sign_in": "Einloggen war erfolgreich.",
+
+	"success_delete_user": "Benutzer entfernt.",
+	"success_update_user": "Benutzer gelöscht.",
+
+	"success_add_snippet": "Snippet hinzugefügt.",
+	"success_update_snippet": "Snippet aktualisiert.",
+	"success_delete_snippet": "Snippet gelöscht.",
+
+	"info_install_remove_file": "Bitte lösche diese Datei aus Sicherheitsgründen vom Server.",
+	"info_reset_email_send": "Neues Passwort wurde generiert. Eine E-Mail wurde an deine Adresse versendet.",
+	"info_fallback_used" : "Ausgewählte Sprache ist nicht Verfügbar für System-Signale.",
+
+	"warning_no_database_initialized": "Derzeit ist keine Datenbank inizialisiert. Denk daran, zuerst Snipeg zu installieren.",
+
+	"error_extension_gd_not_found": "Die GD Erweiterung wurde nicht gefunden.",
+	"error_unauthorized_filetype": "Nicht Authorisierte Dateiendung.",
+	"error_file_size_exceeds_php_limits": "Dateigröße übersteigt die php Limmitierungen.",
+	"error_upload_interrupted": "Der Upload wurde während der Übertragung unterbrochen.",
+	"error_uploaded_file_is_empty": "Die Übertragene Datei ist leer.",
+
+	"error_email_receiver": "Die E-Mail Adresse des Empfängers ist nicht gültig.",
+	"error_email_subject": "Der Betreff der E-Mail ist nicht definiert.",
+	"error_email_content": "Der Inhalt der E-Mail ist nicht gültig.",
+	"error_email_sender": "Die E-Mail Adresse des Absenders ist nicht gültig.",
+	"error_email_sending": "Ein Fehler trat während der Übertragung auf. Die E-Mail konnte nicht versandt werden",
+
+	"error_uploaded_file_not_found": "Hochgeladene Datei wurde auf dem Server nicht gefunden.",
+	"error_is_not_a_valid_dir": "Ungültiges Verzeichnis.",
+	"error_file_not_found": "Datei nicht gefunden.",
+
+	"error_not_enough_right": "Du bist nicht dazu befugt, diese Aktion durchzuführen.",
+	"error_user_not_exists" : "Benutzer existiert nicht.",
+	"error_wrong_sign_in": "Benutzername oder Passwort falsch.",
+	"error_missing_sign_in": "Benutzer oder Passwort leer.",
+
+	"error_username_already_in_use": "Benutzername bereits in Verwendung.",
+	"error_password_are_different": "Passwörter stimmen nicht überein.",
+	"error_wrong_password": "Wrong password advised.",
+	"error_email_is_not_a_valid_email": "Diese E-Mail Adresse ist nicht gültig.",
+	"error_email_is_unavailable": "E-Mail Adresse bereits in Verwendung.",
+	"error_lang_unvailable": "Ausgewählte Sprache ist nicht erreichbar. Standard Sprache wurde gesetzt.",
+	"error_no_lang_avaible": "Es wurde keine Sprache gefunden. Prüfe, ob Snipeg korrekt installiert wurde.",
+	"error_theme_unvailable": "Ausgewähltes Theme ist nicht erreichbar. Standard Theme wurde gesetzt.",
+	"error_no_theme_avaible": "Es wurde kein Theme gefunden. Prüfe, ob Snipeg korrekt installiert wurde.",
+	"error_user_locked": "Du wurdest gesperrt. Kontaktiere den Administrator um das Problem zu beheben.",
+	"error_avatar_oversized": "Die hochgeladene Datei ist zu groß, versuche es bitte mit einem kleineren Bild.",
+
+	"error_account_reset": "Keine Übereinstimmung mit diesem Benzutzer/E-Mail gefunden.",
+	"error_all_fields_are_required": "Es werden alle Felder benötigt.",
+
+	"error_snippet_not_exist": "Dieses Snippet existiert nicht.",
+	"error_missing_snippet_name": "Der Snippet Name fehlt.",
+	"error_delete_snippet": "Snippet konnte nicht gelöscht werden.",
+	"error_update_user": "Neue Informationen konnten nicht gespeichert werden.",
+	"error_update_snippet": "Neue Informationen konnten nicht gespeichert werden.",
+
+	"error_add_snippet": "Es trat ein Fehler auf. Das Snippet wurde nicht hinzugefügt."
+}
