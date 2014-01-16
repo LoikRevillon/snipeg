@@ -24,7 +24,7 @@ Lets see `COPYING` file provided with this software to learn more.
 This software was made by :
 
 	Ghislain Phu
-	Révillon Loïk
+	Löïk Révillon
 
 Lets see `AUTHORS` file provided with this software to learn more.
 
